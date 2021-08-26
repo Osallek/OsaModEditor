@@ -1,12 +1,11 @@
-package fr.osallek.eu4exporter.objects;
+package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class Color implements Serializable {
+public class ColorDTO {
 
     private final int red;
 
@@ -14,22 +13,38 @@ public class Color implements Serializable {
 
     private final int blue;
 
-    public Color(int red, int green, int blue) {
+    private final boolean fake;
+
+    public ColorDTO(int color, boolean fake) {
+        this.red = color >> 16 & 0xFF;
+        this.green = color >> 8 & 0xFF;
+        this.blue = color & 0xFF;
+        this.fake = fake;
+    }
+
+    public ColorDTO(String s, boolean fake) {
+        this(s.toUpperCase().hashCode() % 0xFFFFFF, fake);
+    }
+
+    public ColorDTO(int red, int green, int blue, boolean fake) {
         this.red = red;
         this.green = green;
         this.blue = blue;
+        this.fake = fake;
     }
 
-    public Color(fr.osallek.eu4parser.model.Color color) {
+    public ColorDTO(fr.osallek.eu4parser.model.Color color) {
         this.red = color.getRed();
         this.green = color.getGreen();
         this.blue = color.getBlue();
+        this.fake = false;
     }
 
-    public Color(java.awt.Color color) {
+    public ColorDTO(java.awt.Color color, boolean fake) {
         this.red = color.getRed();
         this.green = color.getGreen();
         this.blue = color.getBlue();
+        this.fake = fake;
     }
 
     @JsonIgnore
@@ -45,6 +60,10 @@ public class Color implements Serializable {
     @JsonIgnore
     public int getBlue() {
         return blue;
+    }
+
+    public boolean isFake() {
+        return fake;
     }
 
     @JsonGetter("rgb")

@@ -1,63 +1,44 @@
 package fr.osallek.osamodeditor.dto;
 
-import fr.osallek.eu4parser.model.Color;
-import fr.osallek.eu4parser.model.game.Province;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.osallek.eu4parser.model.game.TradeNode;
+import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 
-public class ProvinceDTO {
+import java.util.Map;
 
-    private int id;
-
-    private Integer color;
+public class TradeNodeDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String name;
 
-    private boolean isOcean;
+    private String localizedName;
 
-    private boolean isLake;
+    private Integer location;
 
-    private String climate;
+    private ColorDTO color;
 
-    private boolean impassable;
+    private boolean inland;
 
-    private String winter;
+    private boolean aiWillPropagateThroughTrade;
 
-    private boolean isPort;
+    private boolean end;
 
-    private String area;
+    //    private List<TradeNodeOutgoing> outgoings;
 
-    private String continent;
-
-    private String tradeNode;
-
-    public ProvinceDTO(Province province, String tradeNode) {
-        this.id = province.getId();
-        this.color = province.getColor();
-        this.name = province.getName();
-        this.isOcean = province.isOcean();
-        this.isLake = province.isLake();
-        this.climate = province.getClimate();
-        this.impassable = province.isImpassable();
-        this.winter = province.getWinter();
-        this.isPort = province.isPort();
-        this.area = province.getArea().getName();
-        this.continent = province.getContinent().getName();
-        this.tradeNode = tradeNode;
+    public TradeNodeDTO(TradeNode tradeNode, Map<Eu4Language, Map<String, String>> localisations) {
+        super(tradeNode.getName(), localisations);
+        this.name = tradeNode.getName();
+        this.localizedName = tradeNode.getLocalizedName();
+        this.location = tradeNode.getLocation();
+        this.color = tradeNode.getColor() == null ? new ColorDTO(this.name, true) : new ColorDTO(tradeNode.getColor());
+        this.inland = tradeNode.isInland();
+        this.aiWillPropagateThroughTrade = tradeNode.isAiWillPropagateThroughTrade();
+        this.end = tradeNode.isEnd();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Integer getColor() {
-        return color;
-    }
-
-    public void setColor(Integer color) {
-        this.color = color;
+    @Override
+    @JsonIgnore
+    public String getKey() {
+        return this.name;
     }
 
     public String getName() {
@@ -68,75 +49,51 @@ public class ProvinceDTO {
         this.name = name;
     }
 
-    public boolean isOcean() {
-        return isOcean;
+    public String getLocalizedName() {
+        return localizedName;
     }
 
-    public void setOcean(boolean ocean) {
-        isOcean = ocean;
+    public void setLocalizedName(String localizedName) {
+        this.localizedName = localizedName;
     }
 
-    public boolean isLake() {
-        return isLake;
+    public Integer getLocation() {
+        return location;
     }
 
-    public void setLake(boolean lake) {
-        isLake = lake;
+    public void setLocation(Integer location) {
+        this.location = location;
     }
 
-    public String getClimate() {
-        return climate;
+    public ColorDTO getColor() {
+        return color;
     }
 
-    public void setClimate(String climate) {
-        this.climate = climate;
+    public void setColor(ColorDTO color) {
+        this.color = color;
     }
 
-    public boolean isImpassable() {
-        return impassable;
+    public boolean isInland() {
+        return inland;
     }
 
-    public void setImpassable(boolean impassable) {
-        this.impassable = impassable;
+    public void setInland(boolean inland) {
+        this.inland = inland;
     }
 
-    public String getWinter() {
-        return winter;
+    public boolean isAiWillPropagateThroughTrade() {
+        return aiWillPropagateThroughTrade;
     }
 
-    public void setWinter(String winter) {
-        this.winter = winter;
+    public void setAiWillPropagateThroughTrade(boolean aiWillPropagateThroughTrade) {
+        this.aiWillPropagateThroughTrade = aiWillPropagateThroughTrade;
     }
 
-    public boolean isPort() {
-        return isPort;
+    public boolean isEnd() {
+        return end;
     }
 
-    public void setPort(boolean port) {
-        isPort = port;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getContinent() {
-        return continent;
-    }
-
-    public void setContinent(String continent) {
-        this.continent = continent;
-    }
-
-    public String getTradeNode() {
-        return tradeNode;
-    }
-
-    public void setTradeNode(String tradeNode) {
-        this.tradeNode = tradeNode;
+    public void setEnd(boolean end) {
+        this.end = end;
     }
 }
