@@ -1,6 +1,7 @@
 package fr.osallek.osamodeditor.service;
 
 import fr.osallek.eu4parser.common.Eu4Utils;
+import fr.osallek.eu4parser.model.Mod;
 import fr.osallek.eu4parser.model.game.Game;
 import fr.osallek.osamodeditor.dto.GameDTO;
 import fr.osallek.osamodeditor.dto.GameInitDTO;
@@ -20,6 +21,10 @@ public class GameService {
 
     public Game getGame() {
         return game;
+    }
+
+    public Mod getMod() {
+        return this.game.getMods().get(0);
     }
 
     public GameInitDTO getInit() {

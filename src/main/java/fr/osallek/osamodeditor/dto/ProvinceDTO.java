@@ -58,7 +58,7 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
         this.winter = province.getWinter();
         this.isPort = province.isPort();
         this.continent = province.getContinent() == null ? null : province.getContinent().getName();
-        this.historyFromMod = province.getHistoryMod() != null;
+        this.historyFromMod = province.getHistoryFileNode() != null && province.getHistoryFileNode().fromMod();
 
         if (province.getArea() != null) {
             this.area = province.getArea().getName();

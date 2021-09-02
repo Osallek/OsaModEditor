@@ -14,6 +14,10 @@ public class ProvinceHistoryDTO {
 
     private boolean fakeOwner;
 
+    private String controller;
+
+    private boolean fakeController;
+
     private String tradeGood;
 
     private boolean fakeTradeGood;
@@ -45,9 +49,10 @@ public class ProvinceHistoryDTO {
     public ProvinceHistoryDTO(LocalDate date, ProvinceHistoryItem historyItem) {
         this.date = date;
         this.owner = historyItem.getOwner() == null ? null : historyItem.getOwner().getTag();
-        this.tradeGood = historyItem.getTradeGoods();
-        this.religion = historyItem.getReligion();
-        this.culture = historyItem.getCulture();
+        this.controller = historyItem.getController() == null ? null : historyItem.getController().getTag();
+        this.tradeGood = historyItem.getTradeGoods() == null ? null : historyItem.getTradeGoods().getName();
+        this.religion = historyItem.getReligion() == null ? null : historyItem.getReligion().getName();
+        this.culture = historyItem.getCulture() == null ? null : historyItem.getCulture().getName();
         this.hre = historyItem.getHre();
         this.manpower = historyItem.getBaseManpower();
         this.production = historyItem.getBaseProduction();
@@ -58,6 +63,8 @@ public class ProvinceHistoryDTO {
         this.date = other.date;
         this.owner = other.owner;
         this.fakeOwner = other.fakeOwner;
+        this.controller = other.controller;
+        this.fakeController = other.fakeController;
         this.tradeGood = other.tradeGood;
         this.fakeTradeGood = other.fakeTradeGood;
         this.religion = other.religion;
@@ -82,6 +89,12 @@ public class ProvinceHistoryDTO {
             this.owner = other.owner;
         } else {
             this.fakeOwner = true;
+        }
+
+        if (StringUtils.isNotBlank(other.controller)) {
+            this.controller = other.controller;
+        } else {
+            this.fakeController = true;
         }
 
         if (StringUtils.isNotBlank(other.tradeGood)) {
@@ -149,6 +162,22 @@ public class ProvinceHistoryDTO {
 
     public void setFakeOwner(boolean fakeOwner) {
         this.fakeOwner = fakeOwner;
+    }
+
+    public String getController() {
+        return controller;
+    }
+
+    public void setController(String controller) {
+        this.controller = controller;
+    }
+
+    public boolean isFakeController() {
+        return fakeController;
+    }
+
+    public void setFakeController(boolean fakeController) {
+        this.fakeController = fakeController;
     }
 
     public String getTradeGood() {
