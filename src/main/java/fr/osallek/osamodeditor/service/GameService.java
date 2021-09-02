@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +29,13 @@ public class GameService {
 
     public GameDTO parseGame(String installFolder, String mod) throws IOException {
         this.game = new Game(installFolder, List.of(mod));
+        return new GameDTO(this.game);
+    }
+
+    public GameDTO changeDefines(Map<String, Map<String, String>> defines) throws IOException {
+        defines.forEach((category, values) -> values.forEach((key, value) -> this.game.changeDefine(this.game.getMods().get(0), category, key, value)));
+        this.game.saveDefines(this.game.getMods().get(0));
+
         return new GameDTO(this.game);
     }
 }

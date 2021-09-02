@@ -1,12 +1,16 @@
 package fr.osallek.osamodeditor.dto;
 
 import fr.osallek.eu4parser.common.Eu4MapUtils;
+import fr.osallek.eu4parser.common.Eu4Utils;
+import fr.osallek.eu4parser.model.game.Define;
 import fr.osallek.eu4parser.model.game.Game;
 import org.apache.commons.collections4.CollectionUtils;
 import org.geojson.FeatureCollection;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -40,6 +44,8 @@ public class GameDTO {
     private Map<LocalDate, String> hreEmperors;
 
     private Map<LocalDate, String> celestialEmperors;
+
+    private Map<String, Map<String, String>> defines;
 
     public GameDTO(Game game) throws IOException {
         this.startDate = game.getStartDate();
@@ -111,6 +117,14 @@ public class GameDTO {
                                      .entrySet()
                                      .stream()
                                      .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag()));
+        this.defines = game.getDefines()
+                           .get(Eu4Utils.DEFINE_KEY)
+                           .values()
+                           .stream()
+                           .map(Map::values)
+                           .flatMap(Collection::stream)
+                           .collect(Collectors.groupingBy(Define::getCategory, LinkedHashMap::new,
+                                                          Collectors.toMap(Define::getName, Define::getAsString, (s, s2) -> s, LinkedHashMap::new)));
     }
 
     public LocalDate getStartDate() {
@@ -223,5 +237,13 @@ public class GameDTO {
 
     public void setCelestialEmperors(Map<LocalDate, String> celestialEmperors) {
         this.celestialEmperors = celestialEmperors;
+    }
+
+    public Map<String, Map<String, String>> getDefines() {
+        return defines;
+    }
+
+    public void setDefines(Map<String, Map<String, String>> defines) {
+        this.defines = defines;
     }
 }
