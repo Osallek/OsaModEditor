@@ -1,5 +1,5 @@
-import { IconButton } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
+import { IconButton } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 import React, { MouseEventHandler } from "react";
 
 interface Props {

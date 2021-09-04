@@ -1,5 +1,5 @@
-import { Grid } from "@material-ui/core";
-import { GridSize } from "@material-ui/core/Grid/Grid";
+import { Grid } from "@mui/material";
+import { GridSize } from "@mui/material/Grid/Grid";
 import { GridItem, Title } from "components/global";
 import React from "react";
 import { useIntl } from "react-intl";

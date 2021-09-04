@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container } from "@mui/material";
 import CountriesMap from "components/map";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -21,9 +21,9 @@ const AppRouter: React.FC = () => {
       <Container maxWidth={false}>
         <BrowserRouter basename="/editor">
           <Switch>
-            {<Route path={intl.formatMessage({ id: "routes.menu" })} exact component={Menu} />}
-            {<Route path={intl.formatMessage({ id: "routes.map" })} exact component={CountriesMap} />}
-            {<Route path={intl.formatMessage({ id: "routes.defines" })} exact component={Defines} />}
+            {state.game.startDate && <Route path={intl.formatMessage({ id: "routes.menu" })} exact component={Menu} />}
+            {state.game.startDate && <Route path={intl.formatMessage({ id: "routes.map" })} exact component={CountriesMap} />}
+            {state.game.startDate && <Route path={intl.formatMessage({ id: "routes.defines" })} exact component={Defines} />}
             <Route path="/" component={Home} />
           </Switch>
         </BrowserRouter>

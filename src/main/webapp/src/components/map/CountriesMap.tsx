@@ -1,6 +1,6 @@
-import { Autocomplete, Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
-import { SelectChangeEvent } from "@material-ui/core/Select/SelectInput";
-import { MobileDatePicker } from "@material-ui/lab";
+import { Autocomplete, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
+import { MobileDatePicker } from "@mui/lab";
 import Button, { FormControl } from "components/controls";
 import { BackTitle } from "components/global";
 import { Feature } from "geojson";
@@ -12,16 +12,7 @@ import { GeoJSON, MapContainer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "store/types";
-import {
-    getProvinceStyle,
-    getTargets,
-    MapAction,
-    mapActions,
-    MapActionType,
-    MapMod,
-    mapMods,
-    onClickProvince
-} from "utils/map.utils";
+import { getProvinceStyle, getTargets, MapAction, mapActions, MapActionType, MapMod, mapMods, onClickProvince } from "utils/map.utils";
 import { Localizations, Province } from "../../types";
 import { localize } from "../../utils/localisations.utils";
 import "./CountriesMap.css";

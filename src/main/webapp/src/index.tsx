@@ -1,6 +1,6 @@
-import { LocalizationProvider } from "@material-ui/lab";
-import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
-import { ThemeProvider } from "@material-ui/styles";
+import { LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { ThemeProvider } from "@mui/styles";
 import enDateLocale from "date-fns/locale/en-US";
 import frDateLocale from "date-fns/locale/fr";
 import { en, fr } from "i18n/messages";

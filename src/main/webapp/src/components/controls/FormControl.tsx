@@ -1,6 +1,6 @@
-import { FormControl as MFormControl } from "@material-ui/core";
-import { FormControlTypeMap } from "@material-ui/core/FormControl/FormControl";
-import { DefaultComponentProps } from "@material-ui/core/OverridableComponent";
+import { FormControl as MFormControl } from "@mui/material";
+import { FormControlTypeMap } from "@mui/material/FormControl/FormControl";
+import { DefaultComponentProps } from "@mui/material/OverridableComponent";
 import React, { ReactElement } from "react";
 
 interface Props extends DefaultComponentProps<FormControlTypeMap> {

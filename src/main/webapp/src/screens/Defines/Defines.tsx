@@ -1,5 +1,5 @@
-import { Collapse, Grid, List, ListItem, ListItemButton, ListItemText, TextField } from "@material-ui/core";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { Collapse, Grid, List, ListItem, ListItemButton, ListItemText, TextField } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { BackTitle } from "components/global";
 import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";

@@ -1,5 +1,5 @@
-import { Card, CardActionArea, CardContent, Grid, Typography } from "@material-ui/core";
-import { GridSize } from "@material-ui/core/Grid/Grid";
+import { Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
+import { GridSize } from "@mui/material/Grid/Grid";
 import React from "react";
 import { useHistory } from "react-router-dom";
 

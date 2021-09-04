@@ -1,5 +1,5 @@
-import { Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
-import { SelectChangeEvent } from "@material-ui/core/Select/SelectInput";
+import { Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import Button, { FormControl } from "components/controls";
 import { Title } from "components/global";
 import React, { useEffect, useState } from "react";
@@ -14,10 +14,6 @@ const Home: React.FC<void> = () => {
   const intl = useIntl();
   const history = useHistory();
 
-  useEffect(() => {
-    dispatch(actions.init.getInit());
-  }, [dispatch]);
-
   const { installFolder = null, mods = null } = useSelector((state: RootState) => {
     return state.init || {};
   });
@@ -25,6 +21,10 @@ const Home: React.FC<void> = () => {
   const [install, setInstall] = useState<string>("");
   const [mod, setMod] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(actions.init.getInit());
+  }, [dispatch]);
 
   useEffect(() => {
     if (installFolder) {
@@ -38,7 +38,7 @@ const Home: React.FC<void> = () => {
         setLoading(true);
         await dispatch(actions.game.postInit(installFolder, mod));
         history.push(intl.formatMessage({ id: "routes.menu" }));
-      } finally {
+      } catch (e) {
         setLoading(false);
       }
     }
