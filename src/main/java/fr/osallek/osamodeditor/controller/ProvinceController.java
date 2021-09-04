@@ -66,4 +66,9 @@ public class ProvinceController {
     public ResponseEntity<GameDTO> changeCulture(@RequestBody MapActionForm form) throws IOException {
         return ResponseEntity.ok(this.provinceService.changeCulture(form));
     }
+
+    @PostMapping(value = "/decolonize", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> decolonize(@RequestBody MapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.decolonize(form));
+    }
 }

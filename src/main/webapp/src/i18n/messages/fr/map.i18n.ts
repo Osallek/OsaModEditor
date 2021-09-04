@@ -27,6 +27,7 @@ const map = {
   "map.action.CHANGE_RELIGION": "Changer la religion",
   "map.action.CHANGE_CULTURE": "Changer la culture",
   "map.action.CHANGE_TRADE_NODE": "Changer le nœud commercial",
+  "map.action.DECOLONIZE": "Décoloniser",
   "map.action.target": "Valeur",
 };
 

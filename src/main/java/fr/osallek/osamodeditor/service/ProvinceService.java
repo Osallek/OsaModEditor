@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 import java.util.function.Consumer;
 
 @Service
@@ -154,6 +155,23 @@ public class ProvinceService {
         }
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setCulture(form.getTarget()));
+
+        return new GameDTO(this.gameService.getGame());
+    }
+
+    public GameDTO decolonize(MapActionForm form) throws IOException {
+        LOGGER.info("Trying to decolonize {} at {}", form.getDate(), form.getProvinces());
+
+        changeProvinceHistory(form, provinceHistoryItem -> {
+            provinceHistoryItem.setOwner((String) null);
+            provinceHistoryItem.setController((String) null);
+            provinceHistoryItem.setHre(false);
+            provinceHistoryItem.setTradeGood("unknown");
+            provinceHistoryItem.setIsCity(null);
+            provinceHistoryItem.setNativeSize(new Random().nextInt(6));
+            provinceHistoryItem.setNativeFerocity(new Random().nextInt(6));
+            provinceHistoryItem.setNativeHostileness(new Random().nextInt(6));
+        });
 
         return new GameDTO(this.gameService.getGame());
     }

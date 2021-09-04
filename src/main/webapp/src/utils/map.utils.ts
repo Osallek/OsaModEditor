@@ -38,6 +38,7 @@ export enum MapAction {
   CHANGE_TRADE_GOOD,
   CHANGE_RELIGION,
   CHANGE_CULTURE,
+  DECOLONIZE,
 }
 
 export interface IMapMod {
@@ -150,7 +151,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     },
     borderColor: () => "black",
     dashArray: () => undefined,
-    actions: [MapAction.CHANGE_OWNER, MapAction.CHANGE_OWNER_AND_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER_AND_CORE],
+    actions: [MapAction.CHANGE_OWNER, MapAction.CHANGE_OWNER_AND_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER_AND_CORE, MapAction.DECOLONIZE],
     tooltip: (province: Province, date: Date | null, { countries }: GameState): Localizations => {
       const history = getHistory(province, date);
 
@@ -199,7 +200,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
         return undefined;
       }
     },
-    actions: [MapAction.CHANGE_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER_AND_CORE],
+    actions: [MapAction.CHANGE_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER_AND_CORE, MapAction.DECOLONIZE],
     tooltip: (province: Province, date: Date | null, { countries }: GameState): Localizations => {
       const history = getHistory(province, date);
 
@@ -219,7 +220,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     borderColor: () => "black",
     dashArray: () => undefined,
     actions: [],
-    tooltip: (province: Province, date: Date | null, { countries }: GameState): Localizations => {
+    tooltip: (province: Province, date: Date | null, gameState: GameState): Localizations => {
       return province;
     },
   },
@@ -402,6 +403,13 @@ export const mapActions: Record<MapAction, IMapAction> = {
     },
     noTarget: false,
   },
+  [MapAction.DECOLONIZE]: {
+    mapAction: MapAction.DECOLONIZE,
+    action: (provinces, date, target) => {
+      return actions.province.decolonize(provinces, date);
+    },
+    noTarget: true,
+  },
 };
 
 export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Localizations> => {
@@ -424,6 +432,8 @@ export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Lo
       return gameState.sortedReligions ? gameState.sortedReligions : [];
     case MapAction.CHANGE_CULTURE:
       return gameState.sortedCultures ? gameState.sortedCultures : [];
+    case MapAction.DECOLONIZE:
+      return [];
   }
 };
 

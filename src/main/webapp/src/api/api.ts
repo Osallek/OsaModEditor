@@ -49,6 +49,9 @@ const api = {
     changeCulture: (form: MapActionForm): AxiosPromise<Game> => {
       return ws.post(endpoints.province.changeCulture, form);
     },
+    decolonize: (form: MapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.decolonize, form);
+    },
   },
 };
 

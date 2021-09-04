@@ -84,3 +84,12 @@ export const changeCulture = (provinces: Array<number>, date: Date | null, targe
     payload: payload.data,
   });
 };
+
+export const decolonize = (provinces: Array<number>, date: Date | null) => async (dispatch: Dispatch<GameActionType>) => {
+  const payload = await api.province.decolonize({ provinces, date: dateToLocalDate(date) });
+
+  return dispatch({
+    type: CHANGE_GAME,
+    payload: payload.data,
+  });
+};
