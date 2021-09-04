@@ -1,49 +1,70 @@
-package fr.osallek.eu4exporter.objects;
+package fr.osallek.osamodeditor.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 
-import java.io.Serializable;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class LocalisedObject implements Serializable {
+public class LocalisedDTO {
 
-    private final Map<Eu4Language, String> localisations;
+    private String english;
 
-    public LocalisedObject(Map<Eu4Language, String> localisations) {
-        this.localisations = localisations;
+    private String french;
+
+    private String german;
+
+    private String spanish;
+
+    public LocalisedDTO(String key, Map<Eu4Language, Map<String, String>> localisations) {
+        this.english = localisations.get(Eu4Language.ENGLISH).getOrDefault(key, key);
+        this.french = localisations.get(Eu4Language.FRENCH).getOrDefault(key, key);
+        this.german = localisations.get(Eu4Language.GERMAN).getOrDefault(key, key);
+        this.spanish = localisations.get(Eu4Language.SPANISH).getOrDefault(key, key);
     }
 
-    public LocalisedObject(String key, Map<Eu4Language, Map<String, String>> localisations) {
-        this.localisations = new EnumMap<>(Eu4Language.class);
-        for (Map.Entry<Eu4Language, Map<String, String>> entry : localisations.entrySet()) {
-            this.localisations.put(entry.getKey(), entry.getValue().getOrDefault(key, key));
-        }
-    }
+    public LocalisedDTO(Map<Eu4Language, Map<String, String>> localisations, String defaultKey, List<String> keys) {
+        String key = null;
 
-    public LocalisedObject(Map<Eu4Language, Map<String, String>> localisations, String defaultKey, List<String> keys) {
-        this.localisations = new EnumMap<>(Eu4Language.class);
-        for (Map.Entry<Eu4Language, Map<String, String>> entry : localisations.entrySet()) {
-            String localisation = null;
+        for (String k : keys) {
+            key = localisations.get(Eu4Language.ENGLISH).get(k);
 
-            for (String key : keys) {
-                localisation = entry.getValue().get(key);
-
-                if (localisation != null) {
-                    break;
-                }
+            if (key != null) {
+                break;
             }
-
-            if (localisation == null) {
-                localisation = defaultKey;
-            }
-
-            this.localisations.put(entry.getKey(), localisation);
         }
+
+        if (key == null) {
+            key = defaultKey;
+        }
+
+        this.english = localisations.get(Eu4Language.ENGLISH).getOrDefault(key, key);
+        this.french = localisations.get(Eu4Language.FRENCH).getOrDefault(key, key);
+        this.german = localisations.get(Eu4Language.GERMAN).getOrDefault(key, key);
+        this.spanish = localisations.get(Eu4Language.SPANISH).getOrDefault(key, key);
     }
 
-    public Map<Eu4Language, String> getLocalisations() {
-        return localisations;
+    @JsonIgnore
+    public void addToEndLocalisations(String end) {
+        this.english = this.english + end;
+        this.french = this.french + end;
+        this.german = this.german + end;
+        this.spanish = this.spanish + end;
+    }
+
+    public String getEnglish() {
+        return english;
+    }
+
+    public String getFrench() {
+        return french;
+    }
+
+    public String getGerman() {
+        return german;
+    }
+
+    public String getSpanish() {
+        return spanish;
     }
 }

@@ -1,49 +1,71 @@
-package fr.osallek.eu4exporter.objects;
+package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.osallek.eu4exporter.common.Constants;
+import fr.osallek.eu4parser.model.game.Area;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 
 import java.util.List;
 import java.util.Map;
 
-public class Area extends LocalisedObject {
+public class AreaDTO extends LocalisedDTO implements MappedDTO<String> {
 
-    private final String id;
+    private String name;
 
-    private final String region;
+    private String region;
 
-    private final List<Integer> provinces;
+    private List<Integer> provinces;
 
-    private final Color color;
+    private ColorDTO color;
 
-    public Area(fr.osallek.eu4parser.model.game.Area area, Map<Eu4Language, Map<String, String>> localisations) {
+    public AreaDTO(Area area, Map<Eu4Language, Map<String, String>> localisations) {
         super(area.getName(), localisations);
-        this.id = area.getName();
+        this.name = area.getName();
         this.provinces = area.getProvinces();
         this.region = area.getRegion() == null ? null : area.getRegion().getName();
-        this.color = Constants.stringToColor(this.id);
+        this.color = new ColorDTO(this.name, true);
     }
 
-    public String getId() {
-        return id;
+    @Override
+    @JsonIgnore
+    public String getKey() {
+        return this.name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRegion() {
         return region;
     }
 
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
     public List<Integer> getProvinces() {
         return provinces;
     }
 
-    public Color getColor() {
+    public void setProvinces(List<Integer> provinces) {
+        this.provinces = provinces;
+    }
+
+    public ColorDTO getColor() {
         return color;
+    }
+
+    public void setColor(ColorDTO color) {
+        this.color = color;
     }
 
     @Override
     @JsonIgnore
     public String toString() {
-        return id;
+        return name;
     }
 }

@@ -1,34 +1,36 @@
 package fr.osallek.osamodeditor.dto;
 
-import fr.osallek.eu4parser.model.game.TradeNode;
-import fr.osallek.osamodeditor.common.Constants;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.osallek.eu4parser.model.game.TradeGood;
+import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 
-public class TradeNodeDTO {
+import java.util.Map;
+
+public class TradeGoodDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String name;
 
     private String localizedName;
 
-    private Integer location;
-
     private ColorDTO color;
 
-    private boolean inland;
+    private boolean goldType;
 
-    private boolean aiWillPropagateThroughTrade;
+    private double basePrice;
 
-    private boolean end;
+    public TradeGoodDTO(TradeGood tradeGood, Map<Eu4Language, Map<String, String>> localisations) {
+        super(tradeGood.getName(), localisations);
+        this.name = tradeGood.getName();
+        this.localizedName = tradeGood.getLocalizedName();
+        this.color = tradeGood.getColor() == null ? new ColorDTO(this.name, true) : new ColorDTO(tradeGood.getColor());
+        this.goldType = tradeGood.isGoldType();
+        this.basePrice = tradeGood.getBasePrice();
+    }
 
-    //    private List<TradeNodeOutgoing> outgoings;
-
-    public TradeNodeDTO(TradeNode tradeNode) {
-        this.name = tradeNode.getName();
-        this.localizedName = tradeNode.getLocalizedName();
-        this.location = tradeNode.getLocation();
-        this.color = tradeNode.getColor() == null ? Constants.stringToColor(this.name) : new ColorDTO(tradeNode.getColor());
-        this.inland = tradeNode.isInland();
-        this.aiWillPropagateThroughTrade = tradeNode.isAiWillPropagateThroughTrade();
-        this.end = tradeNode.isEnd();
+    @Override
+    @JsonIgnore
+    public String getKey() {
+        return this.name;
     }
 
     public String getName() {
@@ -47,14 +49,6 @@ public class TradeNodeDTO {
         this.localizedName = localizedName;
     }
 
-    public Integer getLocation() {
-        return location;
-    }
-
-    public void setLocation(Integer location) {
-        this.location = location;
-    }
-
     public ColorDTO getColor() {
         return color;
     }
@@ -63,27 +57,19 @@ public class TradeNodeDTO {
         this.color = color;
     }
 
-    public boolean isInland() {
-        return inland;
+    public boolean isGoldType() {
+        return goldType;
     }
 
-    public void setInland(boolean inland) {
-        this.inland = inland;
+    public void setGoldType(boolean goldType) {
+        this.goldType = goldType;
     }
 
-    public boolean isAiWillPropagateThroughTrade() {
-        return aiWillPropagateThroughTrade;
+    public double getBasePrice() {
+        return basePrice;
     }
 
-    public void setAiWillPropagateThroughTrade(boolean aiWillPropagateThroughTrade) {
-        this.aiWillPropagateThroughTrade = aiWillPropagateThroughTrade;
-    }
-
-    public boolean isEnd() {
-        return end;
-    }
-
-    public void setEnd(boolean end) {
-        this.end = end;
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 }

@@ -1,8 +1,8 @@
-package fr.osallek.eu4exporter.objects;
+package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.osallek.eu4exporter.common.Constants;
 import fr.osallek.eu4parser.model.game.Area;
+import fr.osallek.eu4parser.model.game.Region;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -12,21 +12,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Region extends LocalisedObject {
+public class RegionDTO extends LocalisedDTO implements MappedDTO<String> {
 
-    private final String id;
+    private String name;
 
-    private final String superRegion;
+    private String superRegion;
 
-    private final List<String> areas;
+    private List<String> areas;
 
-    private final List<Integer> provinces;
+    private List<Integer> provinces;
 
-    private final Color color;
+    private ColorDTO color;
 
-    public Region(fr.osallek.eu4parser.model.game.Region region, Map<Eu4Language, Map<String, String>> localisations) {
+    public RegionDTO(Region region, Map<Eu4Language, Map<String, String>> localisations) {
         super(region.getName(), localisations);
-        this.id = region.getName();
+        this.name = region.getName();
 
         if (CollectionUtils.isNotEmpty(region.getAreas())) {
             this.areas = region.getAreas().stream().map(Area::getName).collect(Collectors.toList());
@@ -37,32 +37,58 @@ public class Region extends LocalisedObject {
         }
 
         this.superRegion = region.getSuperRegion() == null ? null : region.getSuperRegion().getName();
-        this.color = Constants.stringToColor(this.id);
+        this.color = new ColorDTO(this.name, true);
     }
 
-    public String getId() {
-        return id;
+    @Override
+    @JsonIgnore
+    public String getKey() {
+        return this.name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSuperRegion() {
         return superRegion;
     }
 
+    public void setSuperRegion(String superRegion) {
+        this.superRegion = superRegion;
+    }
+
     public List<String> getAreas() {
         return areas;
+    }
+
+    public void setAreas(List<String> areas) {
+        this.areas = areas;
     }
 
     public List<Integer> getProvinces() {
         return provinces;
     }
 
-    public Color getColor() {
+    public void setProvinces(List<Integer> provinces) {
+        this.provinces = provinces;
+    }
+
+    public ColorDTO getColor() {
         return color;
+    }
+
+    public void setColor(ColorDTO color) {
+        this.color = color;
     }
 
     @Override
     @JsonIgnore
     public String toString() {
-        return id;
+        return name;
     }
 }

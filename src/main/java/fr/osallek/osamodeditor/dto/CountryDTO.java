@@ -1,62 +1,86 @@
 package fr.osallek.osamodeditor.dto;
 
-import fr.osallek.eu4parser.model.Color;
-import fr.osallek.eu4parser.model.game.Province;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.osallek.eu4parser.model.game.Country;
+import fr.osallek.eu4parser.model.game.Culture;
+import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 
-public class ProvinceDTO {
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-    private int id;
+public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
-    private ColorDTO color;
+    private String tag;
 
     private String name;
 
-    private boolean isOcean;
+    private String techGroup;
 
-    private boolean isLake;
+    private String unitType;
 
-    private String climate;
+    private String government;
 
-    private boolean impassable;
+    private Integer governmentRank;
 
-    private String winter;
+    private String primaryCulture;
 
-    private boolean isPort;
+    private List<String> addAcceptedCultures;
 
-    private String area;
+    private List<String> removeAcceptedCultures;
 
-    private String continent;
+    private List<String> historicalFriends;
 
-    private String tradeNode;
+    private List<String> historicalEnemies;
 
-    public ProvinceDTO(Province province) {
-        this.id = province.getId();
-        this.color = new ColorDTO(province.getColor());
-        this.name = province.getName();
-        this.isOcean = province.isOcean();
-        this.isLake = province.isLake();
-        this.climate = province.getClimate();
-        this.impassable = province.isImpassable();
-        this.winter = province.getWinter();
-        this.isPort = province.isPort();
-        this.area = province.getArea() == null ? null : province.getArea().getName();
-        this.continent = province.getContinent() == null ? null : province.getContinent().getName();
+    private String graphicalCulture;
+
+    private ColorDTO color;
+
+    private Boolean elector;
+
+    public CountryDTO(Country country, Map<Eu4Language, Map<String, String>> localisations) {
+        super(country.getTag(), localisations);
+        this.tag = country.getTag();
+        addToEndLocalisations(" (" + this.tag + ")");
+        this.name = country.getName();
+        this.techGroup = country.getTechnologyGroup().getName();
+        this.unitType = country.getUnitType();
+        this.government = country.getGovernment() == null ? null : country.getGovernment().getName();
+        this.governmentRank = country.getGovernmentLevel();
+        this.addAcceptedCultures = country.getAcceptedCultures() == null ? null : country.getAcceptedCultures()
+                                                                                         .stream()
+                                                                                         .map(Culture::getName)
+                                                                                         .collect(Collectors.toList());
+        this.removeAcceptedCultures = country.getRemoveAcceptedCultures() == null ? null : country.getRemoveAcceptedCultures()
+                                                                                                  .stream()
+                                                                                                  .map(Culture::getName)
+                                                                                                  .collect(Collectors.toList());
+        this.historicalFriends = country.getHistoricalFriends() == null ? null : country.getHistoricalFriends()
+                                                                                        .stream()
+                                                                                        .map(Country::getTag)
+                                                                                        .collect(Collectors.toList());
+        this.historicalEnemies = country.getHistoricalEnemies() == null ? null : country.getHistoricalEnemies()
+                                                                                        .stream()
+                                                                                        .map(Country::getTag)
+                                                                                        .collect(Collectors.toList());
+        this.graphicalCulture = country.getGraphicalCulture();
+        this.color = country.getColor() == null ? new ColorDTO(this.tag, true) : new ColorDTO(country.getColor());
+        this.elector = country.getElector();
     }
 
-    public int getId() {
-        return id;
+    @Override
+    @JsonIgnore
+    public String getKey() {
+        return this.tag;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getTag() {
+        return tag;
     }
 
-    public ColorDTO getColor() {
-        return color;
-    }
-
-    public void setColor(ColorDTO color) {
-        this.color = color;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getName() {
@@ -67,75 +91,99 @@ public class ProvinceDTO {
         this.name = name;
     }
 
-    public boolean isOcean() {
-        return isOcean;
+    public String getTechGroup() {
+        return techGroup;
     }
 
-    public void setOcean(boolean ocean) {
-        isOcean = ocean;
+    public void setTechGroup(String techGroup) {
+        this.techGroup = techGroup;
     }
 
-    public boolean isLake() {
-        return isLake;
+    public String getUnitType() {
+        return unitType;
     }
 
-    public void setLake(boolean lake) {
-        isLake = lake;
+    public void setUnitType(String unitType) {
+        this.unitType = unitType;
     }
 
-    public String getClimate() {
-        return climate;
+    public String getGovernment() {
+        return government;
     }
 
-    public void setClimate(String climate) {
-        this.climate = climate;
+    public void setGovernment(String government) {
+        this.government = government;
     }
 
-    public boolean isImpassable() {
-        return impassable;
+    public Integer getGovernmentRank() {
+        return governmentRank;
     }
 
-    public void setImpassable(boolean impassable) {
-        this.impassable = impassable;
+    public void setGovernmentRank(Integer governmentRank) {
+        this.governmentRank = governmentRank;
     }
 
-    public String getWinter() {
-        return winter;
+    public String getPrimaryCulture() {
+        return primaryCulture;
     }
 
-    public void setWinter(String winter) {
-        this.winter = winter;
+    public void setPrimaryCulture(String primaryCulture) {
+        this.primaryCulture = primaryCulture;
     }
 
-    public boolean isPort() {
-        return isPort;
+    public List<String> getAddAcceptedCultures() {
+        return addAcceptedCultures;
     }
 
-    public void setPort(boolean port) {
-        isPort = port;
+    public void setAddAcceptedCultures(List<String> addAcceptedCultures) {
+        this.addAcceptedCultures = addAcceptedCultures;
     }
 
-    public String getArea() {
-        return area;
+    public List<String> getRemoveAcceptedCultures() {
+        return removeAcceptedCultures;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setRemoveAcceptedCultures(List<String> removeAcceptedCultures) {
+        this.removeAcceptedCultures = removeAcceptedCultures;
     }
 
-    public String getContinent() {
-        return continent;
+    public List<String> getHistoricalFriends() {
+        return historicalFriends;
     }
 
-    public void setContinent(String continent) {
-        this.continent = continent;
+    public void setHistoricalFriends(List<String> historicalFriends) {
+        this.historicalFriends = historicalFriends;
     }
 
-    public String getTradeNode() {
-        return tradeNode;
+    public List<String> getHistoricalEnemies() {
+        return historicalEnemies;
     }
 
-    public void setTradeNode(String tradeNode) {
-        this.tradeNode = tradeNode;
+    public void setHistoricalEnemies(List<String> historicalEnemies) {
+        this.historicalEnemies = historicalEnemies;
+    }
+
+    public String getGraphicalCulture() {
+        return graphicalCulture;
+    }
+
+    public void setGraphicalCulture(String graphicalCulture) {
+        this.graphicalCulture = graphicalCulture;
+    }
+
+    public ColorDTO getColor() {
+        return color;
+    }
+
+    public void setColor(ColorDTO color) {
+        this.color = color;
+    }
+
+    public Boolean getElector() {
+        return elector;
+    }
+
+    public void setElector(Boolean elector) {
+        this.elector = elector;
     }
 }

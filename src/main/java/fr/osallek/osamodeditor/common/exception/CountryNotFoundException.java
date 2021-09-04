@@ -1,23 +1,23 @@
 package fr.osallek.osamodeditor.common.exception;
 
-public class ProvinceNotFoundException extends RuntimeException {
+public class CountryNotFoundException extends RuntimeException {
 
-    public ProvinceNotFoundException() {
+    public CountryNotFoundException() {
     }
 
-    public ProvinceNotFoundException(String message) {
+    public CountryNotFoundException(String message) {
         super(message);
     }
 
-    public ProvinceNotFoundException(String message, Throwable cause) {
+    public CountryNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ProvinceNotFoundException(Throwable cause) {
+    public CountryNotFoundException(Throwable cause) {
         super(cause);
     }
 
-    public ProvinceNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public CountryNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
