@@ -35,4 +35,22 @@ build/
 /config
 .mvn/
 /docker/.env
-/src/main/resources/editor/
+
+# dependencies
+src/main/webapp/node_modules
+src/main/webapp/.pnp
+src/main/webapp/.pnp.js
+
+# testing
+src/main/webapp/coverage
+
+# production
+src/main/webapp/build
+
+# misc
+src/main/webapp/.DS_Store
+src/main/webapp/.idea/
+
+src/main/webapp/npm-debug.log*
+src/main/webapp/yarn-debug.log*
+src/main/webapp/yarn-error.log*
