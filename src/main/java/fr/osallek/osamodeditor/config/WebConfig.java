@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/editor/**", "/editor/", "/editor")
                 .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/editor/")
-                .resourceChain(true)
+                .resourceChain(false)
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(String resourcePath, Resource location) {

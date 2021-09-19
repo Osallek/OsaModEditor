@@ -135,4 +135,22 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>build</id>
+			<properties>
+				<spring.profiles.active>build</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+
 </project>
