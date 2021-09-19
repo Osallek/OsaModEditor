@@ -144,7 +144,7 @@ public class ProvinceService {
     }
 
     public GameDTO changeReligion(MapActionForm form) throws IOException {
-        LOGGER.info("Trying to change trade good to {} at {} for {}", form.getTarget(), form.getDate(), form.getProvinces());
+        LOGGER.info("Trying to change religion to {} at {} for {}", form.getTarget(), form.getDate(), form.getProvinces());
 
         Game game = this.gameService.getGame();
 
@@ -158,7 +158,7 @@ public class ProvinceService {
     }
 
     public GameDTO changeCulture(MapActionForm form) throws IOException {
-        LOGGER.info("Trying to change trade good to {} at {} for {}", form.getTarget(), form.getDate(), form.getProvinces());
+        LOGGER.info("Trying to change culture to {} at {} for {}", form.getTarget(), form.getDate(), form.getProvinces());
 
         Game game = this.gameService.getGame();
 
@@ -199,7 +199,6 @@ public class ProvinceService {
         }
 
         Set<TradeNode> modified = new HashSet<>();
-        modified.add(tradeNode);
 
         for (Integer provinceId : form.getProvinces()) {
             if (!game.getProvinces().containsKey(provinceId)) {
@@ -215,6 +214,7 @@ public class ProvinceService {
                 }
 
                 tradeNode.addProvince(provinceId);
+                modified.add(tradeNode);
             }
         }
 
