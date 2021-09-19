@@ -10,10 +10,13 @@ export type GameForm = {
   mod: string;
 };
 
-export type MapActionForm = {
+export type SimpleMapActionForm = {
   provinces: Array<number>;
-  date?: string | null;
   target?: string | null;
+};
+
+export type MapActionForm = SimpleMapActionForm & {
+  date?: string | null;
 };
 
 export type IdName<I, N> = {

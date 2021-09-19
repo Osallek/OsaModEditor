@@ -1,7 +1,7 @@
 import endpoints from "api/endpoints";
 import axios, { AxiosPromise } from "axios";
 import * as ENV from "env/env";
-import { Game, GameForm, GameInit, MapActionForm } from "../types";
+import { Game, GameForm, GameInit, MapActionForm, SimpleMapActionForm } from "../types";
 
 const ws = axios.create({
   baseURL: ENV.API_BASE_URL,
@@ -51,6 +51,9 @@ const api = {
     },
     decolonize: (form: MapActionForm): AxiosPromise<Game> => {
       return ws.post(endpoints.province.decolonize, form);
+    },
+    changeTradeNode: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.changeTradeNode, form);
     },
   },
 };

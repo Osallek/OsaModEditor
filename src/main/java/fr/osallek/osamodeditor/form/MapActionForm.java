@@ -1,26 +1,18 @@
 package fr.osallek.osamodeditor.form;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
 import java.util.List;
 
-public class MapActionForm {
-
-    @JsonProperty(required = true)
-    private List<Integer> provinces;
+public class MapActionForm extends SimpleMapActionForm {
 
     private LocalDate date;
 
-    @JsonProperty(required = true)
-    private String target;
-
-    public List<Integer> getProvinces() {
-        return provinces;
+    public MapActionForm() {
     }
 
-    public void setProvinces(List<Integer> provinces) {
-        this.provinces = provinces;
+    public MapActionForm(List<Integer> provinces, String target, LocalDate date) {
+        super(provinces, target);
+        this.date = date;
     }
 
     public LocalDate getDate() {
@@ -31,11 +23,4 @@ public class MapActionForm {
         this.date = date;
     }
 
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
 }

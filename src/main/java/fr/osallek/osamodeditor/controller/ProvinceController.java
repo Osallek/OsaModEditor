@@ -2,6 +2,7 @@ package fr.osallek.osamodeditor.controller;
 
 import fr.osallek.osamodeditor.dto.GameDTO;
 import fr.osallek.osamodeditor.form.MapActionForm;
+import fr.osallek.osamodeditor.form.SimpleMapActionForm;
 import fr.osallek.osamodeditor.service.ProvinceService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +62,7 @@ public class ProvinceController {
     public ResponseEntity<GameDTO> changeReligion(@RequestBody MapActionForm form) throws IOException {
         return ResponseEntity.ok(this.provinceService.changeReligion(form));
     }
-    
+
     @PostMapping(value = "/change-culture", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameDTO> changeCulture(@RequestBody MapActionForm form) throws IOException {
         return ResponseEntity.ok(this.provinceService.changeCulture(form));
@@ -70,5 +71,10 @@ public class ProvinceController {
     @PostMapping(value = "/decolonize", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameDTO> decolonize(@RequestBody MapActionForm form) throws IOException {
         return ResponseEntity.ok(this.provinceService.decolonize(form));
+    }
+
+    @PostMapping(value = "/change-trade-node", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeTradeNode(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeTradeNode(form));
     }
 }
