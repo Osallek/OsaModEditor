@@ -55,6 +55,9 @@ const api = {
     changeTradeNode: (form: SimpleMapActionForm): AxiosPromise<Game> => {
       return ws.post(endpoints.province.changeTradeNode, form);
     },
+    changeArea: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.changeArea, form);
+    },
   },
 };
 

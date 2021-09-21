@@ -1,10 +1,13 @@
 package fr.osallek.osamodeditor.service;
 
+import fr.osallek.eu4parser.model.game.Area;
 import fr.osallek.eu4parser.model.game.FileNode;
 import fr.osallek.eu4parser.model.game.Game;
+import fr.osallek.eu4parser.model.game.Noded;
 import fr.osallek.eu4parser.model.game.Province;
 import fr.osallek.eu4parser.model.game.ProvinceHistoryItem;
 import fr.osallek.eu4parser.model.game.TradeNode;
+import fr.osallek.osamodeditor.common.exception.AreaNotFoundException;
 import fr.osallek.osamodeditor.common.exception.CountryNotFoundException;
 import fr.osallek.osamodeditor.common.exception.CultureNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ProvinceNotFoundException;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -218,7 +222,42 @@ public class ProvinceService {
             }
         }
 
-        writeTradeNodes(modified);
+        writeNoded(modified, this.gameService.getGame().getTradeNodes());
+
+        return new GameDTO(this.gameService.getGame());
+    }
+
+    public GameDTO changeArea(SimpleMapActionForm form) throws IOException {
+        LOGGER.info("Trying to change area to {} for {}", form.getTarget(), form.getProvinces());
+
+        Game game = this.gameService.getGame();
+        Area area = game.getArea(form.getTarget());
+
+        if (area == null) {
+            throw new AreaNotFoundException(form.getTarget());
+        }
+
+        Set<Area> modified = new HashSet<>();
+
+        for (Integer provinceId : form.getProvinces()) {
+            if (!game.getProvinces().containsKey(provinceId)) {
+                throw new ProvinceNotFoundException(provinceId.toString());
+            }
+
+            Area provinceArea = game.getAreas().stream().filter(a -> a.getProvinces().contains(provinceId)).findFirst().orElse(null);
+
+            if (!area.equals(provinceArea)) {
+                if (provinceArea != null) {
+                    modified.add(provinceArea);
+                    provinceArea.removeProvince(provinceId);
+                }
+
+                area.addProvince(provinceId);
+                modified.add(area);
+            }
+        }
+
+        writeNoded(modified, this.gameService.getGame().getAreas());
 
         return new GameDTO(this.gameService.getGame());
     }
@@ -266,20 +305,16 @@ public class ProvinceService {
         }
     }
 
-    private void writeTradeNodes(Set<TradeNode> modified) {
+    private void writeNoded(Set<? extends Noded> modified, Collection<? extends Noded> all) {
         if (CollectionUtils.isEmpty(modified)) {
             return;
         }
 
-        Set<FileNode> fileModified = modified.stream().map(TradeNode::getFileNode).collect(Collectors.toSet());
-        List<TradeNode> toWrite = this.gameService.getGame()
-                                                  .getTradeNodes()
-                                                  .stream()
-                                                  .filter(tradeNode -> fileModified.contains(tradeNode.getFileNode()))
-                                                  .collect(Collectors.toList());
+        Set<FileNode> fileModified = modified.stream().map(Noded::getFileNode).collect(Collectors.toSet());
+        List<Noded> toWrite = all.stream().filter(noded -> fileModified.contains(noded.getFileNode())).collect(Collectors.toList());
 
-        Map<FileNode, SortedSet<TradeNode>> nodes = toWrite.stream()
-                                                           .collect(Collectors.groupingBy(TradeNode::getFileNode, Collectors.toCollection(TreeSet::new)));
+        Map<FileNode, SortedSet<Noded>> nodes = toWrite.stream()
+                                                       .collect(Collectors.groupingBy(Noded::getFileNode, Collectors.toCollection(TreeSet::new)));
 
         nodes.keySet().forEach(fileNode -> {
             if (!this.gameService.getMod().equals(fileNode.getMod())) {
@@ -287,14 +322,15 @@ public class ProvinceService {
             }
         });
 
-        nodes.forEach((fileNode, tradeNodes) -> {
+        nodes.forEach((fileNode, nodeds) -> {
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileNode.getPath().toFile()))) {
-                for (TradeNode tradeNode : tradeNodes) {
-                    tradeNode.write(bufferedWriter);
+                for (Noded noded : nodeds) {
+                    noded.write(bufferedWriter);
+                    bufferedWriter.newLine();
                     bufferedWriter.newLine();
                 }
             } catch (IOException e) {
-                LOGGER.error("An error occurred while writing trade nodes to {}: {}!", fileNode, e.getMessage(), e);
+                LOGGER.error("An error occurred while writing nodes to {}: {}!", fileNode, e.getMessage(), e);
             }
         });
     }

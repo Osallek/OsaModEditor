@@ -15,6 +15,7 @@ const endpoints = {
     changeCulture: "/province/change-culture",
     decolonize: "/province/decolonize",
     changeTradeNode: "/province/change-trade-node",
+    changeArea: "/province/change-area",
   },
 };
 

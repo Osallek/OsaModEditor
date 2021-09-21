@@ -22,7 +22,7 @@ public class AreaDTO extends LocalisedDTO implements MappedDTO<String> {
         this.name = area.getName();
         this.provinces = area.getProvinces();
         this.region = area.getRegion() == null ? null : area.getRegion().getName();
-        this.color = new ColorDTO(this.name, true);
+        this.color = area.getColor() == null ? new ColorDTO(this.name, true) : new ColorDTO(area.getColor());
     }
 
     @Override

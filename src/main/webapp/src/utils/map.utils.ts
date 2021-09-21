@@ -2,7 +2,7 @@ import { Path, PathOptions } from "leaflet";
 import { Dispatch } from "react";
 import actions from "../store/actions";
 import { GameActionType, GameState } from "../store/game/game.types";
-import { Country, Culture, Localizations, Province, Religion, TradeGood, TradeNode } from "../types";
+import { Area, Country, Culture, Localizations, Province, Religion, TradeGood, TradeNode } from "../types";
 import { getEmperor } from "./emperor.utils";
 import { defaultLocalization, inHreLocalization, notInHreLocalization } from "./localisations.utils";
 import { getHistory } from "./province.utils";
@@ -40,6 +40,7 @@ export enum MapAction {
   CHANGE_CULTURE,
   DECOLONIZE,
   CHANGE_TRADE_NODE,
+  CHANGE_AREA,
 }
 
 export interface IMapMod {
@@ -71,7 +72,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     },
     borderColor: () => "black",
     dashArray: () => undefined,
-    actions: [],
+    actions: [MapAction.CHANGE_AREA],
     tooltip: (province: Province, date: Date | null, { areas }: GameState): Localizations => {
       if (areas && areas[province.area]) {
         return areas[province.area];
@@ -418,6 +419,13 @@ export const mapActions: Record<MapAction, IMapAction> = {
     },
     noTarget: false,
   },
+  [MapAction.CHANGE_AREA]: {
+    mapAction: MapAction.CHANGE_AREA,
+    action: (provinces, date, target) => {
+      return actions.province.changeArea(provinces, target as Area);
+    },
+    noTarget: false,
+  },
 };
 
 export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Localizations> => {
@@ -444,6 +452,8 @@ export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Lo
       return [];
     case MapAction.CHANGE_TRADE_NODE:
       return gameState.sortedTradeNodes ? gameState.sortedTradeNodes : [];
+    case MapAction.CHANGE_AREA:
+      return gameState.sortedAreas ? gameState.sortedAreas : [];
   }
 };
 

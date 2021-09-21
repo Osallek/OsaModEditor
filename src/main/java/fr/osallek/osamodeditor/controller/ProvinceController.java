@@ -77,4 +77,9 @@ public class ProvinceController {
     public ResponseEntity<GameDTO> changeTradeNode(@RequestBody SimpleMapActionForm form) throws IOException {
         return ResponseEntity.ok(this.provinceService.changeTradeNode(form));
     }
+
+    @PostMapping(value = "/change-area", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeArea(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeArea(form));
+    }
 }
