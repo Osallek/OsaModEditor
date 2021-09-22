@@ -41,6 +41,8 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     private String superRegion;
 
+    private String colonialRegion;
+
     private List<ProvinceHistoryDTO> history;
 
     private boolean historyFromMod;
@@ -187,6 +189,14 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     public void setSuperRegion(String superRegion) {
         this.superRegion = superRegion;
+    }
+
+    public String getColonialRegion() {
+        return colonialRegion;
+    }
+
+    public void setColonialRegion(String colonialRegion) {
+        this.colonialRegion = colonialRegion;
     }
 
     public String getContinent() {

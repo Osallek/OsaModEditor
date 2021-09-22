@@ -13,6 +13,7 @@ const map = {
   "map.mapMod.SUPER_REGION": "Super region",
   "map.mapMod.CULTURE": "Culture",
   "map.mapMod.HRE": "Holy Roman Empire",
+  "map.mapMod.COLONIAL_REGION": "Colonial region",
   "map.action.type": "Action type",
   "map.action.type.APPLY_TO_SELECTION": "Apply to selection",
   "map.action.type.VIEW_DETAILS": "View details",
@@ -29,6 +30,8 @@ const map = {
   "map.action.CHANGE_TRADE_NODE": "Change trade node",
   "map.action.CHANGE_AREA": "Change area",
   "map.action.DECOLONIZE": "Decolonize",
+  "map.action.CHANGE_COLONIAL_REGION": "Change colonial region",
+  "map.action.REMOVE_COLONIAL_REGION": "Remove colonial region",
   "map.action.target": "Value",
 };
 

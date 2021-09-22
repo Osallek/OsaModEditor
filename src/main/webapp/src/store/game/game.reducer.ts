@@ -19,6 +19,7 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         sortedSuperRegions: Object.values(action.payload.superRegions).sort(localisationsComparator),
         sortedReligions: Object.values(action.payload.religions).sort(localisationsComparator),
         sortedCultures: Object.values(action.payload.cultures).sort(localisationsComparator),
+        sortedColonialRegions: Object.values(action.payload.colonialRegions).sort(localisationsComparator),
       };
     }
 

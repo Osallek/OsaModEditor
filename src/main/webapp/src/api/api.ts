@@ -58,6 +58,12 @@ const api = {
     changeArea: (form: SimpleMapActionForm): AxiosPromise<Game> => {
       return ws.post(endpoints.province.changeArea, form);
     },
+    changeColonialRegion: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.changeColonialRegion, form);
+    },
+    removeColonialRegion: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.removeColonialRegion, form);
+    },
   },
 };
 

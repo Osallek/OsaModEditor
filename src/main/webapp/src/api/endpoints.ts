@@ -16,6 +16,8 @@ const endpoints = {
     decolonize: "/province/decolonize",
     changeTradeNode: "/province/change-trade-node",
     changeArea: "/province/change-area",
+    changeColonialRegion: "/province/change-colonial-region",
+    removeColonialRegion: "/province/remove-colonial-region",
   },
 };
 

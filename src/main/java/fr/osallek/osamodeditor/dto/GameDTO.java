@@ -41,6 +41,8 @@ public class GameDTO {
 
     private Map<String, CultureDTO> cultures;
 
+    private Map<String, ColonialRegionDTO> colonialRegions;
+
     private Map<LocalDate, String> hreEmperors;
 
     private Map<LocalDate, String> celestialEmperors;
@@ -110,6 +112,17 @@ public class GameDTO {
                             .stream()
                             .map(culture -> new CultureDTO(culture, game.getAllLocalisations()))
                             .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+
+        this.colonialRegions = game.getColonialRegions()
+                                   .stream()
+                                   .filter(colonialRegion -> !colonialRegion.getName().startsWith("colonial_placeholder_")) //RNW
+                                   .map(colonialRegion -> new ColonialRegionDTO(colonialRegion, game.getAllLocalisations()))
+                                   .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+
+        game.getColonialRegions()
+            .stream()
+            .filter(colonialRegion -> CollectionUtils.isNotEmpty(colonialRegion.getProvinces()))
+            .forEach(colonialRegion -> colonialRegion.getProvinces().forEach(id -> this.provinces.get(id).setColonialRegion(colonialRegion.getName())));
 
         this.hreEmperors = game.getHreEmperors().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag()));
 
@@ -237,6 +250,14 @@ public class GameDTO {
 
     public void setCelestialEmperors(Map<LocalDate, String> celestialEmperors) {
         this.celestialEmperors = celestialEmperors;
+    }
+
+    public Map<String, ColonialRegionDTO> getColonialRegions() {
+        return colonialRegions;
+    }
+
+    public void setColonialRegions(Map<String, ColonialRegionDTO> colonialRegions) {
+        this.colonialRegions = colonialRegions;
     }
 
     public Map<String, Map<String, String>> getDefines() {

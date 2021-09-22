@@ -2,7 +2,7 @@ import { Path, PathOptions } from "leaflet";
 import { Dispatch } from "react";
 import actions from "../store/actions";
 import { GameActionType, GameState } from "../store/game/game.types";
-import { Area, Country, Culture, Localizations, Province, Religion, TradeGood, TradeNode } from "../types";
+import { Area, ColonialRegion, Country, Culture, Localizations, Province, Religion, TradeGood, TradeNode } from "../types";
 import { getEmperor } from "./emperor.utils";
 import { defaultLocalization, inHreLocalization, notInHreLocalization } from "./localisations.utils";
 import { getHistory } from "./province.utils";
@@ -20,6 +20,7 @@ export enum MapMod {
   AREA,
   REGION,
   SUPER_REGION,
+  COLONIAL_REGION,
   PROVINCE,
 }
 
@@ -41,6 +42,8 @@ export enum MapAction {
   DECOLONIZE,
   CHANGE_TRADE_NODE,
   CHANGE_AREA,
+  CHANGE_COLONIAL_REGION,
+  REMOVE_COLONIAL_REGION,
 }
 
 export interface IMapMod {
@@ -339,6 +342,27 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
   },
+  [MapMod.COLONIAL_REGION]: {
+    mapMod: MapMod.COLONIAL_REGION,
+    canSelect: true,
+    provinceColor: (province: Province, date: Date | null, { colonialRegions }: GameState) => {
+      if (colonialRegions && colonialRegions[province.colonialRegion]) {
+        return colonialRegions[province.colonialRegion].color.hex;
+      } else {
+        return emptyColor;
+      }
+    },
+    borderColor: () => "black",
+    dashArray: () => undefined,
+    actions: [MapAction.CHANGE_COLONIAL_REGION, MapAction.REMOVE_COLONIAL_REGION],
+    tooltip: (province: Province, date: Date | null, { colonialRegions }: GameState): Localizations => {
+      if (colonialRegions && colonialRegions[province.colonialRegion]) {
+        return colonialRegions[province.colonialRegion];
+      } else {
+        return defaultLocalization;
+      }
+    },
+  },
 };
 
 export const mapActions: Record<MapAction, IMapAction> = {
@@ -426,6 +450,20 @@ export const mapActions: Record<MapAction, IMapAction> = {
     },
     noTarget: false,
   },
+  [MapAction.CHANGE_COLONIAL_REGION]: {
+    mapAction: MapAction.CHANGE_COLONIAL_REGION,
+    action: (provinces, date, target) => {
+      return actions.province.changeColonialRegion(provinces, target as ColonialRegion);
+    },
+    noTarget: false,
+  },
+  [MapAction.REMOVE_COLONIAL_REGION]: {
+    mapAction: MapAction.REMOVE_COLONIAL_REGION,
+    action: (provinces, date, target) => {
+      return actions.province.removeColonialRegion(provinces);
+    },
+    noTarget: true,
+  },
 };
 
 export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Localizations> => {
@@ -454,6 +492,10 @@ export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Lo
       return gameState.sortedTradeNodes ? gameState.sortedTradeNodes : [];
     case MapAction.CHANGE_AREA:
       return gameState.sortedAreas ? gameState.sortedAreas : [];
+    case MapAction.CHANGE_COLONIAL_REGION:
+      return gameState.sortedColonialRegions ? gameState.sortedColonialRegions : [];
+    case MapAction.REMOVE_COLONIAL_REGION:
+      return [];
   }
 };
 

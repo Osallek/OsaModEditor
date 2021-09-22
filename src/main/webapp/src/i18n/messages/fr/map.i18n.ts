@@ -13,6 +13,7 @@ const map = {
   "map.mapMod.SUPER_REGION": "Super région",
   "map.mapMod.CULTURE": "Culture",
   "map.mapMod.HRE": "Saint-Empire",
+  "map.mapMod.COLONIAL_REGION": "Région coloniale",
   "map.action.type": "Type d'action",
   "map.action.type.APPLY_TO_SELECTION": "Appliquer à la selection",
   "map.action.type.VIEW_DETAILS": "Voir le détail",
@@ -29,6 +30,8 @@ const map = {
   "map.action.CHANGE_TRADE_NODE": "Changer le nœud commercial",
   "map.action.CHANGE_AREA": "Changer l'état",
   "map.action.DECOLONIZE": "Décoloniser",
+  "map.action.CHANGE_COLONIAL_REGION": "Changer la région coloniale",
+  "map.action.REMOVE_COLONIAL_REGION": "Retirer de la région coloniale",
   "map.action.target": "Valeur",
 };
 

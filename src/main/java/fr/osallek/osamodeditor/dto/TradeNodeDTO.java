@@ -10,8 +10,6 @@ public class TradeNodeDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String name;
 
-    private String localizedName;
-
     private Integer location;
 
     private ColorDTO color;
@@ -27,7 +25,6 @@ public class TradeNodeDTO extends LocalisedDTO implements MappedDTO<String> {
     public TradeNodeDTO(TradeNode tradeNode, Map<Eu4Language, Map<String, String>> localisations) {
         super(tradeNode.getName(), localisations);
         this.name = tradeNode.getName();
-        this.localizedName = tradeNode.getLocalizedName();
         this.location = tradeNode.getLocation();
         this.color = tradeNode.getColor() == null ? new ColorDTO(this.name, true) : new ColorDTO(tradeNode.getColor());
         this.inland = tradeNode.isInland();
@@ -47,14 +44,6 @@ public class TradeNodeDTO extends LocalisedDTO implements MappedDTO<String> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLocalizedName() {
-        return localizedName;
-    }
-
-    public void setLocalizedName(String localizedName) {
-        this.localizedName = localizedName;
     }
 
     public Integer getLocation() {

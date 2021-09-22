@@ -52,12 +52,12 @@ export type Game = {
   cultures: Record<string, Culture>;
   hreEmperors: Record<string, string>;
   celestialEmperors: Record<string, string>;
+  colonialRegions: Record<string, ColonialRegion>;
   defines: Record<string, Record<string, string>>;
 };
 
 export type TradeNode = Localizations & {
   name: string;
-  localizedName: string;
   location: null;
   color: Color;
   inland: boolean;
@@ -80,6 +80,7 @@ export type Province = Localizations & {
   tradeNode: string;
   region: string;
   superRegion: string;
+  colonialRegion: string;
   history: Array<ProvinceHistory>;
   historyFromMod: boolean;
 };
@@ -164,4 +165,17 @@ export type Culture = Localizations & {
   name: string;
   group: string;
   color: Color;
+};
+
+export type ColonialRegion = Localizations & {
+  name: string;
+  provinces: Array<number>;
+  color: Color;
+  taxIncome: number;
+  nativeSize: number;
+  nativeFerocity: number;
+  nativeHostileness: number;
+  tradeGoods: Record<string, number>;
+  cultures: Record<string, number>;
+  religions: Record<string, number>;
 };
