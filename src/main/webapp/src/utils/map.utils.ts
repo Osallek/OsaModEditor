@@ -2,7 +2,7 @@ import { Path, PathOptions } from "leaflet";
 import { Dispatch } from "react";
 import actions from "../store/actions";
 import { GameActionType, GameState } from "../store/game/game.types";
-import { Area, ColonialRegion, Country, Culture, Localizations, Province, Religion, TradeGood, TradeNode } from "../types";
+import { Area, ColonialRegion, Country, Culture, Localizations, Province, Religion, TradeCompany, TradeGood, TradeNode } from "../types";
 import { getEmperor } from "./emperor.utils";
 import { defaultLocalization, inHreLocalization, notInHreLocalization } from "./localisations.utils";
 import { getHistory } from "./province.utils";
@@ -21,6 +21,9 @@ export enum MapMod {
   REGION,
   SUPER_REGION,
   COLONIAL_REGION,
+  TRADE_COMPANY,
+  WINTER,
+  CLIMATE,
   PROVINCE,
 }
 
@@ -44,6 +47,8 @@ export enum MapAction {
   CHANGE_AREA,
   CHANGE_COLONIAL_REGION,
   REMOVE_COLONIAL_REGION,
+  CHANGE_TRADE_COMPANY,
+  REMOVE_TRADE_COMPANY,
 }
 
 export interface IMapMod {
@@ -363,6 +368,69 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
   },
+  [MapMod.TRADE_COMPANY]: {
+    mapMod: MapMod.TRADE_COMPANY,
+    canSelect: true,
+    provinceColor: (province: Province, date: Date | null, { tradeCompanies }: GameState) => {
+      if (tradeCompanies && tradeCompanies[province.tradeCompany]) {
+        return tradeCompanies[province.tradeCompany].color.hex;
+      } else {
+        return emptyColor;
+      }
+    },
+    borderColor: () => "black",
+    dashArray: () => undefined,
+    actions: [MapAction.CHANGE_TRADE_COMPANY, MapAction.REMOVE_TRADE_COMPANY],
+    tooltip: (province: Province, date: Date | null, { tradeCompanies }: GameState): Localizations => {
+      if (tradeCompanies && tradeCompanies[province.tradeCompany]) {
+        return tradeCompanies[province.tradeCompany];
+      } else {
+        return defaultLocalization;
+      }
+    },
+  },
+  [MapMod.WINTER]: {
+    mapMod: MapMod.WINTER,
+    canSelect: true,
+    provinceColor: (province: Province, date: Date | null, { winters }: GameState) => {
+      if (winters && winters[province.winter]) {
+        return winters[province.winter].color.hex;
+      } else {
+        return emptyColor;
+      }
+    },
+    borderColor: () => "black",
+    dashArray: () => undefined,
+    actions: [MapAction.CHANGE_TRADE_COMPANY, MapAction.REMOVE_TRADE_COMPANY],
+    tooltip: (province: Province, date: Date | null, { winters }: GameState): Localizations => {
+      if (winters && winters[province.winter]) {
+        return winters[province.winter];
+      } else {
+        return defaultLocalization;
+      }
+    },
+  },
+  [MapMod.CLIMATE]: {
+    mapMod: MapMod.CLIMATE,
+    canSelect: true,
+    provinceColor: (province: Province, date: Date | null, { climates }: GameState) => {
+      if (climates && climates[province.climate]) {
+        return climates[province.climate].color.hex;
+      } else {
+        return emptyColor;
+      }
+    },
+    borderColor: () => "black",
+    dashArray: () => undefined,
+    actions: [MapAction.CHANGE_TRADE_COMPANY, MapAction.REMOVE_TRADE_COMPANY],
+    tooltip: (province: Province, date: Date | null, { climates }: GameState): Localizations => {
+      if (climates && climates[province.climate]) {
+        return climates[province.climate];
+      } else {
+        return defaultLocalization;
+      }
+    },
+  },
 };
 
 export const mapActions: Record<MapAction, IMapAction> = {
@@ -464,6 +532,20 @@ export const mapActions: Record<MapAction, IMapAction> = {
     },
     noTarget: true,
   },
+  [MapAction.CHANGE_TRADE_COMPANY]: {
+    mapAction: MapAction.CHANGE_TRADE_COMPANY,
+    action: (provinces, date, target) => {
+      return actions.province.changeTradeCompany(provinces, target as TradeCompany);
+    },
+    noTarget: false,
+  },
+  [MapAction.REMOVE_TRADE_COMPANY]: {
+    mapAction: MapAction.REMOVE_TRADE_COMPANY,
+    action: (provinces, date, target) => {
+      return actions.province.removeTradeCompany(provinces);
+    },
+    noTarget: true,
+  },
 };
 
 export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Localizations> => {
@@ -495,6 +577,10 @@ export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Lo
     case MapAction.CHANGE_COLONIAL_REGION:
       return gameState.sortedColonialRegions ? gameState.sortedColonialRegions : [];
     case MapAction.REMOVE_COLONIAL_REGION:
+      return [];
+    case MapAction.CHANGE_TRADE_COMPANY:
+      return gameState.sortedTradeCompanies ? gameState.sortedTradeCompanies : [];
+    case MapAction.REMOVE_TRADE_COMPANY:
       return [];
   }
 };

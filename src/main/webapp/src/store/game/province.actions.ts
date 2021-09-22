@@ -1,6 +1,6 @@
 import api from "api";
 import { Dispatch } from "react";
-import { Area, ColonialRegion, Country, Culture, Religion, TradeGood, TradeNode } from "types";
+import { Area, ColonialRegion, Country, Culture, Religion, TradeCompany, TradeGood, TradeNode } from "types";
 import { dateToLocalDate } from "utils/date.utils";
 import { CHANGE_GAME, GameActionType } from "./game.types";
 
@@ -123,6 +123,24 @@ export const changeColonialRegion = (provinces: Array<number>, target: ColonialR
 
 export const removeColonialRegion = (provinces: Array<number>) => async (dispatch: Dispatch<GameActionType>) => {
   const payload = await api.province.removeColonialRegion({ provinces });
+
+  return dispatch({
+    type: CHANGE_GAME,
+    payload: payload.data,
+  });
+};
+
+export const changeTradeCompany = (provinces: Array<number>, target: TradeCompany) => async (dispatch: Dispatch<GameActionType>) => {
+  const payload = await api.province.changeTradeCompany({ provinces, target: target.name });
+
+  return dispatch({
+    type: CHANGE_GAME,
+    payload: payload.data,
+  });
+};
+
+export const removeTradeCompany = (provinces: Array<number>) => async (dispatch: Dispatch<GameActionType>) => {
+  const payload = await api.province.removeTradeCompany({ provinces });
 
   return dispatch({
     type: CHANGE_GAME,

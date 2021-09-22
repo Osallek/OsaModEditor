@@ -1,5 +1,20 @@
 import { GeoJsonObject } from "geojson";
-import { Area, ColonialRegion, Country, Culture, Game, Province, Region, Religion, SuperRegion, TradeGood, TradeNode } from "types/api.types";
+import {
+  Area,
+  Climate,
+  ColonialRegion,
+  Country,
+  Culture,
+  Game,
+  Province,
+  Region,
+  Religion,
+  SuperRegion,
+  TradeCompany,
+  TradeGood,
+  TradeNode,
+  Winter,
+} from "types/api.types";
 
 export const CHANGE_GAME: "game/changeGame" = "game/changeGame";
 
@@ -24,6 +39,9 @@ export interface GameState {
   hreEmperors?: Record<string, string>;
   celestialEmperors?: Record<string, string>;
   colonialRegions?: Record<string, ColonialRegion>;
+  tradeCompanies?: Record<string, TradeCompany>;
+  winters?: Record<string, Winter>;
+  climates?: Record<string, Climate>;
   sortedTradeNodes?: Array<TradeNode>;
   sortedCountries?: Array<Country>;
   sortedTradeGoods?: Array<TradeGood>;
@@ -33,6 +51,9 @@ export interface GameState {
   sortedReligions?: Array<Religion>;
   sortedCultures?: Array<Culture>;
   sortedColonialRegions?: Array<ColonialRegion>;
+  sortedTradeCompanies?: Array<TradeCompany>;
+  sortedWinters?: Array<Winter>;
+  sortedClimates?: Array<Climate>;
   defines?: Record<string, Record<string, string>>;
 }
 

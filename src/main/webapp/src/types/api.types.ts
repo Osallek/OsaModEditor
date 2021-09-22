@@ -53,6 +53,9 @@ export type Game = {
   hreEmperors: Record<string, string>;
   celestialEmperors: Record<string, string>;
   colonialRegions: Record<string, ColonialRegion>;
+  tradeCompanies: Record<string, TradeCompany>;
+  winters: Record<string, Winter>;
+  climates: Record<string, Climate>;
   defines: Record<string, Record<string, string>>;
 };
 
@@ -81,6 +84,7 @@ export type Province = Localizations & {
   region: string;
   superRegion: string;
   colonialRegion: string;
+  tradeCompany: string;
   history: Array<ProvinceHistory>;
   historyFromMod: boolean;
 };
@@ -178,4 +182,20 @@ export type ColonialRegion = Localizations & {
   tradeGoods: Record<string, number>;
   cultures: Record<string, number>;
   religions: Record<string, number>;
+};
+
+export type TradeCompany = Localizations & {
+  name: string;
+  provinces: Array<number>;
+  color: Color;
+};
+
+export type Winter = Localizations & {
+  name: string;
+  color: Color;
+};
+
+export type Climate = Localizations & {
+  name: string;
+  color: Color;
 };

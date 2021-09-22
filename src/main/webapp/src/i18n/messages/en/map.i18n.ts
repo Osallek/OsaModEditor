@@ -14,6 +14,9 @@ const map = {
   "map.mapMod.CULTURE": "Culture",
   "map.mapMod.HRE": "Holy Roman Empire",
   "map.mapMod.COLONIAL_REGION": "Colonial region",
+  "map.mapMod.TRADE_COMPANY": "Trade company",
+  "map.mapMod.WINTER": "Winter",
+  "map.mapMod.CLIMATE": "Climate",
   "map.action.type": "Action type",
   "map.action.type.APPLY_TO_SELECTION": "Apply to selection",
   "map.action.type.VIEW_DETAILS": "View details",
@@ -32,6 +35,8 @@ const map = {
   "map.action.DECOLONIZE": "Decolonize",
   "map.action.CHANGE_COLONIAL_REGION": "Change colonial region",
   "map.action.REMOVE_COLONIAL_REGION": "Remove colonial region",
+  "map.action.CHANGE_TRADE_COMPANY": "Remove trade company",
+  "map.action.REMOVE_TRADE_COMPANY": "Remove trade company",
   "map.action.target": "Value",
 };
 

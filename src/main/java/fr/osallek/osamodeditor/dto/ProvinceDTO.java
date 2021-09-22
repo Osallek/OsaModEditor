@@ -25,6 +25,8 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     private String climate;
 
+    private String monsoon;
+
     private boolean impassable;
 
     private String winter;
@@ -43,6 +45,8 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     private String colonialRegion;
 
+    private String tradeCompany;
+
     private List<ProvinceHistoryDTO> history;
 
     private boolean historyFromMod;
@@ -56,6 +60,7 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
         this.isOcean = province.isOcean();
         this.isLake = province.isLake();
         this.climate = province.getClimate();
+        this.monsoon = province.getMonsoon();
         this.impassable = province.isImpassable();
         this.winter = province.getWinter();
         this.isPort = province.isPort();
@@ -143,6 +148,14 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
         this.climate = climate;
     }
 
+    public String getMonsoon() {
+        return monsoon;
+    }
+
+    public void setMonsoon(String monsoon) {
+        this.monsoon = monsoon;
+    }
+
     public boolean isImpassable() {
         return impassable;
     }
@@ -197,6 +210,14 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     public void setColonialRegion(String colonialRegion) {
         this.colonialRegion = colonialRegion;
+    }
+
+    public String getTradeCompany() {
+        return tradeCompany;
+    }
+
+    public void setTradeCompany(String tradeCompany) {
+        this.tradeCompany = tradeCompany;
     }
 
     public String getContinent() {

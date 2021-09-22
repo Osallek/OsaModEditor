@@ -14,6 +14,9 @@ const map = {
   "map.mapMod.CULTURE": "Culture",
   "map.mapMod.HRE": "Saint-Empire",
   "map.mapMod.COLONIAL_REGION": "Région coloniale",
+  "map.mapMod.TRADE_COMPANY": "Compagnie commerciale",
+  "map.mapMod.WINTER": "Hiver",
+  "map.mapMod.CLIMATE": "Climat",
   "map.action.type": "Type d'action",
   "map.action.type.APPLY_TO_SELECTION": "Appliquer à la selection",
   "map.action.type.VIEW_DETAILS": "Voir le détail",
@@ -32,6 +35,8 @@ const map = {
   "map.action.DECOLONIZE": "Décoloniser",
   "map.action.CHANGE_COLONIAL_REGION": "Changer la région coloniale",
   "map.action.REMOVE_COLONIAL_REGION": "Retirer de la région coloniale",
+  "map.action.CHANGE_TRADE_COMPANY": "Changer la compangie commerciale",
+  "map.action.REMOVE_TRADE_COMPANY": "Retirer de la compangie commerciale",
   "map.action.target": "Valeur",
 };
 

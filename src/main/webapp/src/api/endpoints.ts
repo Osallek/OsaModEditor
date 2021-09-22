@@ -18,6 +18,8 @@ const endpoints = {
     changeArea: "/province/change-area",
     changeColonialRegion: "/province/change-colonial-region",
     removeColonialRegion: "/province/remove-colonial-region",
+    changeTradeCompany: "/province/change-trade-company",
+    removeTradeCompany: "/province/remove-trade-company",
   },
 };
 
