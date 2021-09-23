@@ -31,6 +31,8 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     private String winter;
 
+    private String terrain;
+
     private boolean isPort;
 
     private String area;
@@ -63,6 +65,7 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
         this.monsoon = province.getMonsoon();
         this.impassable = province.isImpassable();
         this.winter = province.getWinter();
+        this.terrain = province.getTerrainCategory() == null ? null : province.getTerrainCategory().getName();
         this.isPort = province.isPort();
         this.continent = province.getContinent() == null ? null : province.getContinent().getName();
         this.historyFromMod = province.getHistoryFileNode() != null && province.getHistoryFileNode().fromMod();
@@ -170,6 +173,14 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     public void setWinter(String winter) {
         this.winter = winter;
+    }
+
+    public String getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(String terrain) {
+        this.terrain = terrain;
     }
 
     public boolean isPort() {

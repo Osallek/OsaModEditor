@@ -55,17 +55,33 @@ export type Game = {
   colonialRegions: Record<string, ColonialRegion>;
   tradeCompanies: Record<string, TradeCompany>;
   winters: Record<string, Winter>;
+  terrainCategories: Record<string, TerrainCategory>;
   climates: Record<string, Climate>;
   defines: Record<string, Record<string, string>>;
 };
 
 export type TradeNode = Localizations & {
   name: string;
-  location: null;
+  location: number;
   color: Color;
   inland: boolean;
   aiWillPropagateThroughTrade: boolean;
   end: boolean;
+};
+
+export type TerrainCategory = Localizations & {
+  name: string;
+  color: Color;
+  water: boolean;
+  soundType: string;
+  inlandSea: boolean;
+  defence: number;
+  allowedNumOfBuildings: number;
+  supplyLimit: number;
+  movementCost: number;
+  localDevelopmentCost: number;
+  localDefensiveness: number;
+  provinces: Array<number>;
 };
 
 export type Province = Localizations & {
@@ -77,6 +93,7 @@ export type Province = Localizations & {
   climate: string;
   impassable: boolean;
   winter: string;
+  terrain: string;
   port: boolean;
   area: string;
   continent: string;

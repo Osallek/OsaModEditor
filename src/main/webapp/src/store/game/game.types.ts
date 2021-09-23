@@ -10,6 +10,7 @@ import {
   Region,
   Religion,
   SuperRegion,
+  TerrainCategory,
   TradeCompany,
   TradeGood,
   TradeNode,
@@ -42,6 +43,7 @@ export interface GameState {
   tradeCompanies?: Record<string, TradeCompany>;
   winters?: Record<string, Winter>;
   climates?: Record<string, Climate>;
+  terrainCategories?: Record<string, TerrainCategory>;
   sortedTradeNodes?: Array<TradeNode>;
   sortedCountries?: Array<Country>;
   sortedTradeGoods?: Array<TradeGood>;
@@ -54,6 +56,7 @@ export interface GameState {
   sortedTradeCompanies?: Array<TradeCompany>;
   sortedWinters?: Array<Winter>;
   sortedClimates?: Array<Climate>;
+  sortedTerrainCategories?: Array<TerrainCategory>;
   defines?: Record<string, Record<string, string>>;
 }
 

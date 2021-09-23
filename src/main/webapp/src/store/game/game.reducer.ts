@@ -23,6 +23,7 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         sortedTradeCompanies: Object.values(action.payload.tradeCompanies).sort(localisationsComparator),
         sortedWinters: Object.values(action.payload.winters).sort(localisationsComparator),
         sortedClimates: Object.values(action.payload.climates).sort(localisationsComparator),
+        sortedTerrainCategories: Object.values(action.payload.terrainCategories).sort(localisationsComparator),
       };
     }
 

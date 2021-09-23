@@ -65,9 +65,11 @@ const CountriesMap: React.FC<void> = () => {
       if (provinces) {
         const province = provinces[id] as Province;
 
-        if (!(provinces[id].ocean || provinces[id].impassable || provinces[id].lake)) {
-          layer.bindTooltip(localize(mapMods[mapMod].tooltip(province, date, gameState)));
+        if (provinces[id].impassable || (!mapMods[mapMod].overrideOceans && (provinces[id].ocean || provinces[id].lake))) {
+          return;
         }
+
+        layer.bindTooltip(localize(mapMods[mapMod].tooltip(province, date, gameState)));
       }
     },
     [mapMod, gameState, date]

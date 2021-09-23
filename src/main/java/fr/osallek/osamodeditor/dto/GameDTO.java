@@ -26,6 +26,8 @@ public class GameDTO {
 
     private Map<Integer, ProvinceDTO> provinces;
 
+    private Map<String, TerrainCategoryDTO> terrainCategories;
+
     private Map<String, TradeNodeDTO> tradeNodes;
 
     private Map<String, CountryDTO> countries;
@@ -66,10 +68,16 @@ public class GameDTO {
                              .map(province -> new ProvinceDTO(province, game.getAllLocalisations()))
                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
 
+        this.terrainCategories = game.getTerrainCategories()
+                                     .values()
+                                     .stream()
+                                     .map(terrainCategory -> new TerrainCategoryDTO(terrainCategory, game.getAllLocalisations()))
+                                     .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+
         this.tradeNodes = game.getTradeNodes()
                               .stream()
                               .map(tradeNode -> new TradeNodeDTO(tradeNode, game.getAllLocalisations()))
-                              .collect(Collectors.toMap(TradeNodeDTO::getKey, Function.identity()));
+                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         game.getTradeNodes().forEach(tradeNode -> tradeNode.getProvinces().forEach(id -> this.provinces.get(id).setTradeNode(tradeNode.getName())));
 
         this.countries = game.getCountries()
@@ -193,6 +201,14 @@ public class GameDTO {
 
     public void setGeoJson(FeatureCollection geoJson) {
         this.geoJson = geoJson;
+    }
+
+    public Map<String, TerrainCategoryDTO> getTerrainCategories() {
+        return terrainCategories;
+    }
+
+    public void setTerrainCategories(Map<String, TerrainCategoryDTO> terrainCategories) {
+        this.terrainCategories = terrainCategories;
     }
 
     public Map<String, TradeNodeDTO> getTradeNodes() {

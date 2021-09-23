@@ -17,6 +17,7 @@ const map = {
   "map.mapMod.TRADE_COMPANY": "Trade company",
   "map.mapMod.WINTER": "Winter",
   "map.mapMod.CLIMATE": "Climate",
+  "map.mapMod.TERRAIN": "Terrain",
   "map.action.type": "Action type",
   "map.action.type.APPLY_TO_SELECTION": "Apply to selection",
   "map.action.type.VIEW_DETAILS": "View details",
