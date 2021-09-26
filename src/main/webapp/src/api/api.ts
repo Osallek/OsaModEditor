@@ -70,6 +70,18 @@ const api = {
     removeTradeCompany: (form: SimpleMapActionForm): AxiosPromise<Game> => {
       return ws.post(endpoints.province.removeTradeCompany, form);
     },
+    changeWinter: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.changeWinter, form);
+    },
+    changeClimate: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.changeClimate, form);
+    },
+    changeMonsoon: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.changeMonsoon, form);
+    },
+    changeTerrain: (form: SimpleMapActionForm): AxiosPromise<Game> => {
+      return ws.post(endpoints.province.changeTerrain, form);
+    },
   },
 };
 

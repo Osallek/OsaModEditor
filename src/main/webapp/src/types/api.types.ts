@@ -54,9 +54,10 @@ export type Game = {
   celestialEmperors: Record<string, string>;
   colonialRegions: Record<string, ColonialRegion>;
   tradeCompanies: Record<string, TradeCompany>;
-  winters: Record<string, Winter>;
+  winters: Record<string, ProvinceList>;
+  monsoons: Record<string, ProvinceList>;
+  climates: Record<string, ProvinceList>;
   terrainCategories: Record<string, TerrainCategory>;
-  climates: Record<string, Climate>;
   defines: Record<string, Record<string, string>>;
 };
 
@@ -94,6 +95,7 @@ export type Province = Localizations & {
   impassable: boolean;
   winter: string;
   terrain: string;
+  monsoon: string;
   port: boolean;
   area: string;
   continent: string;
@@ -207,12 +209,7 @@ export type TradeCompany = Localizations & {
   color: Color;
 };
 
-export type Winter = Localizations & {
-  name: string;
-  color: Color;
-};
-
-export type Climate = Localizations & {
+export type ProvinceList = Localizations & {
   name: string;
   color: Color;
 };

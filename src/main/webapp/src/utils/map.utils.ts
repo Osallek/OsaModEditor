@@ -2,7 +2,19 @@ import { Path, PathOptions } from "leaflet";
 import { Dispatch } from "react";
 import actions from "../store/actions";
 import { GameActionType, GameState } from "../store/game/game.types";
-import { Area, ColonialRegion, Country, Culture, Localizations, Province, Religion, TradeCompany, TradeGood, TradeNode } from "../types";
+import {
+  Area,
+  ColonialRegion,
+  Country,
+  Culture,
+  Localizations,
+  Province,
+  ProvinceList,
+  Religion, TerrainCategory,
+  TradeCompany,
+  TradeGood,
+  TradeNode
+} from "../types";
 import { getEmperor } from "./emperor.utils";
 import { defaultLocalization, inHreLocalization, notInHreLocalization } from "./localisations.utils";
 import { getHistory } from "./province.utils";
@@ -24,6 +36,7 @@ export enum MapMod {
   TRADE_COMPANY,
   WINTER,
   CLIMATE,
+  MONSOON,
   TERRAIN,
   PROVINCE,
 }
@@ -50,6 +63,10 @@ export enum MapAction {
   REMOVE_COLONIAL_REGION,
   CHANGE_TRADE_COMPANY,
   REMOVE_TRADE_COMPANY,
+  CHANGE_WINTER,
+  CHANGE_CLIMATE,
+  CHANGE_MONSOON,
+  CHANGE_TERRAIN,
 }
 
 export interface IMapMod {
@@ -61,6 +78,7 @@ export interface IMapMod {
   actions: Array<MapAction>;
   tooltip: (province: Province, date: Date | null, gameState: GameState) => Localizations;
   overrideOceans: boolean;
+  overrideImpassable: boolean;
 }
 
 export interface IMapAction {
@@ -91,6 +109,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.CULTURE]: {
     mapMod: MapMod.CULTURE,
@@ -117,6 +136,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.HRE]: {
     mapMod: MapMod.HRE,
@@ -151,6 +171,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.OWNER]: {
     mapMod: MapMod.OWNER,
@@ -177,6 +198,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.CONTROLLER]: {
     mapMod: MapMod.CONTROLLER,
@@ -227,6 +249,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.PROVINCE]: {
     mapMod: MapMod.PROVINCE,
@@ -240,7 +263,8 @@ export const mapMods: Record<MapMod, IMapMod> = {
     tooltip: (province: Province, date: Date | null, gameState: GameState): Localizations => {
       return province;
     },
-    overrideOceans: false,
+    overrideOceans: true,
+    overrideImpassable: true,
   },
   [MapMod.REGION]: {
     mapMod: MapMod.REGION,
@@ -263,6 +287,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.RELIGION]: {
     mapMod: MapMod.RELIGION,
@@ -289,6 +314,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.SUPER_REGION]: {
     mapMod: MapMod.SUPER_REGION,
@@ -311,6 +337,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.TRADE_GOOD]: {
     mapMod: MapMod.TRADE_GOOD,
@@ -337,6 +364,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.TRADE_NODE]: {
     mapMod: MapMod.TRADE_NODE,
@@ -359,6 +387,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.COLONIAL_REGION]: {
     mapMod: MapMod.COLONIAL_REGION,
@@ -381,6 +410,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.TRADE_COMPANY]: {
     mapMod: MapMod.TRADE_COMPANY,
@@ -403,6 +433,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.WINTER]: {
     mapMod: MapMod.WINTER,
@@ -416,7 +447,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     },
     borderColor: () => "black",
     dashArray: () => undefined,
-    actions: [MapAction.CHANGE_TRADE_COMPANY, MapAction.REMOVE_TRADE_COMPANY],
+    actions: [MapAction.CHANGE_WINTER],
     tooltip: (province: Province, date: Date | null, { winters }: GameState): Localizations => {
       if (winters && winters[province.winter]) {
         return winters[province.winter];
@@ -425,6 +456,30 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: false,
+  },
+  [MapMod.MONSOON]: {
+    mapMod: MapMod.MONSOON,
+    canSelect: true,
+    provinceColor: (province: Province, date: Date | null, { monsoons }: GameState) => {
+      if (monsoons && monsoons[province.monsoon]) {
+        return monsoons[province.monsoon].color.hex;
+      } else {
+        return emptyColor;
+      }
+    },
+    borderColor: () => "black",
+    dashArray: () => undefined,
+    actions: [MapAction.CHANGE_MONSOON],
+    tooltip: (province: Province, date: Date | null, { monsoons }: GameState): Localizations => {
+      if (monsoons && monsoons[province.monsoon]) {
+        return monsoons[province.monsoon];
+      } else {
+        return defaultLocalization;
+      }
+    },
+    overrideOceans: false,
+    overrideImpassable: false,
   },
   [MapMod.CLIMATE]: {
     mapMod: MapMod.CLIMATE,
@@ -438,7 +493,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     },
     borderColor: () => "black",
     dashArray: () => undefined,
-    actions: [],
+    actions: [MapAction.CHANGE_CLIMATE],
     tooltip: (province: Province, date: Date | null, { climates }: GameState): Localizations => {
       if (climates && climates[province.climate]) {
         return climates[province.climate];
@@ -447,6 +502,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: false,
+    overrideImpassable: true,
   },
   [MapMod.TERRAIN]: {
     mapMod: MapMod.TERRAIN,
@@ -460,7 +516,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     },
     borderColor: () => "black",
     dashArray: () => undefined,
-    actions: [],
+    actions: [MapAction.CHANGE_TERRAIN],
     tooltip: (province: Province, date: Date | null, { terrainCategories }: GameState): Localizations => {
       if (terrainCategories && terrainCategories[province.terrain]) {
         return terrainCategories[province.terrain];
@@ -469,6 +525,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     overrideOceans: true,
+    overrideImpassable: false,
   },
 };
 
@@ -585,6 +642,34 @@ export const mapActions: Record<MapAction, IMapAction> = {
     },
     noTarget: true,
   },
+  [MapAction.CHANGE_WINTER]: {
+    mapAction: MapAction.CHANGE_WINTER,
+    action: (provinces, date, target) => {
+      return actions.province.changeWinter(provinces, target as ProvinceList);
+    },
+    noTarget: false,
+  },
+  [MapAction.CHANGE_CLIMATE]: {
+    mapAction: MapAction.CHANGE_CLIMATE,
+    action: (provinces, date, target) => {
+      return actions.province.changeClimate(provinces, target as ProvinceList);
+    },
+    noTarget: false,
+  },
+  [MapAction.CHANGE_MONSOON]: {
+    mapAction: MapAction.CHANGE_MONSOON,
+    action: (provinces, date, target) => {
+      return actions.province.changeMonsoon(provinces, target as ProvinceList);
+    },
+    noTarget: false,
+  },
+  [MapAction.CHANGE_TERRAIN]: {
+    mapAction: MapAction.CHANGE_TERRAIN,
+    action: (provinces, date, target) => {
+      return actions.province.changeTerrain(provinces, target as TerrainCategory);
+    },
+    noTarget: false,
+  },
 };
 
 export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Localizations> => {
@@ -621,6 +706,14 @@ export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Lo
       return gameState.sortedTradeCompanies ? gameState.sortedTradeCompanies : [];
     case MapAction.REMOVE_TRADE_COMPANY:
       return [];
+    case MapAction.CHANGE_WINTER:
+      return gameState.sortedWinters ? gameState.sortedWinters : [];
+    case MapAction.CHANGE_CLIMATE:
+      return gameState.sortedClimates ? gameState.sortedClimates : [];
+    case MapAction.CHANGE_MONSOON:
+      return gameState.sortedMonsoons ? gameState.sortedMonsoons : [];
+    case MapAction.CHANGE_TERRAIN:
+      return gameState.sortedTerrainCategories ? gameState.sortedTerrainCategories : [];
   }
 };
 
@@ -634,9 +727,9 @@ export const getProvinceStyle = (id: number, mapMod: MapMod, date: Date | null, 
     const mod = mapMods[mapMod];
 
     if (province.impassable) {
-      color = "#5e5e5e";
-    } else if (!mod.overrideOceans && (province.ocean || province.lake)) {
-      color = "#446ba3";
+      color = mod.overrideImpassable ? mod.provinceColor(province, date, gameState) : "#5e5e5e";
+    } else if (province.ocean || province.lake) {
+      color = mod.overrideOceans ? mod.provinceColor(province, date, gameState) : "#446ba3";
     } else {
       color = mod.provinceColor(province, date, gameState);
     }

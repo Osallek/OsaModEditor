@@ -82,4 +82,44 @@ public class ProvinceController {
     public ResponseEntity<GameDTO> changeArea(@RequestBody SimpleMapActionForm form) throws IOException {
         return ResponseEntity.ok(this.provinceService.changeArea(form));
     }
+
+    @PostMapping(value = "/change-colonial-region", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeColonialRegion(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeColonialRegion(form));
+    }
+
+    @PostMapping(value = "/remove-colonial-region", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> removeColonialRegion(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.removeColonialRegion(form));
+    }
+
+    @PostMapping(value = "/change-trade-company", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeTradeCompany(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeTradeCompany(form));
+    }
+
+    @PostMapping(value = "/remove-trade-company", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> removeTradeCompany(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.removeTradeCompany(form));
+    }
+
+    @PostMapping(value = "/change-winter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeWinter(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeWinter(form));
+    }
+
+    @PostMapping(value = "/change-monsoon", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeMonsoon(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeMonsoon(form));
+    }
+
+    @PostMapping(value = "/change-climate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeClimate(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeClimate(form));
+    }
+
+    @PostMapping(value = "/change-terrain", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameDTO> changeTerrain(@RequestBody SimpleMapActionForm form) throws IOException {
+        return ResponseEntity.ok(this.provinceService.changeTerrain(form));
+    }
 }

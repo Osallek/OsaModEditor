@@ -1,6 +1,16 @@
 import api from "api";
 import { Dispatch } from "react";
-import { Area, ColonialRegion, Country, Culture, Religion, TradeCompany, TradeGood, TradeNode } from "types";
+import {
+  Area,
+  ColonialRegion,
+  Country,
+  Culture,
+  ProvinceList,
+  Religion, TerrainCategory,
+  TradeCompany,
+  TradeGood,
+  TradeNode
+} from "types";
 import { dateToLocalDate } from "utils/date.utils";
 import { CHANGE_GAME, GameActionType } from "./game.types";
 
@@ -141,6 +151,42 @@ export const changeTradeCompany = (provinces: Array<number>, target: TradeCompan
 
 export const removeTradeCompany = (provinces: Array<number>) => async (dispatch: Dispatch<GameActionType>) => {
   const payload = await api.province.removeTradeCompany({ provinces });
+
+  return dispatch({
+    type: CHANGE_GAME,
+    payload: payload.data,
+  });
+};
+
+export const changeWinter = (provinces: Array<number>, target: ProvinceList) => async (dispatch: Dispatch<GameActionType>) => {
+  const payload = await api.province.changeWinter({ provinces, target: target.name  });
+
+  return dispatch({
+    type: CHANGE_GAME,
+    payload: payload.data,
+  });
+};
+
+export const changeMonsoon = (provinces: Array<number>, target: ProvinceList) => async (dispatch: Dispatch<GameActionType>) => {
+  const payload = await api.province.changeMonsoon({ provinces, target: target.name  });
+
+  return dispatch({
+    type: CHANGE_GAME,
+    payload: payload.data,
+  });
+};
+
+export const changeClimate = (provinces: Array<number>, target: ProvinceList) => async (dispatch: Dispatch<GameActionType>) => {
+  const payload = await api.province.changeClimate({ provinces, target: target.name  });
+
+  return dispatch({
+    type: CHANGE_GAME,
+    payload: payload.data,
+  });
+};
+
+export const changeTerrain = (provinces: Array<number>, target: TerrainCategory) => async (dispatch: Dispatch<GameActionType>) => {
+  const payload = await api.province.changeTerrain({ provinces, target: target.name  });
 
   return dispatch({
     type: CHANGE_GAME,

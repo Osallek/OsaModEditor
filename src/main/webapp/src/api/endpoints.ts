@@ -20,6 +20,10 @@ const endpoints = {
     removeColonialRegion: "/province/remove-colonial-region",
     changeTradeCompany: "/province/change-trade-company",
     removeTradeCompany: "/province/remove-trade-company",
+    changeWinter: "/province/change-winter",
+    changeMonsoon: "/province/change-monsoon",
+    changeClimate: "/province/change-climate",
+    changeTerrain: "/province/change-terrain",
   },
 };
 

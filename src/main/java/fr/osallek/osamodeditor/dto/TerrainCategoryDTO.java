@@ -46,6 +46,7 @@ public class TerrainCategoryDTO extends LocalisedDTO implements MappedDTO<String
         this.movementCost = terrainCategory.getMovementCost();
         this.localDevelopmentCost = terrainCategory.getLocalDevelopmentCost();
         this.localDefensiveness = terrainCategory.getLocalDefensiveness();
+        this.provinces = terrainCategory.getProvinces();
     }
 
     @Override

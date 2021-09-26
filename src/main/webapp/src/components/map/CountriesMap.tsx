@@ -42,7 +42,8 @@ const CountriesMap: React.FC<void> = () => {
       let includes = selectedProvinces.includes(id);
       const { provinces } = gameState;
 
-      if (mapMods[mapMod].canSelect && provinces && provinces[id] && !(provinces[id].ocean || provinces[id].impassable || provinces[id].lake)) {
+      if (mapMods[mapMod].canSelect && provinces && provinces[id] && (mapMods[mapMod].overrideImpassable || !provinces[id].impassable)
+      && (mapMods[mapMod].overrideOceans || (!provinces[id].ocean && !provinces[id].lake))) {
         if (includes) {
           setSelectedProvinces((prevState) => prevState.filter((value) => value !== id));
         } else {
@@ -65,7 +66,7 @@ const CountriesMap: React.FC<void> = () => {
       if (provinces) {
         const province = provinces[id] as Province;
 
-        if (provinces[id].impassable || (!mapMods[mapMod].overrideOceans && (provinces[id].ocean || provinces[id].lake))) {
+        if ((!mapMods[mapMod].overrideImpassable && provinces[id].impassable) || (!mapMods[mapMod].overrideOceans && (provinces[id].ocean || provinces[id].lake))) {
           return;
         }
 
@@ -129,6 +130,7 @@ const CountriesMap: React.FC<void> = () => {
   }, [mapMod, gameState]);
 
   useEffect(() => {
+    setMapActionTarget(null);
     setMapActionTargets(getTargets(mapAction, gameState));
   }, [mapAction, gameState]);
 
@@ -143,6 +145,7 @@ const CountriesMap: React.FC<void> = () => {
     const ma = mapMods[mm].actions[0];
     setMapMod(mm);
     setMapAction(ma);
+    setMapActionTarget(null);
     setMapActionTargets(getTargets(ma, gameState));
   };
 
@@ -284,7 +287,7 @@ const CountriesMap: React.FC<void> = () => {
           ((mapAction && mapActions[mapAction].noTarget) || (mapActionTargets && mapActionTargets.length > 0)) && (
             <>
               {!mapActions[mapAction].noTarget && (
-                <Grid item xs={6} md={3} lg={2}>
+                <Grid item xs={6} md={4} lg={3}>
                   <Autocomplete
                     style={{ width: "100%" }}
                     disableListWrap
@@ -292,6 +295,7 @@ const CountriesMap: React.FC<void> = () => {
                     onChange={(event, value) => setMapActionTarget(value)}
                     getOptionLabel={optionLabel}
                     isOptionEqualToValue={optionEquals}
+                    value={mapActionTarget}
                     renderInput={(params) => <TextField {...params} variant="filled" label={intl.formatMessage({ id: "map.action.target" })} />}
                   />
                 </Grid>

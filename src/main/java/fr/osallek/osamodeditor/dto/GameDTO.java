@@ -4,10 +4,6 @@ import fr.osallek.eu4parser.common.Eu4MapUtils;
 import fr.osallek.eu4parser.common.Eu4Utils;
 import fr.osallek.eu4parser.model.game.Define;
 import fr.osallek.eu4parser.model.game.Game;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.geojson.FeatureCollection;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -15,6 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
+import org.geojson.FeatureCollection;
 
 public class GameDTO {
 
@@ -48,9 +46,11 @@ public class GameDTO {
 
     private Map<String, TradeCompanyDTO> tradeCompanies;
 
-    private Map<String, WinterDTO> winters;
+    private Map<String, ProvinceListDTO> winters;
 
-    private Map<String, ClimateDTO> climates;
+    private Map<String, ProvinceListDTO> climates;
+
+    private Map<String, ProvinceListDTO> monsoons;
 
     private Map<LocalDate, String> hreEmperors;
 
@@ -69,10 +69,14 @@ public class GameDTO {
                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
 
         this.terrainCategories = game.getTerrainCategories()
-                                     .values()
                                      .stream()
                                      .map(terrainCategory -> new TerrainCategoryDTO(terrainCategory, game.getAllLocalisations()))
                                      .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        game.getTerrainCategories().forEach(tc -> tc.getComputedProvinces().forEach(id -> this.provinces.get(id).setTerrain(tc.getName())));
+        this.terrainCategories.values()
+                              .stream()
+                              .filter(tc -> CollectionUtils.isNotEmpty(tc.getProvinces()))
+                              .forEach(tc -> tc.getProvinces().forEach(id -> this.provinces.get(id).setTerrain(tc.getKey())));
 
         this.tradeNodes = game.getTradeNodes()
                               .stream()
@@ -97,7 +101,7 @@ public class GameDTO {
         this.areas.values()
                   .stream()
                   .filter(area -> CollectionUtils.isNotEmpty(area.getProvinces()))
-                  .forEach(area -> area.getProvinces().forEach(id -> this.provinces.get(id).setArea(area.getName())));
+                  .forEach(area -> area.getProvinces().forEach(id -> this.provinces.get(id).setArea(area.getKey())));
 
         this.regions = game.getRegions()
                            .stream()
@@ -106,7 +110,7 @@ public class GameDTO {
         this.regions.values()
                     .stream()
                     .filter(region -> CollectionUtils.isNotEmpty(region.getProvinces()))
-                    .forEach(region -> region.getProvinces().forEach(id -> this.provinces.get(id).setRegion(region.getName())));
+                    .forEach(region -> region.getProvinces().forEach(id -> this.provinces.get(id).setRegion(region.getKey())));
 
         this.superRegions = game.getSuperRegions()
                                 .stream()
@@ -115,7 +119,7 @@ public class GameDTO {
         this.superRegions.values()
                          .stream()
                          .filter(superRegion -> CollectionUtils.isNotEmpty(superRegion.getProvinces()))
-                         .forEach(superRegion -> superRegion.getProvinces().forEach(id -> this.provinces.get(id).setSuperRegion(superRegion.getName())));
+                         .forEach(superRegion -> superRegion.getProvinces().forEach(id -> this.provinces.get(id).setSuperRegion(superRegion.getKey())));
 
         this.religions = game.getReligions()
                              .stream()
@@ -136,7 +140,7 @@ public class GameDTO {
                             .stream()
                             .filter(colonialRegion -> CollectionUtils.isNotEmpty(colonialRegion.getProvinces()))
                             .forEach(colonialRegion -> colonialRegion.getProvinces()
-                                                                     .forEach(id -> this.provinces.get(id).setColonialRegion(colonialRegion.getName())));
+                                                                     .forEach(id -> this.provinces.get(id).setColonialRegion(colonialRegion.getKey())));
 
         this.tradeCompanies = game.getTradeCompanies()
                                   .stream()
@@ -145,23 +149,36 @@ public class GameDTO {
         this.tradeCompanies.values()
                            .stream()
                            .filter(tradeCompany -> CollectionUtils.isNotEmpty(tradeCompany.getProvinces()))
-                           .forEach(tradeCompany -> tradeCompany.getProvinces().forEach(id -> this.provinces.get(id).setTradeCompany(tradeCompany.getName())));
+                           .forEach(tradeCompany -> tradeCompany.getProvinces().forEach(id -> this.provinces.get(id).setTradeCompany(tradeCompany.getKey())));
 
-        this.winters = this.provinces.values()
-                                     .stream()
-                                     .map(ProvinceDTO::getWinter)
-                                     .filter(StringUtils::isNotBlank)
-                                     .distinct()
-                                     .map(s -> new WinterDTO(s, game.getAllLocalisations()))
-                                     .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        this.winters = game.getWinters()
+                           .stream()
+                           .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(), provinceList -> new ColorDTO(Eu4MapUtils.winterToColor(provinceList.getName()), true)))
+                           .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        this.winters.values()
+                    .stream()
+                    .filter(winter -> CollectionUtils.isNotEmpty(winter.getProvinces()))
+                    .forEach(winter -> {
+                        winter.getProvinces().forEach(id -> this.provinces.get(id).setWinter(winter.getKey()));
+                    });
 
-        this.climates = this.provinces.values()
-                                      .stream()
-                                      .map(ProvinceDTO::getClimate)
-                                      .filter(StringUtils::isNotBlank)
-                                      .distinct()
-                                      .map(s -> new ClimateDTO(s, game.getAllLocalisations()))
-                                      .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        this.climates = game.getClimates()
+                            .stream()
+                            .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(), provinceList -> new ColorDTO(Eu4MapUtils.climateToColor(provinceList.getName()), true)))
+                            .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        this.climates.values()
+                     .stream()
+                     .filter(climate -> CollectionUtils.isNotEmpty(climate.getProvinces()))
+                     .forEach(climate -> climate.getProvinces().forEach(id -> this.provinces.get(id).setClimate(climate.getKey())));
+
+        this.monsoons = game.getMonsoons()
+                            .stream()
+                            .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(), provinceList -> new ColorDTO(Eu4MapUtils.monsoonToColor(provinceList.getName()), true)))
+                            .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        this.monsoons.values()
+                     .stream()
+                     .filter(monsoon -> CollectionUtils.isNotEmpty(monsoon.getProvinces()))
+                     .forEach(monsoon -> monsoon.getProvinces().forEach(id -> this.provinces.get(id).setMonsoon(monsoon.getKey())));
 
         this.hreEmperors = game.getHreEmperors().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag()));
 
@@ -299,20 +316,28 @@ public class GameDTO {
         this.tradeCompanies = tradeCompanies;
     }
 
-    public Map<String, WinterDTO> getWinters() {
+    public Map<String, ProvinceListDTO> getWinters() {
         return winters;
     }
 
-    public void setWinters(Map<String, WinterDTO> winters) {
+    public void setWinters(Map<String, ProvinceListDTO> winters) {
         this.winters = winters;
     }
 
-    public Map<String, ClimateDTO> getClimates() {
+    public Map<String, ProvinceListDTO> getClimates() {
         return climates;
     }
 
-    public void setClimates(Map<String, ClimateDTO> climates) {
+    public void setClimates(Map<String, ProvinceListDTO> climates) {
         this.climates = climates;
+    }
+
+    public Map<String, ProvinceListDTO> getMonsoons() {
+        return monsoons;
+    }
+
+    public void setMonsoons(Map<String, ProvinceListDTO> monsoons) {
+        this.monsoons = monsoons;
     }
 
     public Map<LocalDate, String> getHreEmperors() {

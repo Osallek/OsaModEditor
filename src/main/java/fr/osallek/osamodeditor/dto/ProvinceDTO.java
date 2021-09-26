@@ -1,6 +1,7 @@
 package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.osallek.eu4parser.common.Eu4Utils;
 import fr.osallek.eu4parser.model.game.Province;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 import org.apache.commons.collections4.MapUtils;
@@ -26,8 +27,6 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
     private String climate;
 
     private String monsoon;
-
-    private boolean impassable;
 
     private String winter;
 
@@ -61,11 +60,6 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
         this.name = province.getName();
         this.isOcean = province.isOcean();
         this.isLake = province.isLake();
-        this.climate = province.getClimate();
-        this.monsoon = province.getMonsoon();
-        this.impassable = province.isImpassable();
-        this.winter = province.getWinter();
-        this.terrain = province.getTerrainCategory() == null ? null : province.getTerrainCategory().getName();
         this.isPort = province.isPort();
         this.continent = province.getContinent() == null ? null : province.getContinent().getName();
         this.historyFromMod = province.getHistoryFileNode() != null && province.getHistoryFileNode().fromMod();
@@ -160,11 +154,7 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
     }
 
     public boolean isImpassable() {
-        return impassable;
-    }
-
-    public void setImpassable(boolean impassable) {
-        this.impassable = impassable;
+        return Eu4Utils.IMPASSABLE_CLIMATE.equals(this.climate); //Not from province because it can change
     }
 
     public String getWinter() {

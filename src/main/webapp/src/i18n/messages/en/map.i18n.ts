@@ -17,6 +17,7 @@ const map = {
   "map.mapMod.TRADE_COMPANY": "Trade company",
   "map.mapMod.WINTER": "Winter",
   "map.mapMod.CLIMATE": "Climate",
+  "map.mapMod.MONSOON": "Monsoon",
   "map.mapMod.TERRAIN": "Terrain",
   "map.action.type": "Action type",
   "map.action.type.APPLY_TO_SELECTION": "Apply to selection",
@@ -38,6 +39,10 @@ const map = {
   "map.action.REMOVE_COLONIAL_REGION": "Remove colonial region",
   "map.action.CHANGE_TRADE_COMPANY": "Remove trade company",
   "map.action.REMOVE_TRADE_COMPANY": "Remove trade company",
+  "map.action.CHANGE_WINTER": "Change winter's type",
+  "map.action.CHANGE_CLIMATE": "Change climate's type",
+  "map.action.CHANGE_MONSOON": "Change monsoon's type",
+  "map.action.CHANGE_TERRAIN": "Change terrain's type",
   "map.action.target": "Value",
 };
 
