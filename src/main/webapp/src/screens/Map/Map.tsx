@@ -15,9 +15,9 @@ import { RootState } from "store/types";
 import { getProvinceStyle, getTargets, MapAction, mapActions, MapActionType, MapMod, mapMods, onClickProvince } from "utils/map.utils";
 import { Localizations, Province } from "../../types";
 import { localize } from "../../utils/localisations.utils";
-import "./CountriesMap.css";
+import "./Map.css";
 
-const CountriesMap: React.FC<void> = () => {
+const Map: React.FC<void> = () => {
   const intl = useIntl();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -42,8 +42,13 @@ const CountriesMap: React.FC<void> = () => {
       let includes = selectedProvinces.includes(id);
       const { provinces } = gameState;
 
-      if (mapMods[mapMod].canSelect && provinces && provinces[id] && (mapMods[mapMod].overrideImpassable || !provinces[id].impassable)
-      && (mapMods[mapMod].overrideOceans || (!provinces[id].ocean && !provinces[id].lake))) {
+      if (
+        mapMods[mapMod].canSelect &&
+        provinces &&
+        provinces[id] &&
+        (mapMods[mapMod].overrideImpassable || !provinces[id].impassable) &&
+        (mapMods[mapMod].overrideOceans || (!provinces[id].ocean && !provinces[id].lake))
+      ) {
         if (includes) {
           setSelectedProvinces((prevState) => prevState.filter((value) => value !== id));
         } else {
@@ -66,7 +71,10 @@ const CountriesMap: React.FC<void> = () => {
       if (provinces) {
         const province = provinces[id] as Province;
 
-        if ((!mapMods[mapMod].overrideImpassable && provinces[id].impassable) || (!mapMods[mapMod].overrideOceans && (provinces[id].ocean || provinces[id].lake))) {
+        if (
+          (!mapMods[mapMod].overrideImpassable && provinces[id].impassable) ||
+          (!mapMods[mapMod].overrideOceans && (provinces[id].ocean || provinces[id].lake))
+        ) {
           return;
         }
 
@@ -187,7 +195,7 @@ const CountriesMap: React.FC<void> = () => {
   };
 
   return (
-    <Grid container flexDirection="column" style={{ height: "100%", paddingBottom: 12 }}>
+    <Grid container flexDirection="column" style={{ height: "100%" }}>
       <Grid container alignItems="center" spacing={3} style={{ paddingBottom: 12 }}>
         <Grid item>
           <BackTitle handleClick={(event) => history.push(intl.formatMessage({ id: "routes.menu" }))} />
@@ -207,7 +215,7 @@ const CountriesMap: React.FC<void> = () => {
                 })
                 .map((m) => (
                   <MenuItem value={m} key={m}>
-                    {intl.formatMessage({ id: "map.mapMod." + m })}
+                    {intl.formatMessage({ id: "Map.mapMod." + m })}
                   </MenuItem>
                 ))}
             </Select>
@@ -255,7 +263,7 @@ const CountriesMap: React.FC<void> = () => {
                 })
                 .map((m) => (
                   <MenuItem value={m} key={m}>
-                    {intl.formatMessage({ id: "map.action.type." + m })}
+                    {intl.formatMessage({ id: "Map.action.type." + m })}
                   </MenuItem>
                 ))}
             </Select>
@@ -276,7 +284,7 @@ const CountriesMap: React.FC<void> = () => {
                   .map((m) => MapAction[m])
                   .map((m) => (
                     <MenuItem value={m} key={m}>
-                      {intl.formatMessage({ id: "map.action." + m })}
+                      {intl.formatMessage({ id: "Map.action." + m })}
                     </MenuItem>
                   ))}
               </Select>
@@ -332,4 +340,4 @@ const CountriesMap: React.FC<void> = () => {
   );
 };
 
-export default CountriesMap;
+export default Map;

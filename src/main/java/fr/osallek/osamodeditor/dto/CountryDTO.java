@@ -2,71 +2,68 @@ package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.Country;
-import fr.osallek.eu4parser.model.game.Culture;
+import fr.osallek.eu4parser.model.game.IdeaGroup;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String tag;
 
-    private String name;
-
-    private String techGroup;
-
-    private String unitType;
-
-    private String government;
-
-    private Integer governmentRank;
-
-    private String primaryCulture;
-
-    private List<String> addAcceptedCultures;
-
-    private List<String> removeAcceptedCultures;
-
-    private List<String> historicalFriends;
-
-    private List<String> historicalEnemies;
-
     private String graphicalCulture;
 
     private ColorDTO color;
 
-    private Boolean elector;
+    private ColorDTO revolutionaryColors;
+
+    private String historicalCouncil;
+
+    private Integer historicalScore;
+
+    private List<String> historicalIdeaGroups;
+
+    private Map<String, Integer> monarchNames;
+
+    private List<String> historicalUnits;
+
+    private List<String> leaderNames;
+
+    private List<String> shipNames;
+
+    private List<String> armyNames;
+
+    private List<String> fleetNames;
+
+    private List<CountryHistoryDTO> history;
 
     public CountryDTO(Country country, Map<Eu4Language, Map<String, String>> localisations) {
         super(country.getTag(), localisations);
         this.tag = country.getTag();
         addToEndLocalisations(" (" + this.tag + ")");
-        this.name = country.getName();
-        this.techGroup = country.getTechnologyGroup().getName();
-        this.unitType = country.getUnitType();
-        this.government = country.getGovernment() == null ? null : country.getGovernment().getName();
-        this.governmentRank = country.getGovernmentLevel();
-        this.addAcceptedCultures = country.getAcceptedCultures() == null ? null : country.getAcceptedCultures()
-                                                                                         .stream()
-                                                                                         .map(Culture::getName)
-                                                                                         .collect(Collectors.toList());
-        this.removeAcceptedCultures = country.getRemoveAcceptedCultures() == null ? null : country.getRemoveAcceptedCultures()
-                                                                                                  .stream()
-                                                                                                  .map(Culture::getName)
-                                                                                                  .collect(Collectors.toList());
-        this.historicalFriends = country.getHistoricalFriends() == null ? null : country.getHistoricalFriends()
-                                                                                        .stream()
-                                                                                        .map(Country::getTag)
-                                                                                        .collect(Collectors.toList());
-        this.historicalEnemies = country.getHistoricalEnemies() == null ? null : country.getHistoricalEnemies()
-                                                                                        .stream()
-                                                                                        .map(Country::getTag)
-                                                                                        .collect(Collectors.toList());
         this.graphicalCulture = country.getGraphicalCulture();
         this.color = country.getColor() == null ? new ColorDTO(this.tag, true) : new ColorDTO(country.getColor());
-        this.elector = country.getElector();
+        this.revolutionaryColors = country.getRevolutionaryColor() == null ? new ColorDTO(this.tag, true) : new ColorDTO(country.getRevolutionaryColor());
+        this.historicalCouncil = country.getHistoricalCouncil();
+        this.historicalScore = country.getHistoricalScore();
+        this.historicalIdeaGroups = CollectionUtils.isEmpty(country.getHistoricalIdeaGroups()) ? null : country.getHistoricalIdeaGroups()
+                                                                                                               .stream()
+                                                                                                               .map(IdeaGroup::getName)
+                                                                                                               .collect(Collectors.toList());
+        this.monarchNames = country.getMonarchNames();
+        this.historicalUnits = country.getArmyNames();
+        this.leaderNames = country.getLeaderNames();
+        this.shipNames = country.getShipNames();
+        this.armyNames = country.getArmyNames();
+        this.fleetNames = country.getFleetNames();
+        this.history = Stream.concat(Stream.of(new CountryHistoryDTO(null, country.getDefaultHistoryItem())),
+                                     country.getHistoryItems().entrySet().stream().map(entry -> new CountryHistoryDTO(entry.getKey(), entry.getValue())))
+                             .sorted()
+                             .collect(Collectors.toList());
     }
 
     @Override
@@ -81,86 +78,6 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     public void setTag(String tag) {
         this.tag = tag;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTechGroup() {
-        return techGroup;
-    }
-
-    public void setTechGroup(String techGroup) {
-        this.techGroup = techGroup;
-    }
-
-    public String getUnitType() {
-        return unitType;
-    }
-
-    public void setUnitType(String unitType) {
-        this.unitType = unitType;
-    }
-
-    public String getGovernment() {
-        return government;
-    }
-
-    public void setGovernment(String government) {
-        this.government = government;
-    }
-
-    public Integer getGovernmentRank() {
-        return governmentRank;
-    }
-
-    public void setGovernmentRank(Integer governmentRank) {
-        this.governmentRank = governmentRank;
-    }
-
-    public String getPrimaryCulture() {
-        return primaryCulture;
-    }
-
-    public void setPrimaryCulture(String primaryCulture) {
-        this.primaryCulture = primaryCulture;
-    }
-
-    public List<String> getAddAcceptedCultures() {
-        return addAcceptedCultures;
-    }
-
-    public void setAddAcceptedCultures(List<String> addAcceptedCultures) {
-        this.addAcceptedCultures = addAcceptedCultures;
-    }
-
-    public List<String> getRemoveAcceptedCultures() {
-        return removeAcceptedCultures;
-    }
-
-    public void setRemoveAcceptedCultures(List<String> removeAcceptedCultures) {
-        this.removeAcceptedCultures = removeAcceptedCultures;
-    }
-
-    public List<String> getHistoricalFriends() {
-        return historicalFriends;
-    }
-
-    public void setHistoricalFriends(List<String> historicalFriends) {
-        this.historicalFriends = historicalFriends;
-    }
-
-    public List<String> getHistoricalEnemies() {
-        return historicalEnemies;
-    }
-
-    public void setHistoricalEnemies(List<String> historicalEnemies) {
-        this.historicalEnemies = historicalEnemies;
     }
 
     public String getGraphicalCulture() {
@@ -179,11 +96,91 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         this.color = color;
     }
 
-    public Boolean getElector() {
-        return elector;
+    public ColorDTO getRevolutionaryColors() {
+        return revolutionaryColors;
     }
 
-    public void setElector(Boolean elector) {
-        this.elector = elector;
+    public void setRevolutionaryColors(ColorDTO revolutionaryColors) {
+        this.revolutionaryColors = revolutionaryColors;
+    }
+
+    public String getHistoricalCouncil() {
+        return historicalCouncil;
+    }
+
+    public void setHistoricalCouncil(String historicalCouncil) {
+        this.historicalCouncil = historicalCouncil;
+    }
+
+    public Integer getHistoricalScore() {
+        return historicalScore;
+    }
+
+    public void setHistoricalScore(Integer historicalScore) {
+        this.historicalScore = historicalScore;
+    }
+
+    public List<String> getHistoricalIdeaGroups() {
+        return historicalIdeaGroups;
+    }
+
+    public void setHistoricalIdeaGroups(List<String> historicalIdeaGroups) {
+        this.historicalIdeaGroups = historicalIdeaGroups;
+    }
+
+    public Map<String, Integer> getMonarchNames() {
+        return monarchNames;
+    }
+
+    public void setMonarchNames(Map<String, Integer> monarchNames) {
+        this.monarchNames = monarchNames;
+    }
+
+    public List<String> getHistoricalUnits() {
+        return historicalUnits;
+    }
+
+    public void setHistoricalUnits(List<String> historicalUnits) {
+        this.historicalUnits = historicalUnits;
+    }
+
+    public List<String> getLeaderNames() {
+        return leaderNames;
+    }
+
+    public void setLeaderNames(List<String> leaderNames) {
+        this.leaderNames = leaderNames;
+    }
+
+    public List<String> getShipNames() {
+        return shipNames;
+    }
+
+    public void setShipNames(List<String> shipNames) {
+        this.shipNames = shipNames;
+    }
+
+    public List<String> getArmyNames() {
+        return armyNames;
+    }
+
+    public void setArmyNames(List<String> armyNames) {
+        this.armyNames = armyNames;
+    }
+
+    public List<String> getFleetNames() {
+        return fleetNames;
+    }
+
+    public void setFleetNames(List<String> fleetNames) {
+        this.fleetNames = fleetNames;
+    }
+
+    public List<CountryHistoryDTO> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<CountryHistoryDTO> history) {
+        this.history = history;
     }
 }

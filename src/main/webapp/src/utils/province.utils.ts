@@ -1,7 +1,7 @@
 import { Province, ProvinceHistory } from "types";
 import { dateToLocalDate } from "./date.utils";
 
-export const getHistory = (province: Province, date: Date | null): ProvinceHistory | null => {
+export const getProvinceHistory = (province: Province, date: Date | null): ProvinceHistory | null => {
   let history = null;
   const dateString = dateToLocalDate(date);
 

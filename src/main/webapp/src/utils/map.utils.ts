@@ -10,14 +10,16 @@ import {
   Localizations,
   Province,
   ProvinceList,
-  Religion, TerrainCategory,
+  Religion,
+  TerrainCategory,
   TradeCompany,
   TradeGood,
-  TradeNode
+  TradeNode,
 } from "../types";
+import { getCountryHistory } from "./country.utils";
 import { getEmperor } from "./emperor.utils";
 import { defaultLocalization, inHreLocalization, notInHreLocalization } from "./localisations.utils";
-import { getHistory } from "./province.utils";
+import { getProvinceHistory } from "./province.utils";
 
 const emptyColor = "#949295";
 
@@ -115,7 +117,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.CULTURE,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { cultures }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && cultures && history.culture && cultures[history.culture]) {
         return cultures[history.culture].color.hex;
@@ -127,7 +129,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_CULTURE],
     tooltip: (province: Province, date: Date | null, { cultures }: GameState): Localizations => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && cultures && history.culture && cultures[history.culture]) {
         return cultures[history.culture];
@@ -142,12 +144,12 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.HRE,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { countries, hreEmperors }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && countries && history.owner && countries[history.owner]) {
         if (getEmperor(date, hreEmperors) === history.owner) {
           return "#7f004c";
-        } else if (countries[history.owner].elector) {
+        } else if (getCountryHistory(countries[history.owner], date).elector) {
           return "#993300";
         }
       }
@@ -162,7 +164,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.ADD_TO_HRE, MapAction.REMOVE_FROM_HRE],
     tooltip: (province: Province, date: Date | null, gameState: GameState): Localizations => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && history.hre) {
         return inHreLocalization;
@@ -177,7 +179,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.OWNER,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { countries }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && countries && history.owner && countries[history.owner]) {
         return countries[history.owner].color.hex;
@@ -189,7 +191,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_OWNER, MapAction.CHANGE_OWNER_AND_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER_AND_CORE, MapAction.DECOLONIZE],
     tooltip: (province: Province, date: Date | null, { countries }: GameState): Localizations => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && countries && history.owner && countries[history.owner]) {
         return countries[history.owner];
@@ -204,7 +206,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.CONTROLLER,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { countries }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && countries && history.controller && countries[history.controller]) {
         return countries[history.controller].color.hex;
@@ -213,7 +215,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     borderColor: (province: Province, date: Date | null, { countries }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && countries) {
         if (history.owner && countries[history.owner] && history.controller && countries[history.controller] && history.owner !== history.controller) {
@@ -226,7 +228,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
       }
     },
     dashArray: (province: Province, date: Date | null, { countries }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && countries) {
         if (history.owner && countries[history.owner] && history.controller && countries[history.controller] && history.owner !== history.controller) {
@@ -240,7 +242,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     },
     actions: [MapAction.CHANGE_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER, MapAction.CHANGE_OWNER_AND_CONTROLLER_AND_CORE, MapAction.DECOLONIZE],
     tooltip: (province: Province, date: Date | null, { countries }: GameState): Localizations => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && countries && history.controller && countries[history.controller]) {
         return countries[history.controller];
@@ -293,7 +295,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.RELIGION,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { religions }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && religions && history.religion && religions[history.religion]) {
         return religions[history.religion].color.hex;
@@ -305,7 +307,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_RELIGION],
     tooltip: (province: Province, date: Date | null, { religions }: GameState): Localizations => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && religions && history.religion && religions[history.religion]) {
         return religions[history.religion];
@@ -343,7 +345,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.TRADE_GOOD,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { tradeGoods }: GameState) => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && tradeGoods && history.tradeGood && tradeGoods[history.tradeGood]) {
         return tradeGoods[history.tradeGood].color.hex;
@@ -355,7 +357,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_TRADE_GOOD],
     tooltip: (province: Province, date: Date | null, { tradeGoods }: GameState): Localizations => {
-      const history = getHistory(province, date);
+      const history = getProvinceHistory(province, date);
 
       if (history && tradeGoods && history.tradeGood && tradeGoods[history.tradeGood]) {
         return tradeGoods[history.tradeGood];

@@ -132,20 +132,55 @@ export type ProvinceHistory = {
 
 export type Country = Localizations & {
   tag: string;
-  name: string;
-  localizedName: string;
-  techGroup: string;
-  unitType: string;
-  government: string;
-  governmentRank?: string;
-  primaryCulture: string;
-  addAcceptedCultures?: Array<string>;
-  removeAcceptedCultures?: Array<string>;
-  historicalFriends?: Array<string>;
-  historicalEnemies?: Array<string>;
   graphicalCulture: string;
   color: Color;
-  elector?: boolean;
+  revolutionaryColors: Color;
+  historicalCouncil: string;
+  historicalScore: number;
+  historicalIdeaGroups: Array<string>;
+  monarchNames: Record<string, number>;
+  historicalUnits: Array<string>;
+  leaderNames: Array<string>;
+  shipNames: Array<string>;
+  armyNames: Array<string>;
+  fleetNames: Array<string>;
+  history: Array<CountryHistory>;
+};
+
+export type CountryHistory = {
+  date: string | null;
+  technologyGroup: string | null;
+  unitType: string | null;
+  mercantilism: number | null;
+  capital: number | null;
+  changedTagFrom: string | null;
+  fixedCapital: number | null;
+  government: string | null;
+  religiousSchool: string | null;
+  nationalFocus: string | null;
+  governmentRank: number | null;
+  primaryCulture: string | null;
+  religion: string | null;
+  joinLeague: string | null;
+  addArmyProfessionalism: number | null;
+  addAcceptedCulture: Array<string> | null;
+  removeAcceptedCulture: Array<string> | null;
+  historicalFriend: Array<string> | null;
+  historicalRival: Array<string> | null;
+  elector: boolean | null;
+  Boolean: boolean | null;
+  addHeirPersonality: Array<string> | null;
+  addRulerPersonality: Array<string> | null;
+  addQueenPersonality: Array<string> | null;
+  setEstatePrivilege: Array<string> | null;
+  addGovernmentReform: Array<string> | null;
+  setCountryFlag: Array<string> | null;
+  changeEstateLandShare: Array<ChangeEstateLandShare> | null;
+};
+
+export type ChangeEstateLandShare = {
+  estate: string;
+  share: number;
 };
 
 export type TradeGood = Localizations & {
