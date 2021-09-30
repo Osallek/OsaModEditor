@@ -6,6 +6,7 @@ import fr.osallek.eu4parser.model.game.IdeaGroup;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +15,8 @@ import java.util.stream.Stream;
 public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String tag;
+
+    private String flagFile;
 
     private String graphicalCulture;
 
@@ -45,6 +48,7 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         super(country.getTag(), localisations);
         this.tag = country.getTag();
         addToEndLocalisations(" (" + this.tag + ")");
+        this.flagFile = country.getFlagPath("png");
         this.graphicalCulture = country.getGraphicalCulture();
         this.color = country.getColor() == null ? new ColorDTO(this.tag, true) : new ColorDTO(country.getColor());
         this.revolutionaryColors = country.getRevolutionaryColor() == null ? new ColorDTO(this.tag, true) : new ColorDTO(country.getRevolutionaryColor());
@@ -78,6 +82,14 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getFlagFile() {
+        return flagFile;
+    }
+
+    public void setFlagFile(String flagFile) {
+        this.flagFile = flagFile;
     }
 
     public String getGraphicalCulture() {

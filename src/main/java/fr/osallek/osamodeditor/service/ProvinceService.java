@@ -1,7 +1,6 @@
 package fr.osallek.osamodeditor.service;
 
 import fr.osallek.clausewitzparser.model.ClausewitzObject;
-import fr.osallek.clausewitzparser.model.ClausewitzVariable;
 import fr.osallek.eu4parser.model.game.Area;
 import fr.osallek.eu4parser.model.game.ColonialRegion;
 import fr.osallek.eu4parser.model.game.FileNode;
@@ -74,7 +73,7 @@ public class ProvinceService {
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setOwner(form.getTarget()));
 
-        return new GameDTO(game);
+        return new GameDTO(game, this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeController(MapActionForm form) throws IOException {
@@ -88,7 +87,7 @@ public class ProvinceService {
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setController(form.getTarget()));
 
-        return new GameDTO(game);
+        return new GameDTO(game, this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeOwnerAndController(MapActionForm form) throws IOException {
@@ -105,7 +104,7 @@ public class ProvinceService {
             provinceHistoryItem.setOwner(form.getTarget());
         });
 
-        return new GameDTO(game);
+        return new GameDTO(game, this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeOwnerAndControllerAndCore(MapActionForm form) throws IOException {
@@ -130,7 +129,7 @@ public class ProvinceService {
             }
         });
 
-        return new GameDTO(game);
+        return new GameDTO(game, this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO addToHre(MapActionForm form) throws IOException {
@@ -138,7 +137,7 @@ public class ProvinceService {
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setHre(true));
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO removeFromHre(MapActionForm form) throws IOException {
@@ -146,7 +145,7 @@ public class ProvinceService {
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setHre(false));
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeTradeGood(MapActionForm form) throws IOException {
@@ -160,7 +159,7 @@ public class ProvinceService {
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setTradeGood(form.getTarget()));
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeReligion(MapActionForm form) throws IOException {
@@ -174,7 +173,7 @@ public class ProvinceService {
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setReligion(form.getTarget()));
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeCulture(MapActionForm form) throws IOException {
@@ -188,7 +187,7 @@ public class ProvinceService {
 
         changeProvinceHistory(form, provinceHistoryItem -> provinceHistoryItem.setCulture(form.getTarget()));
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO decolonize(MapActionForm form) throws IOException {
@@ -205,7 +204,7 @@ public class ProvinceService {
             provinceHistoryItem.setNativeHostileness(new Random().nextInt(6));
         });
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeTradeNode(SimpleMapActionForm form) throws IOException {
@@ -240,7 +239,7 @@ public class ProvinceService {
 
         writeNoded(modified, this.gameService.getGame().getTradeNodes());
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeArea(SimpleMapActionForm form) throws IOException {
@@ -275,7 +274,7 @@ public class ProvinceService {
 
         writeNoded(modified, this.gameService.getGame().getAreas());
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeColonialRegion(SimpleMapActionForm form) throws IOException {
@@ -315,7 +314,7 @@ public class ProvinceService {
 
         writeNoded(modified, this.gameService.getGame().getColonialRegions());
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO removeColonialRegion(SimpleMapActionForm form) throws IOException {
@@ -344,7 +343,7 @@ public class ProvinceService {
 
         writeNoded(modified, this.gameService.getGame().getColonialRegions());
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeTradeCompany(SimpleMapActionForm form) throws IOException {
@@ -379,7 +378,7 @@ public class ProvinceService {
 
         writeNoded(modified, this.gameService.getGame().getTradeCompanies());
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO removeTradeCompany(SimpleMapActionForm form) throws IOException {
@@ -404,7 +403,7 @@ public class ProvinceService {
 
         writeNoded(modified, this.gameService.getGame().getTradeCompanies());
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeWinter(SimpleMapActionForm form) throws IOException {
@@ -447,7 +446,7 @@ public class ProvinceService {
 
         writeClimate(modified);
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeMonsoon(SimpleMapActionForm form) throws IOException {
@@ -490,7 +489,7 @@ public class ProvinceService {
 
         writeClimate(modified);
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeClimate(SimpleMapActionForm form) throws IOException {
@@ -533,7 +532,7 @@ public class ProvinceService {
 
         writeClimate(modified);
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     public GameDTO changeTerrain(SimpleMapActionForm form) throws IOException {
@@ -589,7 +588,7 @@ public class ProvinceService {
             }
         }
 
-        return new GameDTO(this.gameService.getGame());
+        return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
 
     private void changeProvinceHistory(MapActionForm form, Consumer<ProvinceHistoryItem> consumer) {

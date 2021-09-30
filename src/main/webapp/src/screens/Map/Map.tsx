@@ -215,7 +215,7 @@ const Map: React.FC<void> = () => {
                 })
                 .map((m) => (
                   <MenuItem value={m} key={m}>
-                    {intl.formatMessage({ id: "Map.mapMod." + m })}
+                    {intl.formatMessage({ id: "map.mapMod." + m })}
                   </MenuItem>
                 ))}
             </Select>
@@ -263,7 +263,7 @@ const Map: React.FC<void> = () => {
                 })
                 .map((m) => (
                   <MenuItem value={m} key={m}>
-                    {intl.formatMessage({ id: "Map.action.type." + m })}
+                    {intl.formatMessage({ id: "map.action.type." + m })}
                   </MenuItem>
                 ))}
             </Select>
@@ -284,7 +284,7 @@ const Map: React.FC<void> = () => {
                   .map((m) => MapAction[m])
                   .map((m) => (
                     <MenuItem value={m} key={m}>
-                      {intl.formatMessage({ id: "Map.action." + m })}
+                      {intl.formatMessage({ id: "map.action." + m })}
                     </MenuItem>
                   ))}
               </Select>

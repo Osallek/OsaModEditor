@@ -24,6 +24,7 @@ interface ChangeGameAction {
 }
 
 export interface GameState {
+  folderName?: string;
   startDate?: Date;
   endDate?: Date;
   geoJson?: GeoJsonObject;

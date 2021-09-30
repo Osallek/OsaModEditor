@@ -1,5 +1,6 @@
 package fr.osallek.osamodeditor.config;
 
+import fr.osallek.osamodeditor.common.Constants;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -8,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
+
+import java.io.File;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -34,5 +37,10 @@ public class WebConfig implements WebMvcConfigurer {
                         }
                     }
                 });
+
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("file:/" + Constants.EDITOR_DOCUMENTS_FOLDER.toAbsolutePath() + File.separator)
+                .resourceChain(false)
+                .addResolver(new PathResourceResolver());
     }
 }

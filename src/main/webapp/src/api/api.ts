@@ -5,7 +5,7 @@ import { Game, GameForm, GameInit, MapActionForm, SimpleMapActionForm } from "..
 
 const ws = axios.create({
   baseURL: ENV.API_BASE_URL,
-  timeout: 60000,
+  timeout: 600000,
   maxRedirects: 0,
 });
 

@@ -38,6 +38,7 @@ export type Localizations = {
 };
 
 export type Game = {
+  folderName: string;
   startDate: string;
   endDate: string;
   geoJson: GeoJsonObject;
@@ -132,6 +133,7 @@ export type ProvinceHistory = {
 
 export type Country = Localizations & {
   tag: string;
+  flagFile: string;
   graphicalCulture: string;
   color: Color;
   revolutionaryColors: Color;

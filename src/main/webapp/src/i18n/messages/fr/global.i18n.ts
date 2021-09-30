@@ -3,6 +3,7 @@ const global = {
   "global.map": "Carte",
   "global.defines": "Defines",
   "global.countries": "Pays",
+  "global.country": "Pays",
   "global.clear": "Effacer",
   "global.ok": "Ok",
   "global.cancel": "Annuler",

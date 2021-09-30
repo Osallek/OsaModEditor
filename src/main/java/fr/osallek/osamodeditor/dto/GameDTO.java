@@ -4,17 +4,21 @@ import fr.osallek.eu4parser.common.Eu4MapUtils;
 import fr.osallek.eu4parser.common.Eu4Utils;
 import fr.osallek.eu4parser.model.game.Define;
 import fr.osallek.eu4parser.model.game.Game;
+import org.apache.commons.collections4.CollectionUtils;
+import org.geojson.FeatureCollection;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
-import org.geojson.FeatureCollection;
 
 public class GameDTO {
+
+    private String folderName;
 
     private LocalDate startDate;
 
@@ -58,7 +62,8 @@ public class GameDTO {
 
     private Map<String, Map<String, String>> defines;
 
-    public GameDTO(Game game) throws IOException {
+    public GameDTO(Game game, String tmpFolderName) throws IOException {
+        this.folderName = tmpFolderName;
         this.startDate = game.getStartDate();
         this.endDate = game.getEndDate();
         this.geoJson = Eu4MapUtils.generateGeoJson(game);
@@ -153,7 +158,8 @@ public class GameDTO {
 
         this.winters = game.getWinters()
                            .stream()
-                           .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(), provinceList -> new ColorDTO(Eu4MapUtils.winterToColor(provinceList.getName()), true)))
+                           .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(),
+                                                            provinceList -> new ColorDTO(Eu4MapUtils.winterToColor(provinceList.getName()), true)))
                            .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         this.winters.values()
                     .stream()
@@ -164,7 +170,8 @@ public class GameDTO {
 
         this.climates = game.getClimates()
                             .stream()
-                            .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(), provinceList -> new ColorDTO(Eu4MapUtils.climateToColor(provinceList.getName()), true)))
+                            .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(),
+                                                             provinceList -> new ColorDTO(Eu4MapUtils.climateToColor(provinceList.getName()), true)))
                             .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         this.climates.values()
                      .stream()
@@ -173,14 +180,18 @@ public class GameDTO {
 
         this.monsoons = game.getMonsoons()
                             .stream()
-                            .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(), provinceList -> new ColorDTO(Eu4MapUtils.monsoonToColor(provinceList.getName()), true)))
+                            .map(list -> new ProvinceListDTO(list, game.getAllLocalisations(),
+                                                             provinceList -> new ColorDTO(Eu4MapUtils.monsoonToColor(provinceList.getName()), true)))
                             .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         this.monsoons.values()
                      .stream()
                      .filter(monsoon -> CollectionUtils.isNotEmpty(monsoon.getProvinces()))
                      .forEach(monsoon -> monsoon.getProvinces().forEach(id -> this.provinces.get(id).setMonsoon(monsoon.getKey())));
 
-        this.hreEmperors = game.getHreEmperors().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag()));
+        this.hreEmperors = game.getHreEmperors()
+                               .entrySet()
+                               .stream()
+                               .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag(), (s, s2) -> s, TreeMap::new));
 
         this.celestialEmperors = game.getCelestialEmperors()
                                      .entrySet()
@@ -194,6 +205,14 @@ public class GameDTO {
                            .flatMap(Collection::stream)
                            .collect(Collectors.groupingBy(Define::getCategory, LinkedHashMap::new,
                                                           Collectors.toMap(Define::getName, Define::getAsString, (s, s2) -> s, LinkedHashMap::new)));
+    }
+
+    public String getFolderName() {
+        return folderName;
+    }
+
+    public void setFolderName(String folderName) {
+        this.folderName = folderName;
     }
 
     public LocalDate getStartDate() {

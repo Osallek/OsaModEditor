@@ -59,6 +59,11 @@
 			<artifactId>eu4-parser</artifactId>
 			<version>${eu4-parser.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.twelvemonkeys.imageio</groupId>
+			<artifactId>imageio-tga</artifactId>
+			<version>3.7.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

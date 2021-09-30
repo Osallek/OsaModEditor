@@ -22,10 +22,10 @@ const AppRouter: React.FC = () => {
       <Container maxWidth={false} style={{ paddingBottom: 24 }}>
         <BrowserRouter basename="/editor">
           <Switch>
-            {state.game.startDate && <Route path={intl.formatMessage({ id: "routes.menu" })} exact component={Menu} />}
-            {state.game.startDate && <Route path={intl.formatMessage({ id: "routes.map" })} exact component={Map} />}
-            {state.game.startDate && <Route path={intl.formatMessage({ id: "routes.defines" })} exact component={Defines} />}
-            {state.game.startDate && <Route path={intl.formatMessage({ id: "routes.countries" })} exact component={Countries} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.menu" })} exact component={Menu} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.map" })} exact component={Map} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.defines" })} exact component={Defines} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.countries" })} exact component={Countries} />}
             <Route path="/" component={Home} />
           </Switch>
         </BrowserRouter>
