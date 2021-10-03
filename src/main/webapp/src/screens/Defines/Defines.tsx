@@ -1,8 +1,8 @@
-import { Collapse, Grid, List, ListItem, ListItemButton, ListItemText, TextField } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Card, CardContent, CardHeader, Collapse, Grid, List, ListItem, ListItemButton, ListItemText, TextField } from "@mui/material";
 import { BackTitle } from "components/global";
-import React, { useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import React, { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "store/types";
@@ -20,6 +20,10 @@ const Defines: React.FC<void> = () => {
   const [open, setOpen] = useState<number | null>(null);
   const [defines, setDefines] = useState<Record<string, Record<string, string>>>(initDefines ? initDefines : {});
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.defines" });
+  }, [intl]);
 
   const handleClickItem = (index: number) => {
     if (open === index) {
@@ -77,36 +81,33 @@ const Defines: React.FC<void> = () => {
   };
 
   return (
-    <>
-      <Grid container alignItems="center">
-        <Grid item>
-          <BackTitle handleClick={(event) => history.push(intl.formatMessage({ id: "routes.menu" }))} />
-        </Grid>
-        <Grid item>
-          <h1>
-            <FormattedMessage id="global.defines" />
-          </h1>
-        </Grid>
-        <Grid item xs />
-        <Grid item justifyContent="center">
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={handleSubmit}
-            disabled={Object.keys(getChangedValues()).length < 1}
-            messageKey="global.validate"
-            loading={loading}
-          />
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item>
+        <BackTitle handleClick={(event) => history.push(intl.formatMessage({ id: "routes.menu" }))} />
       </Grid>
-      <Grid container justifyContent="center">
-        <Grid item xs={12} md={8} lg={6} style={{ backgroundColor: "lightgray", height: "100%" }}>
-          <List component="nav" sx={{ backgroundColor: "lightgray" }}>
-            {defines &&
-              Object.entries(defines).map(([key, value], index) => (
+      <Grid item xs />
+      <Grid item xs={10} md={8} lg={8} xl={6} style={{ height: "100%" }}>
+        <Card style={{ backgroundColor: "lightgray" }}>
+          <CardHeader
+            title={intl.formatMessage({ id: "global.defines" })}
+            titleTypographyProps={{ variant: "h4" }}
+            action={
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={handleSubmit}
+                disabled={Object.keys(getChangedValues()).length < 1}
+                messageKey="global.validate"
+                loading={loading}
+              />
+            }
+          />
+          <CardContent>
+            <List component="nav" sx={{ backgroundColor: "lightgray" }}>
+              {Object.entries(defines).map(([key, value], index) => (
                 <>
-                  <ListItemButton key={key} onClick={() => handleClickItem(index)}>
+                  <ListItemButton key={index} onClick={() => handleClickItem(index)}>
                     <ListItemText primary={key} key={key + index} />
                     {open === index ? <ExpandLess /> : <ExpandMore />}
                   </ListItemButton>
@@ -130,10 +131,12 @@ const Defines: React.FC<void> = () => {
                   </Collapse>
                 </>
               ))}
-          </List>
-        </Grid>
+            </List>
+          </CardContent>
+        </Card>
       </Grid>
-    </>
+      <Grid item xs />
+    </Grid>
   );
 };
 

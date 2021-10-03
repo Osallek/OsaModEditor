@@ -6,7 +6,7 @@ const Title = () => {
   const intl = useIntl();
 
   return (
-    <Grid container justifyContent="center" style={{ minHeight: 90, maxHeight: "calc(100% - 4 00px)", height: "30%" }}>
+    <Grid container justifyContent="center">
       <h1>{intl.formatMessage({ id: "home.welcome" })}</h1>
     </Grid>
   );

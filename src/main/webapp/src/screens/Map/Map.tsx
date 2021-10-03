@@ -1,13 +1,13 @@
+import { MobileDatePicker } from "@mui/lab";
 import { Autocomplete, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
-import { MobileDatePicker } from "@mui/lab";
 import Button, { FormControl } from "components/controls";
 import { BackTitle } from "components/global";
 import { Feature } from "geojson";
 import { GeoJSON as LeafletGeoJSON, Layer, LeafletMouseEvent, Path } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { GeoJSON, MapContainer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -97,6 +97,10 @@ const Map: React.FC<void> = () => {
     maxDate = new Date(endDate);
     maxDate.setFullYear(endDate.getFullYear() + 100);
   }
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.map" });
+  }, [intl]);
 
   useEffect(() => {
     if (!mapMods[mapMod].canSelect) {
@@ -199,11 +203,6 @@ const Map: React.FC<void> = () => {
       <Grid container alignItems="center" spacing={3} style={{ paddingBottom: 12 }}>
         <Grid item>
           <BackTitle handleClick={(event) => history.push(intl.formatMessage({ id: "routes.menu" }))} />
-        </Grid>
-        <Grid item>
-          <h1>
-            <FormattedMessage id="global.map" />
-          </h1>
         </Grid>
         <Grid item xs={6} md={3} lg={2}>
           <FormControl variant="filled" style={{ width: "100%" }}>

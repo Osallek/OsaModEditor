@@ -32,6 +32,10 @@ const Home: React.FC<void> = () => {
     }
   }, [installFolder]);
 
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "global.name" });
+  }, [intl]);
+
   const handleSubmit = async () => {
     if (installFolder && mod) {
       try {
@@ -45,9 +49,10 @@ const Home: React.FC<void> = () => {
   };
 
   return (
-    <Grid container direction="column" height="100%">
+    <Grid container direction="column" style={{ height: "100%" }}>
       <Title />
-      <Grid container justifyContent="center" direction="column" spacing={3}>
+      <Grid container justifyContent="center" direction="column" spacing={2} style={{ flexGrow: 1 }}>
+        <Grid item xs />
         <Grid container item justifyContent="center">
           <Grid item xs={12} md={8}>
             <TextField
@@ -85,6 +90,7 @@ const Home: React.FC<void> = () => {
             loading={loading}
           />
         </Grid>
+        <Grid item xs />
       </Grid>
     </Grid>
   );

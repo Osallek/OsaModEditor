@@ -94,7 +94,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.AREA,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { areas }: GameState) => {
-      if (areas && areas[province.area]) {
+      if (areas[province.area]) {
         return areas[province.area].color.hex;
       } else {
         return emptyColor;
@@ -104,7 +104,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_AREA],
     tooltip: (province: Province, date: Date | null, { areas }: GameState): Localizations => {
-      if (areas && areas[province.area]) {
+      if (areas[province.area]) {
         return areas[province.area];
       } else {
         return defaultLocalization;
@@ -119,7 +119,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     provinceColor: (province: Province, date: Date | null, { cultures }: GameState) => {
       const history = getProvinceHistory(province, date);
 
-      if (history && cultures && history.culture && cultures[history.culture]) {
+      if (history && history.culture && cultures[history.culture]) {
         return cultures[history.culture].color.hex;
       } else {
         return emptyColor;
@@ -131,7 +131,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     tooltip: (province: Province, date: Date | null, { cultures }: GameState): Localizations => {
       const history = getProvinceHistory(province, date);
 
-      if (history && cultures && history.culture && cultures[history.culture]) {
+      if (history && history.culture && cultures[history.culture]) {
         return cultures[history.culture];
       } else {
         return defaultLocalization;
@@ -146,7 +146,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     provinceColor: (province: Province, date: Date | null, { countries, hreEmperors }: GameState) => {
       const history = getProvinceHistory(province, date);
 
-      if (history && countries && history.owner && countries[history.owner]) {
+      if (history && history.owner && countries[history.owner]) {
         if (getEmperor(date, hreEmperors) === history.owner) {
           return "#7f004c";
         } else if (getCountryHistory(countries[history.owner], date).elector) {
@@ -181,7 +181,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     provinceColor: (province: Province, date: Date | null, { countries }: GameState) => {
       const history = getProvinceHistory(province, date);
 
-      if (history && countries && history.owner && countries[history.owner]) {
+      if (history && history.owner && countries[history.owner]) {
         return countries[history.owner].color.hex;
       } else {
         return emptyColor;
@@ -193,7 +193,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     tooltip: (province: Province, date: Date | null, { countries }: GameState): Localizations => {
       const history = getProvinceHistory(province, date);
 
-      if (history && countries && history.owner && countries[history.owner]) {
+      if (history && history.owner && countries[history.owner]) {
         return countries[history.owner];
       } else {
         return defaultLocalization;
@@ -208,7 +208,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     provinceColor: (province: Province, date: Date | null, { countries }: GameState) => {
       const history = getProvinceHistory(province, date);
 
-      if (history && countries && history.controller && countries[history.controller]) {
+      if (history && history.controller && countries[history.controller]) {
         return countries[history.controller].color.hex;
       } else {
         return emptyColor;
@@ -217,7 +217,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     borderColor: (province: Province, date: Date | null, { countries }: GameState) => {
       const history = getProvinceHistory(province, date);
 
-      if (history && countries) {
+      if (history) {
         if (history.owner && countries[history.owner] && history.controller && countries[history.controller] && history.owner !== history.controller) {
           return countries[history.owner].color.hex;
         } else {
@@ -230,7 +230,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: (province: Province, date: Date | null, { countries }: GameState) => {
       const history = getProvinceHistory(province, date);
 
-      if (history && countries) {
+      if (history) {
         if (history.owner && countries[history.owner] && history.controller && countries[history.controller] && history.owner !== history.controller) {
           return "5";
         } else {
@@ -244,7 +244,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     tooltip: (province: Province, date: Date | null, { countries }: GameState): Localizations => {
       const history = getProvinceHistory(province, date);
 
-      if (history && countries && history.controller && countries[history.controller]) {
+      if (history && history.controller && countries[history.controller]) {
         return countries[history.controller];
       } else {
         return defaultLocalization;
@@ -272,7 +272,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.REGION,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { regions }: GameState) => {
-      if (regions && regions[province.region]) {
+      if (regions[province.region]) {
         return regions[province.region].color.hex;
       } else {
         return emptyColor;
@@ -282,7 +282,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [],
     tooltip: (province: Province, date: Date | null, { regions }: GameState): Localizations => {
-      if (regions && regions[province.region]) {
+      if (regions[province.region]) {
         return regions[province.region];
       } else {
         return defaultLocalization;
@@ -309,7 +309,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     tooltip: (province: Province, date: Date | null, { religions }: GameState): Localizations => {
       const history = getProvinceHistory(province, date);
 
-      if (history && religions && history.religion && religions[history.religion]) {
+      if (history && history.religion && religions[history.religion]) {
         return religions[history.religion];
       } else {
         return defaultLocalization;
@@ -322,7 +322,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.SUPER_REGION,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { superRegions }: GameState) => {
-      if (superRegions && superRegions[province.superRegion]) {
+      if (superRegions[province.superRegion]) {
         return superRegions[province.superRegion].color.hex;
       } else {
         return emptyColor;
@@ -332,7 +332,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [],
     tooltip: (province: Province, date: Date | null, { superRegions }: GameState): Localizations => {
-      if (superRegions && superRegions[province.superRegion]) {
+      if (superRegions[province.superRegion]) {
         return superRegions[province.superRegion];
       } else {
         return defaultLocalization;
@@ -347,7 +347,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     provinceColor: (province: Province, date: Date | null, { tradeGoods }: GameState) => {
       const history = getProvinceHistory(province, date);
 
-      if (history && tradeGoods && history.tradeGood && tradeGoods[history.tradeGood]) {
+      if (history && history.tradeGood && tradeGoods[history.tradeGood]) {
         return tradeGoods[history.tradeGood].color.hex;
       } else {
         return emptyColor;
@@ -359,7 +359,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     tooltip: (province: Province, date: Date | null, { tradeGoods }: GameState): Localizations => {
       const history = getProvinceHistory(province, date);
 
-      if (history && tradeGoods && history.tradeGood && tradeGoods[history.tradeGood]) {
+      if (history && history.tradeGood && tradeGoods[history.tradeGood]) {
         return tradeGoods[history.tradeGood];
       } else {
         return defaultLocalization;
@@ -372,7 +372,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.TRADE_NODE,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { tradeNodes }: GameState) => {
-      if (tradeNodes && tradeNodes[province.tradeNode]) {
+      if (tradeNodes[province.tradeNode]) {
         return tradeNodes[province.tradeNode].color.hex;
       } else {
         return emptyColor;
@@ -382,7 +382,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_TRADE_NODE],
     tooltip: (province: Province, date: Date | null, { tradeNodes }: GameState): Localizations => {
-      if (tradeNodes && tradeNodes[province.tradeNode]) {
+      if (tradeNodes[province.tradeNode]) {
         return tradeNodes[province.tradeNode];
       } else {
         return defaultLocalization;
@@ -395,7 +395,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.COLONIAL_REGION,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { colonialRegions }: GameState) => {
-      if (colonialRegions && colonialRegions[province.colonialRegion]) {
+      if (colonialRegions[province.colonialRegion]) {
         return colonialRegions[province.colonialRegion].color.hex;
       } else {
         return emptyColor;
@@ -405,7 +405,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_COLONIAL_REGION, MapAction.REMOVE_COLONIAL_REGION],
     tooltip: (province: Province, date: Date | null, { colonialRegions }: GameState): Localizations => {
-      if (colonialRegions && colonialRegions[province.colonialRegion]) {
+      if (colonialRegions[province.colonialRegion]) {
         return colonialRegions[province.colonialRegion];
       } else {
         return defaultLocalization;
@@ -418,7 +418,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.TRADE_COMPANY,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { tradeCompanies }: GameState) => {
-      if (tradeCompanies && tradeCompanies[province.tradeCompany]) {
+      if (tradeCompanies[province.tradeCompany]) {
         return tradeCompanies[province.tradeCompany].color.hex;
       } else {
         return emptyColor;
@@ -428,7 +428,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_TRADE_COMPANY, MapAction.REMOVE_TRADE_COMPANY],
     tooltip: (province: Province, date: Date | null, { tradeCompanies }: GameState): Localizations => {
-      if (tradeCompanies && tradeCompanies[province.tradeCompany]) {
+      if (tradeCompanies[province.tradeCompany]) {
         return tradeCompanies[province.tradeCompany];
       } else {
         return defaultLocalization;
@@ -441,7 +441,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.WINTER,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { winters }: GameState) => {
-      if (winters && winters[province.winter]) {
+      if (winters[province.winter]) {
         return winters[province.winter].color.hex;
       } else {
         return emptyColor;
@@ -451,7 +451,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_WINTER],
     tooltip: (province: Province, date: Date | null, { winters }: GameState): Localizations => {
-      if (winters && winters[province.winter]) {
+      if (winters[province.winter]) {
         return winters[province.winter];
       } else {
         return defaultLocalization;
@@ -464,7 +464,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.MONSOON,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { monsoons }: GameState) => {
-      if (monsoons && monsoons[province.monsoon]) {
+      if (monsoons[province.monsoon]) {
         return monsoons[province.monsoon].color.hex;
       } else {
         return emptyColor;
@@ -474,7 +474,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_MONSOON],
     tooltip: (province: Province, date: Date | null, { monsoons }: GameState): Localizations => {
-      if (monsoons && monsoons[province.monsoon]) {
+      if (monsoons[province.monsoon]) {
         return monsoons[province.monsoon];
       } else {
         return defaultLocalization;
@@ -487,7 +487,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.CLIMATE,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { climates }: GameState) => {
-      if (climates && climates[province.climate]) {
+      if (climates[province.climate]) {
         return climates[province.climate].color.hex;
       } else {
         return emptyColor;
@@ -497,7 +497,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_CLIMATE],
     tooltip: (province: Province, date: Date | null, { climates }: GameState): Localizations => {
-      if (climates && climates[province.climate]) {
+      if (climates[province.climate]) {
         return climates[province.climate];
       } else {
         return defaultLocalization;
@@ -510,7 +510,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     mapMod: MapMod.TERRAIN,
     canSelect: true,
     provinceColor: (province: Province, date: Date | null, { terrainCategories }: GameState) => {
-      if (terrainCategories && terrainCategories[province.terrain]) {
+      if (terrainCategories[province.terrain]) {
         return terrainCategories[province.terrain].color.hex;
       } else {
         return emptyColor;
@@ -520,7 +520,7 @@ export const mapMods: Record<MapMod, IMapMod> = {
     dashArray: () => undefined,
     actions: [MapAction.CHANGE_TERRAIN],
     tooltip: (province: Province, date: Date | null, { terrainCategories }: GameState): Localizations => {
-      if (terrainCategories && terrainCategories[province.terrain]) {
+      if (terrainCategories[province.terrain]) {
         return terrainCategories[province.terrain];
       } else {
         return defaultLocalization;
@@ -677,49 +677,49 @@ export const mapActions: Record<MapAction, IMapAction> = {
 export const getTargets = (mapAction: MapAction, gameState: GameState): Array<Localizations> => {
   switch (mapAction) {
     case MapAction.CHANGE_OWNER:
-      return gameState.sortedCountries ? gameState.sortedCountries : [];
+      return gameState.sortedCountries;
     case MapAction.CHANGE_CONTROLLER:
-      return gameState.sortedCountries ? gameState.sortedCountries : [];
+      return gameState.sortedCountries;
     case MapAction.CHANGE_OWNER_AND_CONTROLLER:
-      return gameState.sortedCountries ? gameState.sortedCountries : [];
+      return gameState.sortedCountries;
     case MapAction.CHANGE_OWNER_AND_CONTROLLER_AND_CORE:
-      return gameState.sortedCountries ? gameState.sortedCountries : [];
+      return gameState.sortedCountries;
     case MapAction.ADD_TO_HRE:
       return [];
     case MapAction.REMOVE_FROM_HRE:
       return [];
     case MapAction.CHANGE_TRADE_GOOD:
-      return gameState.sortedTradeGoods ? gameState.sortedTradeGoods : [];
+      return gameState.sortedTradeGoods;
     case MapAction.CHANGE_RELIGION:
-      return gameState.sortedReligions ? gameState.sortedReligions : [];
+      return gameState.sortedReligions;
     case MapAction.CHANGE_CULTURE:
-      return gameState.sortedCultures ? gameState.sortedCultures : [];
+      return gameState.sortedCultures;
     case MapAction.DECOLONIZE:
       return [];
     case MapAction.CHANGE_TRADE_NODE:
-      return gameState.sortedTradeNodes ? gameState.sortedTradeNodes : [];
+      return gameState.sortedTradeNodes;
     case MapAction.CHANGE_AREA:
-      return gameState.sortedAreas ? gameState.sortedAreas : [];
+      return gameState.sortedAreas;
     case MapAction.CHANGE_COLONIAL_REGION:
-      return gameState.sortedColonialRegions ? gameState.sortedColonialRegions : [];
+      return gameState.sortedColonialRegions;
     case MapAction.REMOVE_COLONIAL_REGION:
       return [];
     case MapAction.CHANGE_TRADE_COMPANY:
-      return gameState.sortedTradeCompanies ? gameState.sortedTradeCompanies : [];
+      return gameState.sortedTradeCompanies;
     case MapAction.REMOVE_TRADE_COMPANY:
       return [];
     case MapAction.CHANGE_WINTER:
-      return gameState.sortedWinters ? gameState.sortedWinters : [];
+      return gameState.sortedWinters;
     case MapAction.CHANGE_CLIMATE:
-      return gameState.sortedClimates ? gameState.sortedClimates : [];
+      return gameState.sortedClimates;
     case MapAction.CHANGE_MONSOON:
-      return gameState.sortedMonsoons ? gameState.sortedMonsoons : [];
+      return gameState.sortedMonsoons;
     case MapAction.CHANGE_TERRAIN:
-      return gameState.sortedTerrainCategories ? gameState.sortedTerrainCategories : [];
+      return gameState.sortedTerrainCategories;
   }
 };
 
-export const getProvinceStyle = (id: number, mapMod: MapMod, date: Date | null, gameState: GameState = {}, selectedProvinces: Array<number>): PathOptions => {
+export const getProvinceStyle = (id: number, mapMod: MapMod, date: Date | null, gameState: GameState, selectedProvinces: Array<number>): PathOptions => {
   let color;
   let borderColor = "black";
   let dashArray = undefined;
@@ -751,7 +751,7 @@ export const getProvinceStyle = (id: number, mapMod: MapMod, date: Date | null, 
   };
 };
 
-export const onClickProvince = (id: number, path: Path, mapMod: MapMod, { provinces }: GameState = {}, includes: boolean) => {
+export const onClickProvince = (id: number, path: Path, mapMod: MapMod, { provinces }: GameState, includes: boolean) => {
   path.setStyle({
     ...path.options,
     weight: includes ? 4 : 2,

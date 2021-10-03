@@ -1,7 +1,44 @@
 import { localisationsComparator } from "utils/localisations.utils";
 import { CHANGE_GAME, GameActionType, GameState } from "./game.types";
 
-const initialState: GameState = {};
+const initialState: GameState = {
+  folderName: "",
+  startDate: null,
+  endDate: null,
+  geoJson: null,
+  provinces: {},
+  tradeNodes: {},
+  countries: {},
+  tradeGoods: {},
+  areas: {},
+  regions: {},
+  superRegions: {},
+  religions: {},
+  cultures: {},
+  hreEmperors: {},
+  celestialEmperors: {},
+  colonialRegions: {},
+  tradeCompanies: {},
+  winters: {},
+  climates: {},
+  monsoons: {},
+  terrainCategories: {},
+  sortedTradeNodes: [],
+  sortedCountries: [],
+  sortedTradeGoods: [],
+  sortedAreas: [],
+  sortedRegions: [],
+  sortedSuperRegions: [],
+  sortedReligions: [],
+  sortedCultures: [],
+  sortedColonialRegions: [],
+  sortedTradeCompanies: [],
+  sortedWinters: [],
+  sortedClimates: [],
+  sortedMonsoons: [],
+  sortedTerrainCategories: [],
+  defines: {},
+};
 
 export const gameReducer = (state: GameState = initialState, action: GameActionType): GameState => {
   switch (action.type) {

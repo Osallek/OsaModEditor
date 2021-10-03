@@ -3,6 +3,7 @@ const routes = {
   "routes.map": "/Map",
   "routes.defines": "/defines",
   "routes.countries": "/countries",
+  "routes.country": "/country",
 };
 
 export default routes;

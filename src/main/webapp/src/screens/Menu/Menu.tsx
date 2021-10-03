@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { GridSize } from "@mui/material/Grid/Grid";
 import { GridItem, Title } from "components/global";
-import React from "react";
+import React, { useEffect } from "react";
 import { useIntl } from "react-intl";
 
 interface Item {
@@ -43,13 +43,17 @@ const Menu: React.FC<void> = () => {
     },
   ];
 
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.menu" });
+  }, [intl]);
+
   return (
-    <div>
+    <>
       <Title />
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         {items && items.map((item, index) => <GridItem key={index} link={item.link} text={item.text} xs={item.xs} sm={item.sm} md={item.md} xl={item.xl} />)}
       </Grid>
-    </div>
+    </>
   );
 };
 
