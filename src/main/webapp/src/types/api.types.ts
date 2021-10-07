@@ -66,9 +66,9 @@ export type TradeNode = Localizations & {
   name: string;
   location: number;
   color: Color;
-  inland: boolean;
-  aiWillPropagateThroughTrade: boolean;
-  end: boolean;
+  inland: boolean | null;
+  aiWillPropagateThroughTrade: boolean | null;
+  end: boolean | null;
 };
 
 export type TerrainCategory = Localizations & {
@@ -188,9 +188,8 @@ export type ChangeEstateLandShare = {
 export type TradeGood = Localizations & {
   color: Color;
   name: string;
-  localizedName: string;
-  goldType: boolean;
-  basePrice: number;
+  goldType: boolean | null;
+  basePrice: number | null;
 };
 
 export type Area = Localizations & {

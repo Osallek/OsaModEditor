@@ -10,18 +10,15 @@ public class TradeGoodDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String name;
 
-    private String localizedName;
-
     private ColorDTO color;
 
-    private boolean goldType;
+    private Boolean goldType;
 
-    private double basePrice;
+    private Double basePrice;
 
     public TradeGoodDTO(TradeGood tradeGood, Map<Eu4Language, Map<String, String>> localisations) {
         super(tradeGood.getName(), localisations);
         this.name = tradeGood.getName();
-        this.localizedName = tradeGood.getLocalizedName();
         this.color = tradeGood.getColor() == null ? new ColorDTO(this.name, true) : new ColorDTO(tradeGood.getColor());
         this.goldType = tradeGood.isGoldType();
         this.basePrice = tradeGood.getBasePrice();
@@ -41,14 +38,6 @@ public class TradeGoodDTO extends LocalisedDTO implements MappedDTO<String> {
         this.name = name;
     }
 
-    public String getLocalizedName() {
-        return localizedName;
-    }
-
-    public void setLocalizedName(String localizedName) {
-        this.localizedName = localizedName;
-    }
-
     public ColorDTO getColor() {
         return color;
     }
@@ -57,19 +46,19 @@ public class TradeGoodDTO extends LocalisedDTO implements MappedDTO<String> {
         this.color = color;
     }
 
-    public boolean isGoldType() {
+    public Boolean isGoldType() {
         return goldType;
     }
 
-    public void setGoldType(boolean goldType) {
+    public void setGoldType(Boolean goldType) {
         this.goldType = goldType;
     }
 
-    public double getBasePrice() {
+    public Double getBasePrice() {
         return basePrice;
     }
 
-    public void setBasePrice(double basePrice) {
+    public void setBasePrice(Double basePrice) {
         this.basePrice = basePrice;
     }
 }

@@ -1,9 +1,9 @@
 package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.osallek.eu4parser.common.Eu4MapUtils;
 import fr.osallek.eu4parser.model.game.ProvinceList;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;

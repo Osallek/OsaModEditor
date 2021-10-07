@@ -14,11 +14,11 @@ public class TradeNodeDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ColorDTO color;
 
-    private boolean inland;
+    private Boolean inland;
 
-    private boolean aiWillPropagateThroughTrade;
+    private Boolean aiWillPropagateThroughTrade;
 
-    private boolean end;
+    private Boolean end;
 
     //    private List<TradeNodeOutgoing> outgoings;
 
@@ -62,27 +62,27 @@ public class TradeNodeDTO extends LocalisedDTO implements MappedDTO<String> {
         this.color = color;
     }
 
-    public boolean isInland() {
+    public Boolean isInland() {
         return inland;
     }
 
-    public void setInland(boolean inland) {
+    public void setInland(Boolean inland) {
         this.inland = inland;
     }
 
-    public boolean isAiWillPropagateThroughTrade() {
+    public Boolean isAiWillPropagateThroughTrade() {
         return aiWillPropagateThroughTrade;
     }
 
-    public void setAiWillPropagateThroughTrade(boolean aiWillPropagateThroughTrade) {
+    public void setAiWillPropagateThroughTrade(Boolean aiWillPropagateThroughTrade) {
         this.aiWillPropagateThroughTrade = aiWillPropagateThroughTrade;
     }
 
-    public boolean isEnd() {
+    public Boolean isEnd() {
         return end;
     }
 
-    public void setEnd(boolean end) {
+    public void setEnd(Boolean end) {
         this.end = end;
     }
 }

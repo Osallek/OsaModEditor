@@ -1,13 +1,12 @@
 package fr.osallek.osamodeditor.dto;
 
 import fr.osallek.eu4parser.model.Power;
-import fr.osallek.eu4parser.model.game.ChangeEstateLandShare;
 import fr.osallek.eu4parser.model.game.Country;
 import fr.osallek.eu4parser.model.game.CountryHistoryItem;
 import fr.osallek.eu4parser.model.game.Culture;
 import fr.osallek.eu4parser.model.game.EstatePrivilege;
-import fr.osallek.eu4parser.model.game.GovernmentReform;
 import fr.osallek.eu4parser.model.game.RulerPersonality;
+import fr.osallek.eu4parser.model.game.todo.GovernmentReform;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.time.LocalDate;

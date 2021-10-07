@@ -54,7 +54,7 @@ public class GameService {
         return new GameDTO(this.game, this.tmpModPath.getFileName().toString());
     }
 
-    public GameDTO changeDefines(Map<String, Map<String, String>> defines) throws IOException {
+    public GameDTO changeDefines(Map<String, Map<String, String>> defines) {
         defines.forEach((category, values) -> values.forEach((key, value) -> this.game.changeDefine(getMod(), category, key, value)));
         this.game.saveDefines(getMod());
 

@@ -6,6 +6,8 @@ import fr.osallek.eu4parser.model.game.Define;
 import fr.osallek.eu4parser.model.game.Game;
 import org.apache.commons.collections4.CollectionUtils;
 import org.geojson.FeatureCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -13,10 +15,13 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class GameDTO {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameDTO.class);
 
     private String folderName;
 
@@ -62,11 +67,23 @@ public class GameDTO {
 
     private Map<String, Map<String, String>> defines;
 
-    public GameDTO(Game game, String tmpFolderName) throws IOException {
+    public GameDTO(Game game, String tmpFolderName) {
         this.folderName = tmpFolderName;
         this.startDate = game.getStartDate();
         this.endDate = game.getEndDate();
-        this.geoJson = Eu4MapUtils.generateGeoJson(game);
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
+        Eu4Utils.POOL_EXECUTOR.submit(() -> {
+            try {
+                this.geoJson = Eu4MapUtils.generateGeoJson(game);
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            } finally {
+                countDownLatch.countDown();
+            }
+        });
+
         this.provinces = game.getProvinces()
                              .values()
                              .stream()
@@ -78,6 +95,7 @@ public class GameDTO {
                                      .map(terrainCategory -> new TerrainCategoryDTO(terrainCategory, game.getAllLocalisations()))
                                      .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         game.getTerrainCategories().forEach(tc -> tc.getComputedProvinces().forEach(id -> this.provinces.get(id).setTerrain(tc.getName())));
+
         this.terrainCategories.values()
                               .stream()
                               .filter(tc -> CollectionUtils.isNotEmpty(tc.getProvinces()))
@@ -154,7 +172,8 @@ public class GameDTO {
         this.tradeCompanies.values()
                            .stream()
                            .filter(tradeCompany -> CollectionUtils.isNotEmpty(tradeCompany.getProvinces()))
-                           .forEach(tradeCompany -> tradeCompany.getProvinces().forEach(id -> this.provinces.get(id).setTradeCompany(tradeCompany.getKey())));
+                           .forEach(tradeCompany -> tradeCompany.getProvinces()
+                                                                .forEach(id -> this.provinces.get(id).setTradeCompany(tradeCompany.getKey())));
 
         this.winters = game.getWinters()
                            .stream()
@@ -164,9 +183,7 @@ public class GameDTO {
         this.winters.values()
                     .stream()
                     .filter(winter -> CollectionUtils.isNotEmpty(winter.getProvinces()))
-                    .forEach(winter -> {
-                        winter.getProvinces().forEach(id -> this.provinces.get(id).setWinter(winter.getKey()));
-                    });
+                    .forEach(winter -> winter.getProvinces().forEach(id -> this.provinces.get(id).setWinter(winter.getKey())));
 
         this.climates = game.getClimates()
                             .stream()
@@ -197,6 +214,7 @@ public class GameDTO {
                                      .entrySet()
                                      .stream()
                                      .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag()));
+
         this.defines = game.getDefines()
                            .get(Eu4Utils.DEFINE_KEY)
                            .values()
@@ -205,6 +223,13 @@ public class GameDTO {
                            .flatMap(Collection::stream)
                            .collect(Collectors.groupingBy(Define::getCategory, LinkedHashMap::new,
                                                           Collectors.toMap(Define::getName, Define::getAsString, (s, s2) -> s, LinkedHashMap::new)));
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            LOGGER.error("An error occurred while waiting for game files reading : {}", e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
     }
 
     public String getFolderName() {

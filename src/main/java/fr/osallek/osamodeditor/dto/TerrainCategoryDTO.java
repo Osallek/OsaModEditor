@@ -13,11 +13,11 @@ public class TerrainCategoryDTO extends LocalisedDTO implements MappedDTO<String
 
     private ColorDTO color;
 
-    private boolean isWater;
+    private Boolean isWater;
 
     private String soundType;
 
-    private boolean inlandSea;
+    private Boolean inlandSea;
 
     private Integer defence;
 
@@ -71,11 +71,11 @@ public class TerrainCategoryDTO extends LocalisedDTO implements MappedDTO<String
         this.color = color;
     }
 
-    public boolean isWater() {
+    public Boolean isWater() {
         return isWater;
     }
 
-    public void setWater(boolean water) {
+    public void setWater(Boolean water) {
         this.isWater = water;
     }
 
@@ -87,11 +87,11 @@ public class TerrainCategoryDTO extends LocalisedDTO implements MappedDTO<String
         this.soundType = soundType;
     }
 
-    public boolean isInlandSea() {
+    public Boolean isInlandSea() {
         return inlandSea;
     }
 
-    public void setInlandSea(boolean inlandSea) {
+    public void setInlandSea(Boolean inlandSea) {
         this.inlandSea = inlandSea;
     }
 

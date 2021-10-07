@@ -20,9 +20,9 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     private String name;
 
-    private boolean isOcean;
+    private Boolean isOcean;
 
-    private boolean isLake;
+    private Boolean isLake;
 
     private String climate;
 
@@ -32,7 +32,7 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     private String terrain;
 
-    private boolean isPort;
+    private Boolean isPort;
 
     private String area;
 

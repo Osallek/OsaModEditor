@@ -6,7 +6,6 @@ import fr.osallek.eu4parser.model.game.IdeaGroup;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
