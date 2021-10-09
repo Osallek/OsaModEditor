@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/styles";
 import enDateLocale from "date-fns/locale/en-US";
 import frDateLocale from "date-fns/locale/fr";
 import { en, fr } from "i18n/messages";
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom";
 import { IntlProvider } from "react-intl";
@@ -29,7 +30,16 @@ ReactDOM.render(
       <Provider store={store}>
         <IntlProvider locale={locale} messages={messages}>
           <LocalizationProvider dateAdapter={AdapterDateFns} locale={dateLocale}>
-            <App />
+            <SnackbarProvider
+              maxSnack={2}
+              autoHideDuration={3000}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+            >
+              <App />
+            </SnackbarProvider>
           </LocalizationProvider>
         </IntlProvider>
       </Provider>

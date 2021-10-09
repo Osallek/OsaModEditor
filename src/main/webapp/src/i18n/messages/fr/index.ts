@@ -1,3 +1,4 @@
+import api from "./api.i18n";
 import global from "./global.i18n";
 import home from "./home.i18n";
 import map from "./map.i18n";
@@ -8,6 +9,7 @@ const fr: Record<string, string> = {
   ...routes,
   ...home,
   ...map,
+  ...api,
 };
 
 export default fr;

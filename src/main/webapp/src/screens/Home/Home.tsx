@@ -1,15 +1,16 @@
 import { Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
+import api from "api";
 import Button, { FormControl } from "components/controls";
 import { Title } from "components/global";
+import LabeledLinearProgress from "components/global/LabeledLinearProgress";
+import { useEventSnackbar } from "hooks/snackbar.hooks";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import actions from "store/actions";
 import { RootState } from "store/types";
-import api from "../../api";
-import LabeledLinearProgress from "../../components/global/LabeledLinearProgress";
 
 const Home: React.FC<void> = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,15 @@ const Home: React.FC<void> = () => {
 
   const [install, setInstall] = useState<string>("");
   const [mod, setMod] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
+  const [loading, submitInitGame] = useEventSnackbar(async (installFolder: string, mod: string) => {
+    await dispatch(actions.game.postInit(installFolder, mod));
+    if (progressTimer) {
+      clearInterval(progressTimer);
+    }
+
+    history.push(intl.formatMessage({ id: "routes.menu" }));
+  });
   let progressTimer: NodeJS.Timeout | null = null;
 
   useEffect(() => {
@@ -40,24 +48,21 @@ const Home: React.FC<void> = () => {
     document.title = intl.formatMessage({ id: "global.name" });
   }, [intl]);
 
+  useEffect(() => {
+    return () => {
+      if (progressTimer) {
+        clearInterval(progressTimer);
+      }
+    };
+  }, []);
+
   const handleSubmit = async () => {
     if (installFolder && mod) {
-      try {
-        setLoading(true);
-        progressTimer = setInterval(() => {
-          handleGetProgress();
-        }, 500);
+      progressTimer = setInterval(() => {
+        handleGetProgress();
+      }, 500);
 
-        await dispatch(actions.game.postInit(installFolder, mod));
-        setLoading(false);
-        history.push(intl.formatMessage({ id: "routes.menu" }));
-      } catch (e) {
-        setLoading(false);
-      } finally {
-        if (progressTimer) {
-          clearInterval(progressTimer);
-        }
-      }
+      await submitInitGame(installFolder, mod);
     }
   };
 

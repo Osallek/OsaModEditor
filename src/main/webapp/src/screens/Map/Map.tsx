@@ -4,6 +4,7 @@ import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import Button, { FormControl } from "components/controls";
 import { BackTitle } from "components/global";
 import { Feature } from "geojson";
+import { useEventSnackbar } from "hooks/snackbar.hooks";
 import { GeoJSON as LeafletGeoJSON, Layer, LeafletMouseEvent, Path } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -12,18 +13,9 @@ import { GeoJSON, MapContainer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "store/types";
-import {
-    getProvinceStyle,
-    getTargets,
-    MapAction,
-    mapActions,
-    MapActionType,
-    MapMod,
-    mapMods,
-    onClickProvince
-} from "utils/map.utils";
-import { Localizations, Province } from "../../types";
-import { localize } from "../../utils/localisations.utils";
+import { localize } from "utils/localisations.utils";
+import { getProvinceStyle, getTargets, IMapAction, MapAction, mapActions, MapActionType, MapMod, mapMods, onClickProvince } from "utils/map.utils";
+import { Localizations, Province, ServerSuccesses } from "../../types";
 import "./Map.css";
 
 const Map: React.FC<void> = () => {
@@ -38,8 +30,14 @@ const Map: React.FC<void> = () => {
   const [mapAction, setMapAction] = useState<MapAction>(MapAction.CHANGE_OWNER);
   const [mapActionTargets, setMapActionTargets] = useState<Array<Localizations>>([]);
   const [mapActionTarget, setMapActionTarget] = useState<Localizations | null>(null);
-  const [targetLoading, setTargetLoading] = useState<boolean>(false);
   const [selectedProvinces, setSelectedProvinces] = useState<Array<number>>([]);
+  const [loading, submitTarget] = useEventSnackbar(
+    async (iMapAction: IMapAction, provinces: Array<number>, date: Date | null, target: Localizations | null) => {
+      await dispatch(iMapAction.action(selectedProvinces, date, target));
+      setSelectedProvinces([]);
+    },
+    `api.success.${ServerSuccesses.DEFAULT_SUCCESS}`
+  );
 
   const gameState = useSelector((state: RootState) => {
     return state.game || {};
@@ -197,13 +195,7 @@ const Map: React.FC<void> = () => {
 
   const handleSubmitTarget = async () => {
     if (mapActions[mapAction] && (mapActions[mapAction].noTarget || mapActionTarget)) {
-      try {
-        setTargetLoading(true);
-        await dispatch(mapActions[mapAction].action(selectedProvinces, date, mapActionTarget));
-        setSelectedProvinces([]);
-      } finally {
-        setTargetLoading(false);
-      }
+      await submitTarget(mapActions[mapAction], selectedProvinces, date, mapActionTarget);
     }
   };
 
@@ -324,7 +316,7 @@ const Map: React.FC<void> = () => {
                   onClick={handleSubmitTarget}
                   disabled={(!mapActions[mapAction].noTarget && mapActionTarget === null) || selectedProvinces.length === 0}
                   messageKey="global.validate"
-                  loading={targetLoading}
+                  loading={loading}
                 />
               </Grid>
             </>

@@ -1,53 +1,49 @@
 import { Add, Edit, Event } from "@mui/icons-material";
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from "@mui/lab";
-import {
-    Card,
-    CardHeader,
-    CardMedia,
-    FormControl,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput
-} from "@mui/material";
+import { Card, CardHeader, CardMedia, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
 import { BackTitle } from "components/global";
+import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { RootState } from "store/types";
-import { Country } from "types";
+import { ServerErrors } from "types";
 import { stringToLocalDate } from "utils/date.utils";
 import { getImageUrl } from "utils/global.utils";
 import { localize } from "utils/localisations.utils";
-
-interface Props {
-  country: Country;
-}
+import { snackbarError } from "utils/snackbar.utils";
 
 interface CountryFormParams {
   tag: string;
 }
 
-const CountryForm: React.FC<Props> = () => {
+const CountryForm: React.FC<void> = () => {
   const intl = useIntl();
   const history = useHistory();
   const { tag } = useParams<CountryFormParams>();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { folderName, countries } = useSelector((state: RootState) => {
     return state.game || {};
   });
 
   const country = countries[tag];
-  const [graphicalCulture, setGraphicalCulture] = useState<string>(country.graphicalCulture);
-  const [historicalCouncil, setHistoricalCouncil] = useState<string>(country.historicalCouncil ?? "");
+
+  if (!tag || !country) {
+    snackbarError(ServerErrors.COUNTRY_NOT_FOUND, enqueueSnackbar, intl);
+  }
+
+  const [graphicalCulture, setGraphicalCulture] = useState<string>(country?.graphicalCulture ?? "");
+  const [historicalCouncil, setHistoricalCouncil] = useState<string>(country?.historicalCouncil ?? "");
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + localize(country);
+    if (country) {
+      document.title = intl.formatMessage({ id: "global.name" }) + " - " + localize(country);
+    }
   }, [intl, country]);
 
-  return (
+  return country ? (
     <Grid style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <Grid container>
         <Grid item alignSelf="center">
@@ -129,6 +125,15 @@ const CountryForm: React.FC<Props> = () => {
             ))}
           </Timeline>
         </Grid>
+      </Grid>
+    </Grid>
+  ) : (
+    <Grid style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <Grid container>
+        <Grid item alignSelf="center">
+          <BackTitle handleClick={(event) => history.push(intl.formatMessage({ id: "routes.countries" }))} />
+        </Grid>
+        <Grid item xs />
       </Grid>
     </Grid>
   );
