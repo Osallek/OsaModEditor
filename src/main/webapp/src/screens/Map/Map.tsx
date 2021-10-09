@@ -12,7 +12,16 @@ import { GeoJSON, MapContainer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "store/types";
-import { getProvinceStyle, getTargets, MapAction, mapActions, MapActionType, MapMod, mapMods, onClickProvince } from "utils/map.utils";
+import {
+    getProvinceStyle,
+    getTargets,
+    MapAction,
+    mapActions,
+    MapActionType,
+    MapMod,
+    mapMods,
+    onClickProvince
+} from "utils/map.utils";
 import { Localizations, Province } from "../../types";
 import { localize } from "../../utils/localisations.utils";
 import "./Map.css";

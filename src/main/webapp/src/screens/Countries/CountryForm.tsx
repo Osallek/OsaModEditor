@@ -1,6 +1,16 @@
 import { Add, Edit, Event } from "@mui/icons-material";
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from "@mui/lab";
-import { Card, CardHeader, CardMedia, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import {
+    Card,
+    CardHeader,
+    CardMedia,
+    FormControl,
+    Grid,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput
+} from "@mui/material";
 import { BackTitle } from "components/global";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";

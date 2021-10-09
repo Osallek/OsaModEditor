@@ -1,19 +1,19 @@
 import { GeoJsonObject } from "geojson";
 import {
-  Area,
-  ColonialRegion,
-  Country,
-  Culture,
-  Game,
-  Province,
-  ProvinceList,
-  Region,
-  Religion,
-  SuperRegion,
-  TerrainCategory,
-  TradeCompany,
-  TradeGood,
-  TradeNode,
+    Area,
+    ColonialRegion,
+    Country,
+    Culture,
+    Game,
+    Province,
+    ProvinceList,
+    Region,
+    Religion,
+    SuperRegion,
+    TerrainCategory,
+    TradeCompany,
+    TradeGood,
+    TradeNode,
 } from "types/api.types";
 
 export const CHANGE_GAME: "game/changeGame" = "game/changeGame";

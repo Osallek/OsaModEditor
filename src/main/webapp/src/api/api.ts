@@ -17,6 +17,9 @@ const api = {
     init: (form: GameForm): AxiosPromise<Game> => {
       return ws.post(endpoints.game.init, form);
     },
+    progress: (): AxiosPromise<number> => {
+      return ws.get(endpoints.game.progress);
+    },
     changeDefines: (form: Record<string, Record<string, string>>): AxiosPromise<Game> => {
       return ws.post(endpoints.game.changeDefines, form);
     },

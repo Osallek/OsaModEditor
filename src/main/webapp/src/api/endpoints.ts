@@ -1,6 +1,7 @@
 const endpoints = {
   game: {
     init: "/game/init",
+    progress: "/game/progress",
     changeDefines: "/game/defines",
   },
   province: {

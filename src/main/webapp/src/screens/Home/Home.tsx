@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import actions from "store/actions";
 import { RootState } from "store/types";
+import api from "../../api";
+import LabeledLinearProgress from "../../components/global/LabeledLinearProgress";
 
 const Home: React.FC<void> = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,8 @@ const Home: React.FC<void> = () => {
   const [install, setInstall] = useState<string>("");
   const [mod, setMod] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
+  let progressTimer: NodeJS.Timeout | null = null;
 
   useEffect(() => {
     dispatch(actions.init.getInit());
@@ -40,12 +44,32 @@ const Home: React.FC<void> = () => {
     if (installFolder && mod) {
       try {
         setLoading(true);
+        progressTimer = setInterval(() => {
+          handleGetProgress();
+        }, 500);
+
         await dispatch(actions.game.postInit(installFolder, mod));
+        setLoading(false);
         history.push(intl.formatMessage({ id: "routes.menu" }));
       } catch (e) {
         setLoading(false);
+      } finally {
+        if (progressTimer) {
+          clearInterval(progressTimer);
+        }
       }
     }
+  };
+
+  const handleGetProgress = async () => {
+    try {
+      const { data } = await api.game.progress();
+      setProgress(data);
+
+      if (data >= 100 && progressTimer) {
+        clearInterval(progressTimer);
+      }
+    } catch (e) {}
   };
 
   return (
@@ -85,10 +109,14 @@ const Home: React.FC<void> = () => {
             size="large"
             color="primary"
             onClick={handleSubmit}
-            disabled={!mod || !installFolder}
+            disabled={!mod || !installFolder || loading}
             messageKey="global.validate"
-            loading={loading}
           />
+        </Grid>
+        <Grid container item justifyContent="center">
+          <Grid item xs={12} md={8}>
+            <LabeledLinearProgress progress={progress} message={"home.progress"} display={loading} />
+          </Grid>
         </Grid>
         <Grid item xs />
       </Grid>

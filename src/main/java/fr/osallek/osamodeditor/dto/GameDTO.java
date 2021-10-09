@@ -68,6 +68,10 @@ public class GameDTO {
     private Map<String, Map<String, String>> defines;
 
     public GameDTO(Game game, String tmpFolderName) {
+        this(game, tmpFolderName, () -> {});
+    }
+
+    public GameDTO(Game game, String tmpFolderName, Runnable runnable) {
         this.folderName = tmpFolderName;
         this.startDate = game.getStartDate();
         this.endDate = game.getEndDate();
@@ -81,6 +85,7 @@ public class GameDTO {
                 LOGGER.error(e.getMessage(), e);
             } finally {
                 countDownLatch.countDown();
+                runnable.run();
             }
         });
 
@@ -89,6 +94,7 @@ public class GameDTO {
                              .stream()
                              .map(province -> new ProvinceDTO(province, game.getAllLocalisations()))
                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
 
         this.terrainCategories = game.getTerrainCategories()
                                      .stream()
@@ -100,22 +106,26 @@ public class GameDTO {
                               .stream()
                               .filter(tc -> CollectionUtils.isNotEmpty(tc.getProvinces()))
                               .forEach(tc -> tc.getProvinces().forEach(id -> this.provinces.get(id).setTerrain(tc.getKey())));
+        runnable.run();
 
         this.tradeNodes = game.getTradeNodes()
                               .stream()
                               .map(tradeNode -> new TradeNodeDTO(tradeNode, game.getAllLocalisations()))
                               .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         game.getTradeNodes().forEach(tradeNode -> tradeNode.getProvinces().forEach(id -> this.provinces.get(id).setTradeNode(tradeNode.getName())));
+        runnable.run();
 
         this.countries = game.getCountries()
                              .stream()
                              .map(country -> new CountryDTO(country, game.getAllLocalisations()))
                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
 
         this.tradeGoods = game.getTradeGoods()
                               .stream()
                               .map(tradeGood -> new TradeGoodDTO(tradeGood, game.getAllLocalisations()))
                               .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
 
         this.areas = game.getAreas()
                          .stream()
@@ -125,6 +135,7 @@ public class GameDTO {
                   .stream()
                   .filter(area -> CollectionUtils.isNotEmpty(area.getProvinces()))
                   .forEach(area -> area.getProvinces().forEach(id -> this.provinces.get(id).setArea(area.getKey())));
+        runnable.run();
 
         this.regions = game.getRegions()
                            .stream()
@@ -134,6 +145,7 @@ public class GameDTO {
                     .stream()
                     .filter(region -> CollectionUtils.isNotEmpty(region.getProvinces()))
                     .forEach(region -> region.getProvinces().forEach(id -> this.provinces.get(id).setRegion(region.getKey())));
+        runnable.run();
 
         this.superRegions = game.getSuperRegions()
                                 .stream()
@@ -143,16 +155,19 @@ public class GameDTO {
                          .stream()
                          .filter(superRegion -> CollectionUtils.isNotEmpty(superRegion.getProvinces()))
                          .forEach(superRegion -> superRegion.getProvinces().forEach(id -> this.provinces.get(id).setSuperRegion(superRegion.getKey())));
+        runnable.run();
 
         this.religions = game.getReligions()
                              .stream()
                              .map(religion -> new ReligionDTO(religion, game.getAllLocalisations()))
                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
 
         this.cultures = game.getCultures()
                             .stream()
                             .map(culture -> new CultureDTO(culture, game.getAllLocalisations()))
                             .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
 
         this.colonialRegions = game.getColonialRegions()
                                    .stream()
@@ -164,6 +179,7 @@ public class GameDTO {
                             .filter(colonialRegion -> CollectionUtils.isNotEmpty(colonialRegion.getProvinces()))
                             .forEach(colonialRegion -> colonialRegion.getProvinces()
                                                                      .forEach(id -> this.provinces.get(id).setColonialRegion(colonialRegion.getKey())));
+        runnable.run();
 
         this.tradeCompanies = game.getTradeCompanies()
                                   .stream()
@@ -174,6 +190,7 @@ public class GameDTO {
                            .filter(tradeCompany -> CollectionUtils.isNotEmpty(tradeCompany.getProvinces()))
                            .forEach(tradeCompany -> tradeCompany.getProvinces()
                                                                 .forEach(id -> this.provinces.get(id).setTradeCompany(tradeCompany.getKey())));
+        runnable.run();
 
         this.winters = game.getWinters()
                            .stream()
@@ -184,6 +201,7 @@ public class GameDTO {
                     .stream()
                     .filter(winter -> CollectionUtils.isNotEmpty(winter.getProvinces()))
                     .forEach(winter -> winter.getProvinces().forEach(id -> this.provinces.get(id).setWinter(winter.getKey())));
+        runnable.run();
 
         this.climates = game.getClimates()
                             .stream()
@@ -194,6 +212,7 @@ public class GameDTO {
                      .stream()
                      .filter(climate -> CollectionUtils.isNotEmpty(climate.getProvinces()))
                      .forEach(climate -> climate.getProvinces().forEach(id -> this.provinces.get(id).setClimate(climate.getKey())));
+        runnable.run();
 
         this.monsoons = game.getMonsoons()
                             .stream()
@@ -204,16 +223,19 @@ public class GameDTO {
                      .stream()
                      .filter(monsoon -> CollectionUtils.isNotEmpty(monsoon.getProvinces()))
                      .forEach(monsoon -> monsoon.getProvinces().forEach(id -> this.provinces.get(id).setMonsoon(monsoon.getKey())));
+        runnable.run();
 
         this.hreEmperors = game.getHreEmperors()
                                .entrySet()
                                .stream()
                                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag(), (s, s2) -> s, TreeMap::new));
+        runnable.run();
 
         this.celestialEmperors = game.getCelestialEmperors()
                                      .entrySet()
                                      .stream()
                                      .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTag()));
+        runnable.run();
 
         this.defines = game.getDefines()
                            .get(Eu4Utils.DEFINE_KEY)
@@ -223,6 +245,7 @@ public class GameDTO {
                            .flatMap(Collection::stream)
                            .collect(Collectors.groupingBy(Define::getCategory, LinkedHashMap::new,
                                                           Collectors.toMap(Define::getName, Define::getAsString, (s, s2) -> s, LinkedHashMap::new)));
+        runnable.run();
 
         try {
             countDownLatch.await();

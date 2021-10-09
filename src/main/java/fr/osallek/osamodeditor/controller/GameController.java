@@ -30,6 +30,11 @@ public class GameController {
         return ResponseEntity.ok(this.gameService.getInit());
     }
 
+    @GetMapping(value = "/progress", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> gameProgress() {
+        return ResponseEntity.ok(this.gameService.getGameProgress());
+    }
+
     @PostMapping(value = "/init", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameDTO> initGame(@RequestBody GameForm form) throws IOException {
         return ResponseEntity.ok(this.gameService.parseGame(form.getInstallFolder(), form.getMod()));

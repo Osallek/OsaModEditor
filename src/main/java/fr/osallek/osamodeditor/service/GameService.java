@@ -10,6 +10,8 @@ import fr.osallek.osamodeditor.dto.GameInitDTO;
 import fr.osallek.osamodeditor.dto.IdName;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,10 +19,17 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
 public class GameService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameService.class);
+
+    private static final AtomicInteger GAME_PROGRESS = new AtomicInteger(0);
+
+    private static final int MAX_PROGRESS = 90;
 
     private Game game = null;
 
@@ -44,14 +53,20 @@ public class GameService {
     }
 
     public GameDTO parseGame(String installFolder, String mod) throws IOException {
-        this.game = new Game(installFolder, List.of(mod));
+        GAME_PROGRESS.set(0);
+        this.game = new Game(installFolder, List.of(mod), GAME_PROGRESS::getAndIncrement);
 
         this.tmpModPath = Constants.EDITOR_DOCUMENTS_FOLDER.resolve(FilenameUtils.removeExtension(getMod().getFile().getName())).toAbsolutePath();
         FileUtils.forceMkdir(this.tmpModPath.toFile());
         OsaModEditorConfig.addPathToDelete(this.tmpModPath);
         this.game.convertImages(this.tmpModPath.toString(), Eu4Utils.GFX_FOLDER_PATH + File.separator + "flags");
+        GAME_PROGRESS.getAndIncrement();
 
-        return new GameDTO(this.game, this.tmpModPath.getFileName().toString());
+        GameDTO gameDTO = new GameDTO(this.game, this.tmpModPath.getFileName().toString(), GAME_PROGRESS::getAndIncrement);
+
+        GAME_PROGRESS.set(MAX_PROGRESS);
+
+        return gameDTO;
     }
 
     public GameDTO changeDefines(Map<String, Map<String, String>> defines) {
@@ -59,5 +74,9 @@ public class GameService {
         this.game.saveDefines(getMod());
 
         return new GameDTO(this.game, this.tmpModPath.getFileName().toString());
+    }
+
+    public int getGameProgress() {
+        return GAME_PROGRESS.get() * 100 / MAX_PROGRESS;
     }
 }

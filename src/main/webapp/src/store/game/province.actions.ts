@@ -1,15 +1,16 @@
 import api from "api";
 import { Dispatch } from "react";
 import {
-  Area,
-  ColonialRegion,
-  Country,
-  Culture,
-  ProvinceList,
-  Religion, TerrainCategory,
-  TradeCompany,
-  TradeGood,
-  TradeNode
+    Area,
+    ColonialRegion,
+    Country,
+    Culture,
+    ProvinceList,
+    Religion,
+    TerrainCategory,
+    TradeCompany,
+    TradeGood,
+    TradeNode
 } from "types";
 import { dateToLocalDate } from "utils/date.utils";
 import { CHANGE_GAME, GameActionType } from "./game.types";

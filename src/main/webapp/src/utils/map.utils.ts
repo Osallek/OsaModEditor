@@ -3,18 +3,18 @@ import { Dispatch } from "react";
 import actions from "../store/actions";
 import { GameActionType, GameState } from "../store/game/game.types";
 import {
-  Area,
-  ColonialRegion,
-  Country,
-  Culture,
-  Localizations,
-  Province,
-  ProvinceList,
-  Religion,
-  TerrainCategory,
-  TradeCompany,
-  TradeGood,
-  TradeNode,
+    Area,
+    ColonialRegion,
+    Country,
+    Culture,
+    Localizations,
+    Province,
+    ProvinceList,
+    Religion,
+    TerrainCategory,
+    TradeCompany,
+    TradeGood,
+    TradeNode,
 } from "../types";
 import { getCountryHistory } from "./country.utils";
 import { getEmperor } from "./emperor.utils";

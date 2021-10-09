@@ -28,6 +28,12 @@ import fr.osallek.osamodeditor.common.exception.WinterNotFoundException;
 import fr.osallek.osamodeditor.dto.GameDTO;
 import fr.osallek.osamodeditor.form.MapActionForm;
 import fr.osallek.osamodeditor.form.SimpleMapActionForm;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,11 +51,6 @@ import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProvinceService {
