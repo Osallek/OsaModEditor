@@ -65,85 +65,61 @@ public class ExceptionTranslator {
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handClimateNotFoundException(ClimateNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.CLIMATE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handColonialRegionNotFoundException(ColonialRegionNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.COLONIAL_REGION_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handCountryNotFoundException(CountryNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.COUNTRY_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handCultureNotFoundException(CultureNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.CULTURE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handMonsoonNotFoundException(MonsoonNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MONSOON_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handProvinceNotFoundException(ProvinceNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.PROVINCE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handReligionNotFoundException(ReligionNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.RELIGION_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handTerrainNotFoundException(TerrainNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TERRAIN_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handTradeCompanyNotFoundException(TradeCompanyNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TRADE_COMPANY_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handTradeGoodNotFoundException(TradeGoodNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TRADE_GOOD_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handTradeNodeNotFoundException(TradeNodeNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TRADE_NODE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handWinterNotFoundException(WinterNotFoundException e) {
-        LOGGER.error(e.getMessage(), e);
-
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.WINTER_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 }
