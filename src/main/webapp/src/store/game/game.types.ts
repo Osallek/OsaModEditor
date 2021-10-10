@@ -1,19 +1,20 @@
 import { GeoJsonObject } from "geojson";
 import {
-    Area,
-    ColonialRegion,
-    Country,
-    Culture,
-    Game,
-    Province,
-    ProvinceList,
-    Region,
-    Religion,
-    SuperRegion,
-    TerrainCategory,
-    TradeCompany,
-    TradeGood,
-    TradeNode,
+  Area,
+  ColonialRegion,
+  Country,
+  Culture,
+  Game,
+  KeyLocalizations,
+  Province,
+  ProvinceList,
+  Region,
+  Religion,
+  SuperRegion,
+  TerrainCategory,
+  TradeCompany,
+  TradeGood,
+  TradeNode,
 } from "types/api.types";
 
 export const CHANGE_GAME: "game/changeGame" = "game/changeGame";
@@ -28,9 +29,11 @@ export interface GameState {
   startDate: Date | null;
   endDate: Date | null;
   geoJson: GeoJsonObject | null;
+  graphicalCultures: Record<string, KeyLocalizations>;
   provinces: Record<number, Province>;
   tradeNodes: Record<string, TradeNode>;
   countries: Record<string, Country>;
+  historicalCouncils: Record<string, KeyLocalizations>;
   tradeGoods: Record<string, TradeGood>;
   areas: Record<string, Area>;
   regions: Record<string, Region>;
@@ -45,6 +48,7 @@ export interface GameState {
   climates: Record<string, ProvinceList>;
   monsoons: Record<string, ProvinceList>;
   terrainCategories: Record<string, TerrainCategory>;
+  sortedGraphicalCultures: Array<KeyLocalizations>;
   sortedTradeNodes: Array<TradeNode>;
   sortedCountries: Array<Country>;
   sortedTradeGoods: Array<TradeGood>;

@@ -31,6 +31,8 @@ public class GameDTO {
 
     private FeatureCollection geoJson;
 
+    private Map<String, KeyLocalisedDTO> graphicalCultures;
+
     private Map<Integer, ProvinceDTO> provinces;
 
     private Map<String, TerrainCategoryDTO> terrainCategories;
@@ -38,6 +40,8 @@ public class GameDTO {
     private Map<String, TradeNodeDTO> tradeNodes;
 
     private Map<String, CountryDTO> countries;
+
+    private Map<String, KeyLocalisedDTO> historicalCouncils;
 
     private Map<String, TradeGoodDTO> tradeGoods;
 
@@ -75,6 +79,11 @@ public class GameDTO {
         this.folderName = tmpFolderName;
         this.startDate = game.getStartDate();
         this.endDate = game.getEndDate();
+        this.graphicalCultures = CollectionUtils.isEmpty(game.getGraphicalCultures()) ? null
+                                                                                      : game.getGraphicalCultures()
+                                                                                            .stream()
+                                                                                            .map(s -> new KeyLocalisedDTO(s, game.getAllLocalisations()))
+                                                                                            .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -120,6 +129,10 @@ public class GameDTO {
                              .map(country -> new CountryDTO(country, game.getAllLocalisations()))
                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
+
+        this.historicalCouncils = Eu4Utils.HISTORICAL_COUNCILS.stream()
+                                                              .map(s -> new KeyLocalisedDTO("COUNCIL_" + s.toUpperCase() + "_TRIG", s, game.getAllLocalisations()))
+                                                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
 
         this.tradeGoods = game.getTradeGoods()
                               .stream()
@@ -287,6 +300,14 @@ public class GameDTO {
         this.geoJson = geoJson;
     }
 
+    public Map<String, KeyLocalisedDTO> getGraphicalCultures() {
+        return graphicalCultures;
+    }
+
+    public void setGraphicalCultures(Map<String, KeyLocalisedDTO> graphicalCultures) {
+        this.graphicalCultures = graphicalCultures;
+    }
+
     public Map<String, TerrainCategoryDTO> getTerrainCategories() {
         return terrainCategories;
     }
@@ -317,6 +338,14 @@ public class GameDTO {
 
     public void setCountries(Map<String, CountryDTO> countries) {
         this.countries = countries;
+    }
+
+    public Map<String, KeyLocalisedDTO> getHistoricalCouncils() {
+        return historicalCouncils;
+    }
+
+    public void setHistoricalCouncils(Map<String, KeyLocalisedDTO> historicalCouncils) {
+        this.historicalCouncils = historicalCouncils;
     }
 
     public Map<String, TradeGoodDTO> getTradeGoods() {

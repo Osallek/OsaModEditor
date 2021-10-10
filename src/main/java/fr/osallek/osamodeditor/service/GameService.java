@@ -29,7 +29,7 @@ public class GameService {
 
     private static final AtomicInteger GAME_PROGRESS = new AtomicInteger(0);
 
-    private static final int MAX_PROGRESS = 90;
+    private static final int MAX_PROGRESS = 91;
 
     private Game game = null;
 

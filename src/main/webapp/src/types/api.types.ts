@@ -37,14 +37,20 @@ export type Localizations = {
   spanish: string;
 };
 
+export type KeyLocalizations = Localizations & {
+  name: string;
+};
+
 export type Game = {
   folderName: string;
   startDate: string;
   endDate: string;
   geoJson: GeoJsonObject;
+  graphicalCultures: Record<string, KeyLocalizations>;
   provinces: Record<number, Province>;
   tradeNodes: Record<string, TradeNode>;
   countries: Record<string, Country>;
+  historicalCouncils: Record<string, KeyLocalizations>;
   tradeGoods: Record<string, TradeGood>;
   areas: Record<string, Area>;
   regions: Record<string, Region>;
@@ -138,7 +144,7 @@ export type Country = Localizations & {
   color: Color;
   revolutionaryColors: Color;
   historicalCouncil: string;
-  historicalScore: number;
+  historicalScore: number | null;
   historicalIdeaGroups: Array<string>;
   monarchNames: Record<string, number>;
   historicalUnits: Array<string>;
