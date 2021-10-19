@@ -1,4 +1,5 @@
 import { localisationsComparator } from "utils/localisations.utils";
+import { Power } from "types";
 import { CHANGE_GAME, GameActionType, GameState } from "./game.types";
 
 const initialState: GameState = {
@@ -25,6 +26,9 @@ const initialState: GameState = {
   climates: {},
   monsoons: {},
   terrainCategories: {},
+  modifiers: {},
+  ideaGroups: {},
+  technologies: { [Power.ADM]: [], [Power.DIP]: [], [Power.MIL]: [] },
   sortedGraphicalCultures: [],
   sortedTradeNodes: [],
   sortedCountries: [],
@@ -40,6 +44,8 @@ const initialState: GameState = {
   sortedClimates: [],
   sortedMonsoons: [],
   sortedTerrainCategories: [],
+  sortedModifiers: [],
+  sortedIdeaGroups: [],
   defines: {},
 };
 
@@ -66,6 +72,8 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         sortedClimates: Object.values(action.payload.climates).sort(localisationsComparator),
         sortedTerrainCategories: Object.values(action.payload.terrainCategories).sort(localisationsComparator),
         sortedMonsoons: Object.values(action.payload.monsoons).sort(localisationsComparator),
+        sortedIdeaGroups: Object.values(action.payload.ideaGroups).sort(localisationsComparator),
+        sortedModifiers: Object.values(action.payload.modifiers).sort(localisationsComparator),
       };
     }
 

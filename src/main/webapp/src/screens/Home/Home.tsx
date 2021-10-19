@@ -1,7 +1,7 @@
 import { Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import api from "api";
-import Button, { FormControl } from "components/controls";
+import { FormControl, LoadButton } from "components/controls";
 import { Title } from "components/global";
 import LabeledLinearProgress from "components/global/LabeledLinearProgress";
 import { useEventSnackbar } from "hooks/snackbar.hooks";
@@ -109,7 +109,7 @@ const Home: React.FC<void> = () => {
           </Grid>
         </Grid>
         <Grid container item justifyContent="center">
-          <Button
+          <LoadButton
             variant="contained"
             size="large"
             color="primary"

@@ -19,7 +19,7 @@ const AppRouter: React.FC = () => {
   });
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex" }}>
+    <div style={{ minHeight: "100vh", display: "flex", backgroundColor: "#f3f3f3" }}>
       <Container maxWidth={false} style={{ padding: 24 }}>
         <BrowserRouter basename="/editor">
           <Switch>

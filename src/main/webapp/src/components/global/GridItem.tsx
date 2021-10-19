@@ -17,7 +17,7 @@ const GridItem = ({ xs, sm, md, xl, link, text }: Props) => {
 
   return (
     <Grid item xs={xs} sm={sm} md={md} xl={xl}>
-      <Card variant="outlined">
+      <Card variant="outlined" style={{ backgroundColor: "#f3f3f3" }}>
         <CardActionArea onClick={() => history.push(link)}>
           <CardContent color="primary">
             <Typography align="center" variant="h2">

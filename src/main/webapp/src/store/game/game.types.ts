@@ -5,12 +5,16 @@ import {
   Country,
   Culture,
   Game,
+  IdeaGroup,
   KeyLocalizations,
+  Modifier,
+  Power,
   Province,
   ProvinceList,
   Region,
   Religion,
   SuperRegion,
+  Technology,
   TerrainCategory,
   TradeCompany,
   TradeGood,
@@ -48,6 +52,9 @@ export interface GameState {
   climates: Record<string, ProvinceList>;
   monsoons: Record<string, ProvinceList>;
   terrainCategories: Record<string, TerrainCategory>;
+  modifiers: Record<string, Modifier>;
+  technologies: Record<Power, Array<Technology>>;
+  ideaGroups: Record<string, IdeaGroup>;
   sortedGraphicalCultures: Array<KeyLocalizations>;
   sortedTradeNodes: Array<TradeNode>;
   sortedCountries: Array<Country>;
@@ -63,6 +70,8 @@ export interface GameState {
   sortedClimates: Array<ProvinceList>;
   sortedMonsoons: Array<ProvinceList>;
   sortedTerrainCategories: Array<TerrainCategory>;
+  sortedModifiers: Array<Modifier>;
+  sortedIdeaGroups: Array<IdeaGroup>;
   defines: Record<string, Record<string, string>>;
 }
 

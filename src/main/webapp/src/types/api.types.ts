@@ -1,5 +1,26 @@
 import { GeoJsonObject } from "geojson";
 
+export enum ModifierType {
+  ADDITIVE = "ADDITIVE",
+  MULTIPLICATIVE = "MULTIPLICATIVE",
+  CONSTANT = "CONSTANT",
+}
+
+export enum ModifierScope {
+  COUNTRY = "COUNTRY",
+  PROVINCE = "PROVINCE",
+}
+
+export enum Power {
+  ADM = "ADM",
+  DIP = "DIP",
+  MIL = "MIL",
+}
+
+export type FileName = {
+  file: string;
+};
+
 export type GameInit = {
   installFolder?: string;
   mods?: Array<IdName<string, string>>;
@@ -41,6 +62,16 @@ export type KeyLocalizations = Localizations & {
   name: string;
 };
 
+export type ProvinceList = Localizations & {
+  name: string;
+  color: Color;
+};
+
+export type Pair<K, V> = {
+  key: K;
+  value: V;
+};
+
 export type Game = {
   folderName: string;
   startDate: string;
@@ -66,6 +97,9 @@ export type Game = {
   climates: Record<string, ProvinceList>;
   terrainCategories: Record<string, TerrainCategory>;
   defines: Record<string, Record<string, string>>;
+  modifiers: Record<string, Modifier>;
+  technologies: Record<Power, Array<Technology>>;
+  ideaGroups: Record<string, IdeaGroup>;
 };
 
 export type TradeNode = Localizations & {
@@ -142,11 +176,11 @@ export type Country = Localizations & {
   flagFile: string;
   graphicalCulture: string;
   color: Color;
-  revolutionaryColors: Color;
+  revolutionaryColor: Array<number>;
   historicalCouncil: string;
   historicalScore: number | null;
   historicalIdeaGroups: Array<string>;
-  monarchNames: Record<string, number>;
+  monarchNames: Array<Pair<string, number>>;
   historicalUnits: Array<string>;
   leaderNames: Array<string>;
   shipNames: Array<string>;
@@ -251,9 +285,31 @@ export type TradeCompany = Localizations & {
   color: Color;
 };
 
-export type ProvinceList = Localizations & {
+export type Modifier = Localizations & {
+  id: string;
+  type: ModifierType;
+  scope: ModifierScope;
+};
+
+export type Modifiers = {
+  enables: Array<string> | null;
+  modifiers: Record<string, number> | null;
+};
+
+export type Technology = Localizations & {
+  number: number;
+  type: Power;
+  year: number;
+  modifiers: Modifiers | null;
+};
+
+export type IdeaGroup = Localizations & {
   name: string;
-  color: Color;
+  category: Power;
+  free: boolean | null;
+  start: Modifiers;
+  bonus: Modifiers;
+  ideas: Record<string, Modifiers>;
 };
 
 export enum ServerSuccesses {
@@ -277,4 +333,5 @@ export enum ServerErrors {
   TRADE_NODE_NOT_FOUND = "TRADE_NODE_NOT_FOUND",
   WINTER_NOT_FOUND = "WINTER_NOT_FOUND",
   INVALID_PARAMETER = "INVALID_PARAMETER",
+  INVALID_FILE = "INVALID_FILE",
 }

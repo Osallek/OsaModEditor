@@ -26,6 +26,10 @@ const endpoints = {
     changeClimate: "/province/change-climate",
     changeTerrain: "/province/change-terrain",
   },
+  country: {
+    flag: (tag: string) => `/country/${tag}/flag`,
+    edit: (tag: string) => `/country/${tag}/edit`,
+  },
 };
 
 export default endpoints;

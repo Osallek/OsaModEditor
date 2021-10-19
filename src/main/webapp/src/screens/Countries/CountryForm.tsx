@@ -1,16 +1,21 @@
-import { Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Upload } from "@mui/icons-material";
+import { Box, Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
+import api from "api";
+import { ChipInput, ColorField, IdeasDialog, LoadButton, MonarchNameTable } from "components/controls";
 import { BackTitle } from "components/global";
+import { useEventSnackbar } from "hooks/snackbar.hooks";
 import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { RootState } from "store/types";
-import { KeyLocalizations, ServerErrors } from "types";
+import { KeyLocalizations, Pair, ServerErrors, ServerSuccesses } from "types";
+import { getImageUrl } from "utils/global.utils";
 import { localize } from "utils/localisations.utils";
 import { snackbarError } from "utils/snackbar.utils";
-import Button from "../../components/controls";
+import actions from "../../store/actions";
 
 interface CountryFormParams {
   tag: string;
@@ -19,6 +24,7 @@ interface CountryFormParams {
 const CountryForm: React.FC<void> = () => {
   const intl = useIntl();
   const history = useHistory();
+  const dispatch = useDispatch();
   const { tag } = useParams<CountryFormParams>();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -32,11 +38,32 @@ const CountryForm: React.FC<void> = () => {
     snackbarError(ServerErrors.COUNTRY_NOT_FOUND, enqueueSnackbar, intl);
   }
 
+  const [flagFile, setFlagFile] = useState<string | null>(folderName && getImageUrl(folderName, country.flagFile));
   const [graphicalCulture, setGraphicalCulture] = useState<KeyLocalizations | null>(graphicalCultures[country?.graphicalCulture] ?? null);
   const [historicalCouncil, setHistoricalCouncil] = useState<KeyLocalizations | null>(historicalCouncils[country?.historicalCouncil] ?? null);
   const [historicalScore, setHistoricalScore] = useState<number | null>(country.historicalScore);
-
+  const [color, setColor] = useState<string>(country.color.hex);
+  const [historicalIdeaGroups, setHistoricalIdeaGroups] = useState<Array<string>>(country.historicalIdeaGroups);
+  const [monarchNames, setMonarchNames] = useState<Array<Pair<string, number>>>(country.monarchNames);
+  const [armyNames, setArmyNames] = useState<Array<string>>(country.armyNames ?? []);
+  const [fleetNames, setFleetNames] = useState<Array<string>>(country.fleetNames ?? []);
+  const [shipNames, setShipNames] = useState<Array<string>>(country.shipNames ?? []);
+  const [leaderNames, setLeaderNames] = useState<Array<string>>(country.leaderNames ?? []);
+  const [newFlagFile, setNewFlagFile] = useState<File | null>(null);
   const [modified, setModified] = useState<boolean>(false);
+
+  const [, submitFlag] = useEventSnackbar(async (formData: FormData) => {
+    if (folderName) {
+      const payload = await api.country.flag(country.tag, formData);
+      const { file } = payload.data;
+
+      setFlagFile(getImageUrl(folderName, file));
+    }
+  });
+
+  const [loading, submitEdit] = useEventSnackbar(async (formData: FormData) => {
+    await dispatch(actions.country.edit(country.tag, formData));
+  }, `api.success.${ServerSuccesses.DEFAULT_SUCCESS}`);
 
   useEffect(() => {
     if (country) {
@@ -44,7 +71,53 @@ const CountryForm: React.FC<void> = () => {
     }
   }, [intl, country]);
 
-  //getImageUrl(folderName, country.flagFile)
+  const handleUploadFlag = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (event != null && event.target && event.target.files && event.target.files.length > 0) {
+      setNewFlagFile(event.target.files[0]);
+
+      if (event.target.files[0]) {
+        const formData = new FormData();
+        formData.append("file", event.target.files[0]);
+
+        await submitFlag(formData);
+        setModified(true);
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!loading) {
+      const formData = new FormData();
+
+      if (newFlagFile) {
+        formData.append("flag", newFlagFile);
+      }
+
+      const body = new Blob(
+        [
+          JSON.stringify({
+            graphicalCulture: graphicalCulture?.name,
+            historicalCouncil: historicalCouncil?.name,
+            historicalScore,
+            color,
+            historicalIdeaGroups,
+            monarchNames,
+            armyNames,
+            fleetNames,
+            shipNames,
+            leaderNames,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      );
+
+      formData.append("body", body);
+
+      await submitEdit(formData);
+    }
+  };
 
   return country ? (
     <Grid container spacing={2}>
@@ -53,29 +126,53 @@ const CountryForm: React.FC<void> = () => {
       </Grid>
       <Grid item xs />
       <Grid item xs={10} md={8} lg={8} xl={6} style={{ height: "100%" }}>
-        <Card style={{ backgroundColor: "lightgray" }}>
+        <Card>
           <CardHeader
             title={localize(country)}
             titleTypographyProps={{ variant: "h4" }}
             action={
-              <Button
+              <LoadButton
+                key={"button" + country.tag}
                 variant="contained"
                 color="primary"
                 size="large"
-                // onClick={handleSubmit}
+                onClick={handleSubmit}
                 disabled={!modified}
                 messageKey="global.validate"
-                // loading={loading}
+                loading={loading}
               />
             }
           />
           <CardContent>
-            <FormControl style={{ margin: 8, width: "calc(100% - 16px)" }}>
+            {flagFile && (
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  marginBottom: 8,
+                  marginTop: 8,
+                  marginLeft: 0,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Box component="img" src={`${flagFile}?${Date.now()}`} style={{ maxHeight: 128 }} />
+                <Grid item style={{ paddingTop: 0 }}>
+                  <input accept=".tga" id="flag-upload" type="file" style={{ display: "none" }} onChange={handleUploadFlag} />
+                  <label htmlFor="flag-upload">
+                    <Button variant="contained" endIcon={<Upload />} component="span">
+                      {intl.formatMessage({ id: "country.changeFlag" })}
+                    </Button>
+                  </label>
+                </Grid>
+              </Grid>
+            )}
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
               <InputLabel id="graphicalCulture-label">{intl.formatMessage({ id: "country.graphicalCulture" })}</InputLabel>
               <Select
                 labelId="graphicalCulture-label"
                 label={intl.formatMessage({ id: "country.graphicalCulture" })}
-                value={graphicalCulture?.name}
+                value={graphicalCulture?.name ?? ""}
                 onChange={(event: SelectChangeEvent) => {
                   if (graphicalCultures[event.target.value as string] !== graphicalCulture) {
                     setGraphicalCulture(graphicalCultures[event.target.value as string]);
@@ -91,12 +188,12 @@ const CountryForm: React.FC<void> = () => {
                   ))}
               </Select>
             </FormControl>
-            <FormControl style={{ margin: 8, width: "calc(100% - 16px)" }}>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
               <InputLabel id="historicalCouncil-label">{intl.formatMessage({ id: "country.historicalCouncil" })}</InputLabel>
               <Select
                 labelId="historicalCouncil-label"
                 label={intl.formatMessage({ id: "country.historicalCouncil" })}
-                value={historicalCouncil?.name}
+                value={historicalCouncil?.name ?? ""}
                 onChange={(event: SelectChangeEvent) => {
                   if (historicalCouncils[event.target.value as string] !== historicalCouncil) {
                     setHistoricalCouncil(historicalCouncils[event.target.value as string]);
@@ -116,13 +213,86 @@ const CountryForm: React.FC<void> = () => {
               id="historical-score-input"
               label={intl.formatMessage({ id: "country.historicalScore" })}
               type="number"
-              style={{ margin: 8, width: "calc(100% - 16px)" }}
+              style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
               value={historicalScore}
+              InputProps={{ inputProps: { min: 0 } }}
               onChange={(event) => {
-                if (parseInt(event.target.value) !== historicalScore) {
-                  setHistoricalScore(parseInt(event.target.value));
+                const num = parseInt(event.target.value);
+                if (num !== historicalScore && num >= 0) {
+                  setHistoricalScore(num);
                   setModified(true);
                 }
+              }}
+            />
+            <ColorField
+              id="color-input"
+              label={intl.formatMessage({ id: "country.color" })}
+              style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+              value={color}
+              onChange={(newColor: string) => {
+                setColor(newColor);
+                setModified(true);
+              }}
+            />
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
+              <IdeasDialog
+                buttonKey="country.historicalIdeaGroups"
+                title="country.historicalIdeaGroups"
+                free={false}
+                initialValue={historicalIdeaGroups}
+                onValidate={(ideas) => setHistoricalIdeaGroups(ideas)}
+              />
+            </FormControl>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
+              <MonarchNameTable
+                initialNames={monarchNames}
+                onValidate={(names) => {
+                  setMonarchNames(names);
+                }}
+              />
+            </FormControl>
+            <ChipInput
+              style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+              label="country.armyNames"
+              values={armyNames}
+              onAdd={(value) => {
+                setArmyNames([...armyNames, value]);
+              }}
+              onDelete={(index) => {
+                setArmyNames(armyNames.filter((value, i) => i !== index));
+              }}
+            />
+            <ChipInput
+              style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+              label="country.fleetNames"
+              values={fleetNames}
+              onAdd={(value) => {
+                setFleetNames([...fleetNames, value]);
+              }}
+              onDelete={(index) => {
+                setFleetNames(fleetNames.filter((value, i) => i !== index));
+              }}
+            />
+            <ChipInput
+              style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+              label="country.shipNames"
+              values={shipNames}
+              onAdd={(value) => {
+                setShipNames([...shipNames, value]);
+              }}
+              onDelete={(index) => {
+                setShipNames(shipNames.filter((value, i) => i !== index));
+              }}
+            />
+            <ChipInput
+              style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+              label="country.leaderNames"
+              values={leaderNames}
+              onAdd={(value) => {
+                setLeaderNames([...leaderNames, value]);
+              }}
+              onDelete={(index) => {
+                setLeaderNames(leaderNames.filter((value, i) => i !== index));
               }}
             />
           </CardContent>

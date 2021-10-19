@@ -699,16 +699,4 @@ public class ProvinceService {
             }
         }
     }
-
-    private List<ProvinceList> getClimateFileObjects() {
-        Game game = this.gameService.getGame();
-
-        List<ProvinceList> list = new ArrayList<>();
-        list.addAll(game.getClimates().stream().filter(Predicate.not(ProvinceList::isFake)).collect(Collectors.toList()));
-        list.addAll(game.getWinters().stream().filter(Predicate.not(ProvinceList::isFake)).collect(Collectors.toList()));
-        list.addAll(game.getMonsoons().stream().filter(Predicate.not(ProvinceList::isFake)).collect(Collectors.toList()));
-        list.add(game.getImpassableClimate());
-
-        return list;
-    }
 }

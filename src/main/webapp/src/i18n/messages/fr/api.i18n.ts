@@ -15,6 +15,9 @@ const api = {
   "api.error.TRADE_NODE_NOT_FOUND": "Nœud commercial inconnu !",
   "api.error.WINTER_NOT_FOUND": "Hiver inconnu !",
   "api.error.INVALID_PARAMETER": "Une erreur est survenue !",
+  "api.error.INVALID_FILE": "Fichier non valide !",
+  "api.error.IDEA_GROUP_NOT_FOUND": "Groupe d'idées inconnu !",
+  "api.error.GRAPHICAL_CULTURE_NOT_FOUND": "Culture graphique inconnue !",
   "api.success.DEFAULT_SUCCESS": "Les changements ont été appliqués !",
 };
 

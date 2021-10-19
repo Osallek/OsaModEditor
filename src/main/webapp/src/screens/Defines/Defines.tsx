@@ -1,15 +1,15 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Collapse, Grid, List, ListItem, ListItemButton, ListItemText, TextField } from "@mui/material";
+import { LoadButton } from "components/controls";
 import { BackTitle } from "components/global";
+import { useEventSnackbar } from "hooks/snackbar.hooks";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import actions from "store/actions";
 import { RootState } from "store/types";
-import Button from "../../components/controls";
-import { useEventSnackbar } from "../../hooks/snackbar.hooks";
-import actions from "../../store/actions";
-import { ServerSuccesses } from "../../types";
+import { ServerSuccesses } from "types";
 
 const Defines: React.FC<void> = () => {
   const intl = useIntl();
@@ -86,12 +86,12 @@ const Defines: React.FC<void> = () => {
       </Grid>
       <Grid item xs />
       <Grid item xs={10} md={8} lg={8} xl={6} style={{ height: "100%" }}>
-        <Card style={{ backgroundColor: "lightgray" }}>
+        <Card>
           <CardHeader
             title={intl.formatMessage({ id: "global.defines" })}
             titleTypographyProps={{ variant: "h4" }}
             action={
-              <Button
+              <LoadButton
                 variant="contained"
                 color="primary"
                 size="large"
@@ -103,7 +103,7 @@ const Defines: React.FC<void> = () => {
             }
           />
           <CardContent>
-            <List component="nav" sx={{ backgroundColor: "lightgray" }}>
+            <List component="nav">
               {Object.entries(defines).map(([key, value], index) => (
                 <>
                   <ListItemButton key={index} onClick={() => handleClickItem(index)}>

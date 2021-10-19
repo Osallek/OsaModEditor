@@ -1,7 +1,7 @@
 import endpoints from "api/endpoints";
 import axios, { AxiosPromise } from "axios";
 import * as ENV from "env/env";
-import { Game, GameForm, GameInit, MapActionForm, SimpleMapActionForm } from "../types";
+import { FileName, Game, GameForm, GameInit, MapActionForm, SimpleMapActionForm } from "../types";
 
 const ws = axios.create({
   baseURL: ENV.API_BASE_URL,
@@ -84,6 +84,22 @@ const api = {
     },
     changeTerrain: (form: SimpleMapActionForm): AxiosPromise<Game> => {
       return ws.post(endpoints.province.changeTerrain, form);
+    },
+  },
+  country: {
+    flag: (tag: string, form: FormData): AxiosPromise<FileName> => {
+      return ws.post(endpoints.country.flag(tag), form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    },
+    edit: (tag: string, form: FormData): AxiosPromise<Game> => {
+      return ws.post(endpoints.country.edit(tag), form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     },
   },
 };

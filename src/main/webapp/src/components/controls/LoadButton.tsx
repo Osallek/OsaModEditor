@@ -6,10 +6,10 @@ interface Props extends LoadingButtonProps {
   messageKey: string;
 }
 
-const Button = ({ messageKey, ...others }: Props) => {
+const LoadButton = ({ messageKey, ...others }: Props) => {
   const intl = useIntl();
 
   return <LoadingButton {...others}>{intl.formatMessage({ id: messageKey })}</LoadingButton>;
 };
 
-export default Button;
+export default LoadButton;

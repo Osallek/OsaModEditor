@@ -1,7 +1,7 @@
 import { MobileDatePicker } from "@mui/lab";
 import { Autocomplete, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
-import Button, { FormControl } from "components/controls";
+import { LoadButton, FormControl } from "components/controls";
 import { BackTitle } from "components/global";
 import { Feature } from "geojson";
 import { useEventSnackbar } from "hooks/snackbar.hooks";
@@ -15,7 +15,7 @@ import { useHistory } from "react-router-dom";
 import { RootState } from "store/types";
 import { localize } from "utils/localisations.utils";
 import { getProvinceStyle, getTargets, IMapAction, MapAction, mapActions, MapActionType, MapMod, mapMods, onClickProvince } from "utils/map.utils";
-import { Localizations, Province, ServerSuccesses } from "../../types";
+import { Localizations, Province, ServerSuccesses } from "types";
 import "./Map.css";
 
 const Map: React.FC<void> = () => {
@@ -309,7 +309,7 @@ const Map: React.FC<void> = () => {
                 </Grid>
               )}
               <Grid item justifyContent="center">
-                <Button
+                <LoadButton
                   variant="contained"
                   color="primary"
                   size="large"

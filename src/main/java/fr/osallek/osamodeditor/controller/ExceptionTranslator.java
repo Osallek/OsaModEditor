@@ -4,6 +4,10 @@ import fr.osallek.osamodeditor.common.exception.ClimateNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ColonialRegionNotFoundException;
 import fr.osallek.osamodeditor.common.exception.CountryNotFoundException;
 import fr.osallek.osamodeditor.common.exception.CultureNotFoundException;
+import fr.osallek.osamodeditor.common.exception.GraphicalCultureNotFoundException;
+import fr.osallek.osamodeditor.common.exception.IdeaGroupNotFoundException;
+import fr.osallek.osamodeditor.common.exception.InvalidColorException;
+import fr.osallek.osamodeditor.common.exception.InvalidFileException;
 import fr.osallek.osamodeditor.common.exception.MonsoonNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ProvinceNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ReligionNotFoundException;
@@ -84,6 +88,11 @@ public class ExceptionTranslator {
     }
 
     @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handIdeaGroupNotFoundException(IdeaGroupNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.IDEA_GROUP_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handMonsoonNotFoundException(MonsoonNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MONSOON_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
@@ -121,5 +130,20 @@ public class ExceptionTranslator {
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handWinterNotFoundException(WinterNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.WINTER_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handGraphicalCultureNotFoundException(GraphicalCultureNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.GRAPHICAL_CULTURE_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handInvalidFileException(InvalidFileException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.INVALID_FILE), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handInvalidColorException(InvalidColorException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.INVALID_COLOR), HttpStatus.BAD_REQUEST);
     }
 }

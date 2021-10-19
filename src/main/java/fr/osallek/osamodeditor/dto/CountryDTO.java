@@ -1,10 +1,13 @@
 package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.osallek.clausewitzparser.common.ClausewitzUtils;
 import fr.osallek.eu4parser.model.game.Country;
 import fr.osallek.eu4parser.model.game.IdeaGroup;
+import fr.osallek.eu4parser.model.game.Unit;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
-import org.apache.commons.collections4.CollectionUtils;
+import fr.osallek.osamodeditor.common.Constants;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +24,7 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ColorDTO color;
 
-    private ColorDTO revolutionaryColors;
+    private List<Integer> revolutionaryColors;
 
     private String historicalCouncil;
 
@@ -29,7 +32,7 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private List<String> historicalIdeaGroups;
 
-    private Map<String, Integer> monarchNames;
+    private List<Pair<String, Integer>> monarchNames;
 
     private List<String> historicalUnits;
 
@@ -50,19 +53,19 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         this.flagFile = country.getFlagPath("png");
         this.graphicalCulture = country.getGraphicalCulture();
         this.color = country.getColor() == null ? new ColorDTO(this.tag, true) : new ColorDTO(country.getColor());
-        this.revolutionaryColors = country.getRevolutionaryColor() == null ? new ColorDTO(this.tag, true) : new ColorDTO(country.getRevolutionaryColor());
+        this.revolutionaryColors = country.getRevolutionaryColors();
         this.historicalCouncil = country.getHistoricalCouncil();
         this.historicalScore = country.getHistoricalScore();
-        this.historicalIdeaGroups = CollectionUtils.isEmpty(country.getHistoricalIdeaGroups()) ? null : country.getHistoricalIdeaGroups()
-                                                                                                               .stream()
-                                                                                                               .map(IdeaGroup::getName)
-                                                                                                               .collect(Collectors.toList());
-        this.monarchNames = country.getMonarchNames();
-        this.historicalUnits = country.getArmyNames();
-        this.leaderNames = country.getLeaderNames();
-        this.shipNames = country.getShipNames();
-        this.armyNames = country.getArmyNames();
-        this.fleetNames = country.getFleetNames();
+        this.historicalIdeaGroups = Constants.nullIfEmpty(country.getHistoricalIdeaGroups(), IdeaGroup::getName, true);
+        this.monarchNames = country.getMonarchNames()
+                                   .stream()
+                                   .map(pair -> Pair.of(ClausewitzUtils.removeQuotes(pair.getKey()), pair.getValue()))
+                                   .collect(Collectors.toList());
+        this.historicalUnits = Constants.nullIfEmpty(country.getHistoricalUnits(), Unit::getName, true);
+        this.leaderNames = Constants.nullIfEmpty(country.getLeaderNames(), ClausewitzUtils::removeQuotes);
+        this.shipNames = Constants.nullIfEmpty(country.getShipNames(), ClausewitzUtils::removeQuotes);
+        this.armyNames = Constants.nullIfEmpty(country.getArmyNames(), ClausewitzUtils::removeQuotes);
+        this.fleetNames = Constants.nullIfEmpty(country.getFleetNames(), ClausewitzUtils::removeQuotes);
         this.history = Stream.concat(Stream.of(new CountryHistoryDTO(null, country.getDefaultHistoryItem())),
                                      country.getHistoryItems().entrySet().stream().map(entry -> new CountryHistoryDTO(entry.getKey(), entry.getValue())))
                              .sorted()
@@ -107,11 +110,11 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         this.color = color;
     }
 
-    public ColorDTO getRevolutionaryColors() {
+    public List<Integer> getRevolutionaryColors() {
         return revolutionaryColors;
     }
 
-    public void setRevolutionaryColors(ColorDTO revolutionaryColors) {
+    public void setRevolutionaryColors(List<Integer> revolutionaryColors) {
         this.revolutionaryColors = revolutionaryColors;
     }
 
@@ -139,11 +142,11 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         this.historicalIdeaGroups = historicalIdeaGroups;
     }
 
-    public Map<String, Integer> getMonarchNames() {
+    public List<Pair<String, Integer>> getMonarchNames() {
         return monarchNames;
     }
 
-    public void setMonarchNames(Map<String, Integer> monarchNames) {
+    public void setMonarchNames(List<Pair<String, Integer>> monarchNames) {
         this.monarchNames = monarchNames;
     }
 

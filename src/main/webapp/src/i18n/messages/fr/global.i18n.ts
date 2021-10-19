@@ -11,6 +11,7 @@ const global = {
   "global.cancel": "Annuler",
   "global.start": "Début",
   "global.search": "Rechercher",
+  "global.ideaGroup": "Groupe d'idées",
 };
 
 export default global;

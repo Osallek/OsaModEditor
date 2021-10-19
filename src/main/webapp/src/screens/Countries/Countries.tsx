@@ -39,7 +39,7 @@ const Countries: React.FC<void> = () => {
           <ListItemButton onClick={(event) => history.push(intl.formatMessage({ id: "routes.country" }) + "/" + country.tag)}>
             {folderName && (
               <ListItemAvatar>
-                <Avatar src={getImageUrl(folderName, country.flagFile)} />
+                <Avatar src={`${getImageUrl(folderName, country.flagFile)}?${Date.now()}`} />
               </ListItemAvatar>
             )}
             <ListItemText primary={isScrolling ? "Scrolling" : sortedCountries ? localize(country) : ""} />
@@ -59,7 +59,7 @@ const Countries: React.FC<void> = () => {
       </Grid>
       <Grid item xs />
       <Grid item xs={10} md={8} lg={8} xl={6} style={{ height: "100%" }}>
-        <Card style={{ backgroundColor: "lightgray", height: "100%" }}>
+        <Card style={{ height: "100%" }}>
           <CardHeader
             title={intl.formatMessage({ id: "global.countries" })}
             titleTypographyProps={{ variant: "h4" }}

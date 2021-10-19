@@ -11,6 +11,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.key.LocalDateKeyDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.key.LocalDateTimeKeyDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import fr.osallek.osamodeditor.common.PairDeserializer;
+import fr.osallek.osamodeditor.common.PairSerializer;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -36,6 +40,8 @@ public class JacksonConfig {
         simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         simpleModule.addKeyDeserializer(LocalDate.class, LocalDateKeyDeserializer.INSTANCE);
         simpleModule.addKeyDeserializer(LocalDateTime.class, LocalDateTimeKeyDeserializer.INSTANCE);
+        simpleModule.addSerializer(ImmutablePair.class, PairSerializer.INSTANCE);
+        simpleModule.addDeserializer(Pair.class, PairDeserializer.INSTANCE);
 
         return builder.createXmlMapper(false)
                       .serializationInclusion(JsonInclude.Include.NON_EMPTY)

@@ -2,8 +2,10 @@ package fr.osallek.osamodeditor.dto;
 
 import fr.osallek.eu4parser.common.Eu4MapUtils;
 import fr.osallek.eu4parser.common.Eu4Utils;
+import fr.osallek.eu4parser.model.Power;
 import fr.osallek.eu4parser.model.game.Define;
 import fr.osallek.eu4parser.model.game.Game;
+import fr.osallek.eu4parser.model.game.ModifiersUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.geojson.FeatureCollection;
 import org.slf4j.Logger;
@@ -14,7 +16,9 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -70,6 +74,12 @@ public class GameDTO {
     private Map<LocalDate, String> celestialEmperors;
 
     private Map<String, Map<String, String>> defines;
+
+    private Map<String, ModifierDTO> modifiers;
+
+    private Map<Power, SortedSet<TechnologyDTO>> technologies;
+
+    private Map<String, IdeaGroupDTO> ideaGroups;
 
     public GameDTO(Game game, String tmpFolderName) {
         this(game, tmpFolderName, () -> {});
@@ -131,7 +141,8 @@ public class GameDTO {
         runnable.run();
 
         this.historicalCouncils = Eu4Utils.HISTORICAL_COUNCILS.stream()
-                                                              .map(s -> new KeyLocalisedDTO("COUNCIL_" + s.toUpperCase() + "_TRIG", s, game.getAllLocalisations()))
+                                                              .map(s -> new KeyLocalisedDTO("COUNCIL_" + s.toUpperCase() + "_TRIG", s,
+                                                                                            game.getAllLocalisations()))
                                                               .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
 
         this.tradeGoods = game.getTradeGoods()
@@ -258,6 +269,28 @@ public class GameDTO {
                            .flatMap(Collection::stream)
                            .collect(Collectors.groupingBy(Define::getCategory, LinkedHashMap::new,
                                                           Collectors.toMap(Define::getName, Define::getAsString, (s, s2) -> s, LinkedHashMap::new)));
+        runnable.run();
+
+        this.modifiers = ModifiersUtils.MODIFIERS_MAP.values()
+                                                     .stream()
+                                                     .map(modifier -> new ModifierDTO(modifier, game.getAllLocalisations()))
+                                                     .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
+
+        this.technologies = game.getTechnologies()
+                                .entrySet()
+                                .stream()
+                                .collect(Collectors.toMap(Map.Entry::getKey,
+                                                          entry -> entry.getValue()
+                                                                        .stream()
+                                                                        .map(technology -> new TechnologyDTO(technology, game.getAllLocalisations()))
+                                                                        .collect(Collectors.toCollection(TreeSet::new))));
+        runnable.run();
+
+        this.ideaGroups = game.getIdeaGroups()
+                              .stream()
+                              .map(ideaGroup -> new IdeaGroupDTO(ideaGroup, game.getAllLocalisations()))
+                              .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
 
         try {
@@ -458,5 +491,29 @@ public class GameDTO {
 
     public void setDefines(Map<String, Map<String, String>> defines) {
         this.defines = defines;
+    }
+
+    public Map<String, ModifierDTO> getModifiers() {
+        return modifiers;
+    }
+
+    public void setModifiers(Map<String, ModifierDTO> modifiers) {
+        this.modifiers = modifiers;
+    }
+
+    public Map<Power, SortedSet<TechnologyDTO>> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(Map<Power, SortedSet<TechnologyDTO>> technologies) {
+        this.technologies = technologies;
+    }
+
+    public Map<String, IdeaGroupDTO> getIdeaGroups() {
+        return ideaGroups;
+    }
+
+    public void setIdeaGroups(Map<String, IdeaGroupDTO> ideaGroups) {
+        this.ideaGroups = ideaGroups;
     }
 }
