@@ -72,6 +72,13 @@ const Countries: React.FC<void> = () => {
                 getOptionLabel={(option) => localize(option)}
                 isOptionEqualToValue={(option, value) => option.tag === value.tag}
                 renderInput={(params) => <TextField {...params} variant="filled" label={intl.formatMessage({ id: "global.search" })} />}
+                renderOption={(props, option) => {
+                  return (
+                    <li {...props} key={option.tag}>
+                      {localize(option)}
+                    </li>
+                  );
+                }}
               />
             }
           />

@@ -62,6 +62,13 @@ const MissionsList = ({ missions, folderName, inline = false }: Props) => {
               getOptionLabel={(option) => localize(option)}
               isOptionEqualToValue={(option, value) => option.name === value.name}
               renderInput={(params) => <TextField {...params} variant="filled" label={intl.formatMessage({ id: "global.search" })} />}
+              renderOption={(props, option) => {
+                return (
+                  <li {...props} key={option.name}>
+                    {localize(option)}
+                  </li>
+                );
+              }}
             />
           )
         }

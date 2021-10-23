@@ -9,6 +9,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { RootState } from "store/types";
 import { MissionsTree } from "types";
+import { localize } from "../../utils/localisations.utils";
 
 const MissionsTrees: React.FC<void> = () => {
   const intl = useIntl();
@@ -65,6 +66,13 @@ const MissionsTrees: React.FC<void> = () => {
                 getOptionLabel={(option) => option.name}
                 isOptionEqualToValue={(option, value) => option.name === value.name}
                 renderInput={(params) => <TextField {...params} variant="filled" label={intl.formatMessage({ id: "global.search" })} />}
+                renderOption={(props, option) => {
+                  return (
+                    <li {...props} key={option.name}>
+                      {option.name}
+                    </li>
+                  );
+                }}
               />
             }
           />
