@@ -2,7 +2,7 @@ package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.Mission;
-import fr.osallek.eu4parser.model.game.MissionTree;
+import fr.osallek.eu4parser.model.game.MissionsTree;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,13 +22,13 @@ public class MissionsTreeDTO implements MappedDTO<String> {
 
     private List<String> missions;
 
-    public MissionsTreeDTO(MissionTree missionTree) {
-        this.name = missionTree.getName();
-        this.slot = missionTree.getSlot();
-        this.isGeneric = missionTree.isGeneric();
-        this.isAi = missionTree.isAi();
-        this.hasCountryShield = missionTree.hasCountryShield();
-        this.missions = missionTree.getMissions().stream().filter(Objects::nonNull).map(Mission::getName).collect(Collectors.toList());
+    public MissionsTreeDTO(MissionsTree missionsTree) {
+        this.name = missionsTree.getName();
+        this.slot = missionsTree.getSlot();
+        this.isGeneric = missionsTree.isGeneric();
+        this.isAi = missionsTree.isAi();
+        this.hasCountryShield = missionsTree.hasCountryShield();
+        this.missions = missionsTree.getMissions().stream().filter(Objects::nonNull).map(Mission::getName).collect(Collectors.toList());
     }
 
     @Override

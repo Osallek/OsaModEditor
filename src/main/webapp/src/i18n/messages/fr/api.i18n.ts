@@ -18,6 +18,8 @@ const api = {
   "api.error.INVALID_FILE": "Fichier non valide !",
   "api.error.IDEA_GROUP_NOT_FOUND": "Groupe d'idées inconnu !",
   "api.error.GRAPHICAL_CULTURE_NOT_FOUND": "Culture graphique inconnue !",
+  "api.error.MISSION_NOT_FOUND": "Missions inconnue !",
+  "api.error.MISSIONS_TREE_NOT_FOUND": "Arbre de missions inconnu !",
   "api.success.DEFAULT_SUCCESS": "Les changements ont été appliqués !",
 };
 

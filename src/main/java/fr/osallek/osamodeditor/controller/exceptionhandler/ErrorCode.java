@@ -1,4 +1,4 @@
-package fr.osallek.osamodeditor.controller;
+package fr.osallek.osamodeditor.controller.exceptionhandler;
 
 public enum ErrorCode {
     DEFAULT_ERROR,
@@ -17,5 +17,10 @@ public enum ErrorCode {
     TRADE_NODE_NOT_FOUND,
     WINTER_NOT_FOUND,
     INVALID_PARAMETER,
-    IDEA_GROUP_NOT_FOUND, INVALID_COLOR, GRAPHICAL_CULTURE_NOT_FOUND, INVALID_FILE
+    IDEA_GROUP_NOT_FOUND,
+    INVALID_COLOR,
+    GRAPHICAL_CULTURE_NOT_FOUND,
+    MISSION_NOT_FOUND,
+    MISSIONS_TREE_NOT_FOUND,
+    INVALID_FILE
 }

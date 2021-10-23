@@ -1,16 +1,18 @@
 import { Card, CardContent, CardHeader, FormControl, FormControlLabel, Grid, Switch, TextField } from "@mui/material";
 import { LoadButton } from "components/controls";
 import { BackTitle } from "components/global";
+import { MissionsList } from "components/mission";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { RootState } from "store/types";
-import { ServerErrors } from "types";
-import { snackbarError } from "utils/snackbar.utils";
-import { MissionsList } from "components/mission";
+import { MissionsTreeEdit, ServerErrors, ServerSuccesses } from "types";
 import { localisationsComparator } from "utils/localisations.utils";
+import { snackbarError } from "utils/snackbar.utils";
+import { useEventSnackbar } from "hooks/snackbar.hooks";
+import actions from "store/actions";
 
 interface MissionsTreeFormParams {
   name: string;
@@ -39,9 +41,9 @@ const MissionsTreeForm: React.FC<void> = () => {
   const [hasCountryShield, setHasCountryShield] = useState<boolean | undefined>(missionsTree.hasCountryShield);
   const [modified, setModified] = useState<boolean>(false);
 
-  /*  const [loading, submitEdit] = useEventSnackbar(async (formData: FormData) => {
-    await dispatch(actions.country.edit(country.tag, formData));
-  }, `api.success.${ServerSuccesses.DEFAULT_SUCCESS}`);*/
+  const [loading, submitEdit] = useEventSnackbar(async (form: MissionsTreeEdit) => {
+    await dispatch(actions.missionsTree.edit(missionsTree.name, form));
+  }, `api.success.${ServerSuccesses.DEFAULT_SUCCESS}`);
 
   useEffect(() => {
     if (missionsTree) {
@@ -49,39 +51,11 @@ const MissionsTreeForm: React.FC<void> = () => {
     }
   }, [intl, missionsTree]);
 
-  /*  const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!loading) {
-      const formData = new FormData();
-
-      if (newFlagFile) {
-        formData.append("flag", newFlagFile);
-      }
-
-      const body = new Blob(
-        [
-          JSON.stringify({
-            graphicalCulture: graphicalCulture?.name,
-            historicalCouncil: historicalCouncil?.name,
-            historicalScore,
-            color,
-            historicalIdeaGroups,
-            monarchNames,
-            armyNames,
-            fleetNames,
-            shipNames,
-            leaderNames,
-          }),
-        ],
-        {
-          type: "application/json",
-        }
-      );
-
-      formData.append("body", body);
-
-      await submitEdit(formData);
+      await submitEdit({ slot, ai, generic, hasCountryShield });
     }
-  };*/
+  };
 
   return missionsTree ? (
     <Grid container spacing={2}>
@@ -100,10 +74,10 @@ const MissionsTreeForm: React.FC<void> = () => {
                 variant="contained"
                 color="primary"
                 size="large"
-                // onClick={handleSubmit}
+                onClick={handleSubmit}
                 disabled={!modified}
                 messageKey="global.validate"
-                // loading={loading}
+                loading={loading}
               />
             }
           />
@@ -127,14 +101,30 @@ const MissionsTreeForm: React.FC<void> = () => {
               <FormControlLabel
                 label={intl.formatMessage({ id: "missionsTree.ai" })}
                 labelPlacement="start"
-                control={<Switch checked={ai ?? false} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setAi(event.target.checked)} />}
+                control={
+                  <Switch
+                    checked={ai ?? false}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      setAi(event.target.checked);
+                      setModified(true);
+                    }}
+                  />
+                }
               />
             </FormControl>
             <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }}>
               <FormControlLabel
                 label={intl.formatMessage({ id: "missionsTree.generic" })}
                 labelPlacement="start"
-                control={<Switch checked={generic ?? false} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setGeneric(event.target.checked)} />}
+                control={
+                  <Switch
+                    checked={generic ?? false}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      setGeneric(event.target.checked);
+                      setModified(true);
+                    }}
+                  />
+                }
               />
             </FormControl>
             <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }}>
@@ -144,7 +134,10 @@ const MissionsTreeForm: React.FC<void> = () => {
                 control={
                   <Switch
                     checked={hasCountryShield ?? false}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setHasCountryShield(event.target.checked)}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      setHasCountryShield(event.target.checked);
+                      setModified(true);
+                    }}
                   />
                 }
               />

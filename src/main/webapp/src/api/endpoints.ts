@@ -30,6 +30,9 @@ const endpoints = {
     flag: (tag: string) => `/country/${tag}/flag`,
     edit: (tag: string) => `/country/${tag}/edit`,
   },
+  missionsTree: {
+    edit: (name: string) => `/missions-tree/${name}/edit`,
+  },
 };
 
 export default endpoints;

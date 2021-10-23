@@ -41,7 +41,7 @@ public class GameDTO {
 
     private Map<String, TerrainCategoryDTO> terrainCategories;
 
-    private Map<String, TradeNodeDTO> tradeNodes;
+    private Map<String, fr.osallek.osamodeditor.dto.TradeNodeDTO> tradeNodes;
 
     private Map<String, CountryDTO> countries;
 
@@ -135,7 +135,7 @@ public class GameDTO {
 
         this.tradeNodes = game.getTradeNodes()
                               .stream()
-                              .map(tradeNode -> new TradeNodeDTO(tradeNode, game.getAllLocalisations()))
+                              .map(tradeNode -> new fr.osallek.osamodeditor.dto.TradeNodeDTO(tradeNode, game.getAllLocalisations()))
                               .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         game.getTradeNodes().forEach(tradeNode -> tradeNode.getProvinces().forEach(id -> this.provinces.get(id).setTradeNode(tradeNode.getName())));
         runnable.run();
@@ -299,7 +299,7 @@ public class GameDTO {
                               .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
 
-        this.missionsTrees = game.getMissionTrees()
+        this.missionsTrees = game.getMissionsTrees()
                                  .stream()
                                  .map(MissionsTreeDTO::new)
                                  .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
@@ -369,11 +369,11 @@ public class GameDTO {
         this.terrainCategories = terrainCategories;
     }
 
-    public Map<String, TradeNodeDTO> getTradeNodes() {
+    public Map<String, fr.osallek.osamodeditor.dto.TradeNodeDTO> getTradeNodes() {
         return tradeNodes;
     }
 
-    public void setTradeNodes(Map<String, TradeNodeDTO> tradeNodes) {
+    public void setTradeNodes(Map<String, fr.osallek.osamodeditor.dto.TradeNodeDTO> tradeNodes) {
         this.tradeNodes = tradeNodes;
     }
 

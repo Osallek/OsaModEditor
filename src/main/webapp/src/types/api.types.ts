@@ -324,6 +324,13 @@ export type MissionsTree = {
   missions: Array<string>;
 };
 
+export type MissionsTreeEdit = {
+  slot?: number;
+  generic?: boolean;
+  ai?: boolean;
+  hasCountryShield?: boolean;
+};
+
 export type Mission = Localizations & {
   name: string;
   missionsTree: string;

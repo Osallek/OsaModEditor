@@ -5,7 +5,7 @@ import fr.osallek.eu4parser.common.Eu4Utils;
 import fr.osallek.eu4parser.model.Mod;
 import fr.osallek.eu4parser.model.game.FileNode;
 import fr.osallek.eu4parser.model.game.Game;
-import fr.osallek.eu4parser.model.game.Noded;
+import fr.osallek.eu4parser.model.game.Nodded;
 import fr.osallek.osamodeditor.common.Constants;
 import fr.osallek.osamodeditor.config.OsaModEditorConfig;
 import fr.osallek.osamodeditor.dto.GameDTO;
@@ -93,20 +93,20 @@ public class GameService {
         return GAME_PROGRESS.get() * 100 / MAX_PROGRESS;
     }
 
-    public void writeNoded(Set<? extends Noded> modified, Collection<? extends Noded> all) throws IOException {
-        writeNoded(modified, all, null);
+    public void writeNodded(Set<? extends Nodded> modified, Collection<? extends Nodded> all) throws IOException {
+        writeNodded(modified, all, null);
     }
 
-    public void writeNoded(Set<? extends Noded> modified, Collection<? extends Noded> all, Collection<ClausewitzObject> after) throws IOException {
+    public void writeNodded(Set<? extends Nodded> modified, Collection<? extends Nodded> all, Collection<ClausewitzObject> after) throws IOException {
         if (CollectionUtils.isEmpty(modified)) {
             return;
         }
 
-        Set<FileNode> fileModified = modified.stream().map(Noded::getFileNode).collect(Collectors.toSet());
-        List<Noded> toWrite = all.stream().filter(noded -> fileModified.contains(noded.getFileNode())).collect(Collectors.toList());
+        Set<FileNode> fileModified = modified.stream().map(Nodded::getFileNode).collect(Collectors.toSet());
+        List<Nodded> toWrite = all.stream().filter(nodded -> fileModified.contains(nodded.getFileNode())).collect(Collectors.toList());
 
-        Map<FileNode, SortedSet<Noded>> nodes = toWrite.stream()
-                                                       .collect(Collectors.groupingBy(Noded::getFileNode, Collectors.toCollection(TreeSet::new)));
+        Map<FileNode, SortedSet<Nodded>> nodes = toWrite.stream()
+                                                       .collect(Collectors.groupingBy(Nodded::getFileNode, Collectors.toCollection(TreeSet::new)));
 
         nodes.keySet().forEach(fileNode -> {
             if (!getMod().equals(fileNode.getMod())) {
@@ -114,12 +114,12 @@ public class GameService {
             }
         });
 
-        for (Map.Entry<FileNode, SortedSet<Noded>> entry : nodes.entrySet()) {
+        for (Map.Entry<FileNode, SortedSet<Nodded>> entry : nodes.entrySet()) {
             FileUtils.forceMkdirParent(entry.getKey().getPath().toFile());
 
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(entry.getKey().getPath().toFile()))) {
-                for (Noded noded : entry.getValue()) {
-                    noded.write(bufferedWriter);
+                for (Nodded nodded : entry.getValue()) {
+                    nodded.write(bufferedWriter);
                     bufferedWriter.newLine();
                     bufferedWriter.newLine();
                 }

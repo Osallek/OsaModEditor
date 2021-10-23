@@ -34,7 +34,7 @@ const MissionsList = ({ missions, folderName, inline = false }: Props) => {
           <ListItemButton onClick={(event) => history.push(intl.formatMessage({ id: "routes.mission" }) + "/" + mission.name)}>
             {folderName && mission.iconFile && (
               <ListItemAvatar>
-                <Avatar src={`${getImageUrl(folderName, mission.iconFile)}?${Date.now()}`} />
+                <Avatar src={getImageUrl(folderName, mission.iconFile)} />
               </ListItemAvatar>
             )}
             <ListItemText primary={isScrolling ? "Scrolling" : missions ? localize(mission) : ""} />

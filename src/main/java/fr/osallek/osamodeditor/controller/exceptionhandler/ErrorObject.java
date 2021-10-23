@@ -1,4 +1,4 @@
-package fr.osallek.osamodeditor.controller;
+package fr.osallek.osamodeditor.controller.exceptionhandler;
 
 public class ErrorObject<T> {
 

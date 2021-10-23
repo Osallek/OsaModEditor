@@ -1,4 +1,4 @@
-package fr.osallek.osamodeditor.controller;
+package fr.osallek.osamodeditor.controller.exceptionhandler;
 
 import fr.osallek.osamodeditor.common.exception.ClimateNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ColonialRegionNotFoundException;
@@ -8,6 +8,8 @@ import fr.osallek.osamodeditor.common.exception.GraphicalCultureNotFoundExceptio
 import fr.osallek.osamodeditor.common.exception.IdeaGroupNotFoundException;
 import fr.osallek.osamodeditor.common.exception.InvalidColorException;
 import fr.osallek.osamodeditor.common.exception.InvalidFileException;
+import fr.osallek.osamodeditor.common.exception.MissionNotFoundException;
+import fr.osallek.osamodeditor.common.exception.MissionsTreeNotFoundException;
 import fr.osallek.osamodeditor.common.exception.MonsoonNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ProvinceNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ReligionNotFoundException;
@@ -61,89 +63,99 @@ public class ExceptionTranslator {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handDatatypeConfigurationException(DatatypeConfigurationException e) {
+    public ResponseEntity<ErrorObject<Void>> handleDatatypeConfigurationException(DatatypeConfigurationException e) {
         LOGGER.error(e.getMessage(), e);
 
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.DEFAULT_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handClimateNotFoundException(ClimateNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleClimateNotFoundException(ClimateNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.CLIMATE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handColonialRegionNotFoundException(ColonialRegionNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleColonialRegionNotFoundException(ColonialRegionNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.COLONIAL_REGION_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handCountryNotFoundException(CountryNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleCountryNotFoundException(CountryNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.COUNTRY_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handCultureNotFoundException(CultureNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleCultureNotFoundException(CultureNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.CULTURE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handIdeaGroupNotFoundException(IdeaGroupNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleIdeaGroupNotFoundException(IdeaGroupNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.IDEA_GROUP_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handMonsoonNotFoundException(MonsoonNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleMonsoonNotFoundException(MonsoonNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MONSOON_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handProvinceNotFoundException(ProvinceNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleProvinceNotFoundException(ProvinceNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.PROVINCE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handReligionNotFoundException(ReligionNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleReligionNotFoundException(ReligionNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.RELIGION_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handTerrainNotFoundException(TerrainNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleTerrainNotFoundException(TerrainNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TERRAIN_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handTradeCompanyNotFoundException(TradeCompanyNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleTradeCompanyNotFoundException(TradeCompanyNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TRADE_COMPANY_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handTradeGoodNotFoundException(TradeGoodNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleTradeGoodNotFoundException(TradeGoodNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TRADE_GOOD_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handTradeNodeNotFoundException(TradeNodeNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleTradeNodeNotFoundException(TradeNodeNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.TRADE_NODE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handWinterNotFoundException(WinterNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleWinterNotFoundException(WinterNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.WINTER_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handGraphicalCultureNotFoundException(GraphicalCultureNotFoundException e) {
+    public ResponseEntity<ErrorObject<Void>> handleGraphicalCultureNotFoundException(GraphicalCultureNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.GRAPHICAL_CULTURE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handInvalidFileException(InvalidFileException e) {
+    public ResponseEntity<ErrorObject<Void>> handleInvalidFileException(InvalidFileException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.INVALID_FILE), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorObject<Void>> handInvalidColorException(InvalidColorException e) {
+    public ResponseEntity<ErrorObject<Void>> handleInvalidColorException(InvalidColorException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.INVALID_COLOR), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handleMissionNotFoundException(MissionNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MISSION_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handleMissionsTreeNotFoundException(MissionsTreeNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MISSIONS_TREE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 }

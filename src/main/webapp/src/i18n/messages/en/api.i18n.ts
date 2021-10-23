@@ -18,6 +18,8 @@ const api = {
   "api.error.INVALID_FILE": "Invalid file!",
   "api.error.IDEA_GROUP_NOT_FOUND": "Idea group not found!",
   "api.error.GRAPHICAL_CULTURE_NOT_FOUND": "Graphical culture not found!",
+  "api.error.MISSION_NOT_FOUND": "Mission not found!",
+  "api.error.MISSIONS_TREE_NOT_FOUND": "Missions tree not found!",
   "api.success.DEFAULT_SUCCESS": "The changes have been implemented!",
 };
 
