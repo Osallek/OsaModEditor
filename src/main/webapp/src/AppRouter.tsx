@@ -8,8 +8,8 @@ import Home from "screens/Home";
 import Map from "screens/Map";
 import Menu from "screens/Menu";
 import { RootState } from "store/types";
-import Countries from "./screens/Countries";
-import CountryForm from "./screens/Countries/CountryForm";
+import { Countries, CountryForm } from "./screens/Country";
+import { Missions, MissionsTreeForm, MissionsTrees } from "./screens/Mission";
 
 const AppRouter: React.FC = () => {
   const intl = useIntl();
@@ -28,6 +28,9 @@ const AppRouter: React.FC = () => {
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.defines" })} exact component={Defines} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.countries" })} exact component={Countries} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.country" }) + "/:tag"} exact component={CountryForm} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missionsTrees" })} exact component={MissionsTrees} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missionsTree" }) + "/:name"} exact component={MissionsTreeForm} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missions" })} exact component={Missions} />}
             <Route path="/" component={Home} />
           </Switch>
         </BrowserRouter>

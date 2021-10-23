@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { RootState } from "store/types";
-import { Power } from "../../types";
-import { localize } from "../../utils/localisations.utils";
+import { Power } from "types";
+import { localize } from "utils/localisations.utils";
 
 interface Props {
   buttonKey: string;

@@ -7,6 +7,8 @@ import {
   Game,
   IdeaGroup,
   KeyLocalizations,
+  Mission,
+  MissionsTree,
   Modifier,
   Power,
   Province,
@@ -55,6 +57,9 @@ export interface GameState {
   modifiers: Record<string, Modifier>;
   technologies: Record<Power, Array<Technology>>;
   ideaGroups: Record<string, IdeaGroup>;
+  missionsTrees: Record<string, MissionsTree>;
+  missions: Record<string, Mission>;
+  maxMissionsSlots: number;
   sortedGraphicalCultures: Array<KeyLocalizations>;
   sortedTradeNodes: Array<TradeNode>;
   sortedCountries: Array<Country>;
@@ -72,6 +77,8 @@ export interface GameState {
   sortedTerrainCategories: Array<TerrainCategory>;
   sortedModifiers: Array<Modifier>;
   sortedIdeaGroups: Array<IdeaGroup>;
+  sortedMissionsTrees: Array<MissionsTree>;
+  sortedMissions: Array<Mission>;
   defines: Record<string, Record<string, string>>;
 }
 

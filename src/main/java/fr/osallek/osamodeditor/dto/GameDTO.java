@@ -81,6 +81,12 @@ public class GameDTO {
 
     private Map<String, IdeaGroupDTO> ideaGroups;
 
+    private Map<String, MissionsTreeDTO> missionsTrees;
+
+    private Map<String, MissionDTO> missions;
+
+    private int maxMissionsSlots;
+
     public GameDTO(Game game, String tmpFolderName) {
         this(game, tmpFolderName, () -> {});
     }
@@ -292,6 +298,20 @@ public class GameDTO {
                               .map(ideaGroup -> new IdeaGroupDTO(ideaGroup, game.getAllLocalisations()))
                               .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
+
+        this.missionsTrees = game.getMissionTrees()
+                                 .stream()
+                                 .map(MissionsTreeDTO::new)
+                                 .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
+
+        this.missions = game.getMissions()
+                            .stream()
+                            .map(mission -> new MissionDTO(mission, game.getAllLocalisations()))
+                            .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
+
+        this.maxMissionsSlots = game.getMaxMissionsSlots();
 
         try {
             countDownLatch.await();
@@ -515,5 +535,29 @@ public class GameDTO {
 
     public void setIdeaGroups(Map<String, IdeaGroupDTO> ideaGroups) {
         this.ideaGroups = ideaGroups;
+    }
+
+    public Map<String, MissionsTreeDTO> getMissionsTrees() {
+        return missionsTrees;
+    }
+
+    public void setMissionsTrees(Map<String, MissionsTreeDTO> missionsTrees) {
+        this.missionsTrees = missionsTrees;
+    }
+
+    public Map<String, MissionDTO> getMissions() {
+        return missions;
+    }
+
+    public void setMissions(Map<String, MissionDTO> missions) {
+        this.missions = missions;
+    }
+
+    public int getMaxMissionsSlots() {
+        return maxMissionsSlots;
+    }
+
+    public void setMaxMissionsSlots(int maxMissionsSlots) {
+        this.maxMissionsSlots = maxMissionsSlots;
     }
 }

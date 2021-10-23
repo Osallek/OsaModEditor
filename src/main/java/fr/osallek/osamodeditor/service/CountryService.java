@@ -50,7 +50,7 @@ public class CountryService {
 
         file.transferTo(newPath);
 
-        flagPath = game.convertImage(this.gameService.getTmpModPath().toString(), flagPath.subpath(0, flagPath.getNameCount() - 1).toString(),
+        flagPath = game.convertImage(this.gameService.getTmpModPath(), flagPath.subpath(0, flagPath.getNameCount() - 1),
                                      FilenameUtils.removeExtension(flagPath.getFileName().toString()) + "_tmp", newPath);
 
         return new FileDTO(flagPath.toString());
@@ -113,7 +113,7 @@ public class CountryService {
 
             Path flagPath = Path.of(game.getCountry(tag).getFlagPath("tga"));
             Path newPath = this.gameService.getTmpModPath().resolve(flagPath);
-            game.convertImage(this.gameService.getTmpModPath().toString(), flagPath.subpath(0, flagPath.getNameCount() - 1).toString(),
+            game.convertImage(this.gameService.getTmpModPath(), flagPath.subpath(0, flagPath.getNameCount() - 1),
                               FilenameUtils.removeExtension(flagPath.getFileName().toString()), newPath);
         }
 

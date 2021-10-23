@@ -15,7 +15,7 @@ import { KeyLocalizations, Pair, ServerErrors, ServerSuccesses } from "types";
 import { getImageUrl } from "utils/global.utils";
 import { localize } from "utils/localisations.utils";
 import { snackbarError } from "utils/snackbar.utils";
-import actions from "../../store/actions";
+import actions from "store/actions";
 
 interface CountryFormParams {
   tag: string;

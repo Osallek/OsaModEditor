@@ -13,6 +13,10 @@ export function localisationsComparator(a: Localizations, b: Localizations): num
   }
 }
 
+export function localizedComparator(a: string, b: string): number {
+  return a.localeCompare(b, locale);
+}
+
 export function localize(l: Localizations): string {
   if (locale.startsWith("fr")) {
     return l.french;

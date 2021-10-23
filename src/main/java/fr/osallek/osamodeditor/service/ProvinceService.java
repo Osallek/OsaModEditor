@@ -238,7 +238,7 @@ public class ProvinceService {
             }
         }
 
-        writeNoded(modified, this.gameService.getGame().getTradeNodes());
+        this.gameService.writeNoded(modified, this.gameService.getGame().getTradeNodes());
 
         return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
@@ -273,7 +273,7 @@ public class ProvinceService {
             }
         }
 
-        writeNoded(modified, this.gameService.getGame().getAreas());
+        this.gameService.writeNoded(modified, this.gameService.getGame().getAreas());
 
         return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
@@ -313,7 +313,7 @@ public class ProvinceService {
             }
         }
 
-        writeNoded(modified, this.gameService.getGame().getColonialRegions());
+        this.gameService.writeNoded(modified, this.gameService.getGame().getColonialRegions());
 
         return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
@@ -342,7 +342,7 @@ public class ProvinceService {
             }
         }
 
-        writeNoded(modified, this.gameService.getGame().getColonialRegions());
+        this.gameService.writeNoded(modified, this.gameService.getGame().getColonialRegions());
 
         return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
@@ -377,7 +377,7 @@ public class ProvinceService {
             }
         }
 
-        writeNoded(modified, this.gameService.getGame().getTradeCompanies());
+        this.gameService.writeNoded(modified, this.gameService.getGame().getTradeCompanies());
 
         return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
@@ -402,7 +402,7 @@ public class ProvinceService {
             }
         }
 
-        writeNoded(modified, this.gameService.getGame().getTradeCompanies());
+        this.gameService.writeNoded(modified, this.gameService.getGame().getTradeCompanies());
 
         return new GameDTO(this.gameService.getGame(), this.gameService.getTmpModPath().getFileName().toString());
     }
@@ -650,51 +650,6 @@ public class ProvinceService {
                 game.writeClimateItem(bufferedWriter);
             } catch (IOException e) {
                 LOGGER.error("An error occurred while writing climate to {}: {}!", fileNode.getPath(), e.getMessage(), e);
-                throw e;
-            }
-        }
-    }
-
-    private void writeNoded(Set<? extends Noded> modified, Collection<? extends Noded> all) throws IOException {
-        writeNoded(modified, all, null);
-    }
-
-    private void writeNoded(Set<? extends Noded> modified, Collection<? extends Noded> all, Collection<ClausewitzObject> after) throws IOException {
-        if (CollectionUtils.isEmpty(modified)) {
-            return;
-        }
-
-        Set<FileNode> fileModified = modified.stream().map(Noded::getFileNode).collect(Collectors.toSet());
-        List<Noded> toWrite = all.stream().filter(noded -> fileModified.contains(noded.getFileNode())).collect(Collectors.toList());
-
-        Map<FileNode, SortedSet<Noded>> nodes = toWrite.stream()
-                                                       .collect(Collectors.groupingBy(Noded::getFileNode, Collectors.toCollection(TreeSet::new)));
-
-        nodes.keySet().forEach(fileNode -> {
-            if (!this.gameService.getMod().equals(fileNode.getMod())) {
-                fileNode.setMod(this.gameService.getMod());
-            }
-        });
-
-        for (Map.Entry<FileNode, SortedSet<Noded>> entry : nodes.entrySet()) {
-            FileUtils.forceMkdirParent(entry.getKey().getPath().toFile());
-
-            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(entry.getKey().getPath().toFile()))) {
-                for (Noded noded : entry.getValue()) {
-                    noded.write(bufferedWriter);
-                    bufferedWriter.newLine();
-                    bufferedWriter.newLine();
-                }
-
-                if (CollectionUtils.isNotEmpty(after)) {
-                    for (ClausewitzObject object : after) {
-                        object.write(bufferedWriter, 0, new HashMap<>());
-                        bufferedWriter.newLine();
-                        bufferedWriter.newLine();
-                    }
-                }
-            } catch (IOException e) {
-                LOGGER.error("An error occurred while writing nodes to {}: {}!", entry.getKey(), e.getMessage(), e);
                 throw e;
             }
         }

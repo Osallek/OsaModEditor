@@ -1,5 +1,5 @@
-import { localisationsComparator } from "utils/localisations.utils";
 import { Power } from "types";
+import { localisationsComparator, localizedComparator } from "utils/localisations.utils";
 import { CHANGE_GAME, GameActionType, GameState } from "./game.types";
 
 const initialState: GameState = {
@@ -29,6 +29,9 @@ const initialState: GameState = {
   modifiers: {},
   ideaGroups: {},
   technologies: { [Power.ADM]: [], [Power.DIP]: [], [Power.MIL]: [] },
+  missionsTrees: {},
+  missions: {},
+  maxMissionsSlots: 0,
   sortedGraphicalCultures: [],
   sortedTradeNodes: [],
   sortedCountries: [],
@@ -46,6 +49,8 @@ const initialState: GameState = {
   sortedTerrainCategories: [],
   sortedModifiers: [],
   sortedIdeaGroups: [],
+  sortedMissionsTrees: [],
+  sortedMissions: [],
   defines: {},
 };
 
@@ -73,6 +78,8 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         sortedTerrainCategories: Object.values(action.payload.terrainCategories).sort(localisationsComparator),
         sortedMonsoons: Object.values(action.payload.monsoons).sort(localisationsComparator),
         sortedIdeaGroups: Object.values(action.payload.ideaGroups).sort(localisationsComparator),
+        sortedMissionsTrees: Object.values(action.payload.missionsTrees).sort((a, b) => localizedComparator(a.name, b.name)),
+        sortedMissions: Object.values(action.payload.missions).sort(localisationsComparator),
         sortedModifiers: Object.values(action.payload.modifiers).sort(localisationsComparator),
       };
     }

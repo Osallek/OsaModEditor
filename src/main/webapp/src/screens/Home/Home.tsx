@@ -25,9 +25,12 @@ const Home: React.FC<void> = () => {
   const [mod, setMod] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
   const [loading, submitInitGame] = useEventSnackbar(async (installFolder: string, mod: string) => {
-    await dispatch(actions.game.postInit(installFolder, mod));
-    if (progressTimer) {
-      clearInterval(progressTimer);
+    try {
+      await dispatch(actions.game.postInit(installFolder, mod));
+    } finally {
+      if (progressTimer) {
+        clearInterval(progressTimer);
+      }
     }
 
     history.push(intl.formatMessage({ id: "routes.menu" }));

@@ -8,6 +8,7 @@ interface Item {
   xs?: GridSize;
   sm?: GridSize;
   md?: GridSize;
+  lg?: GridSize;
   xl?: GridSize;
   link: string;
   text: string;
@@ -21,6 +22,7 @@ const Menu: React.FC<void> = () => {
       xs: 12,
       sm: 6,
       md: 4,
+      lg: 4,
       xl: 3,
       link: intl.formatMessage({ id: "routes.map" }),
       text: intl.formatMessage({ id: "global.map" }),
@@ -29,6 +31,7 @@ const Menu: React.FC<void> = () => {
       xs: 12,
       sm: 6,
       md: 4,
+      lg: 4,
       xl: 3,
       link: intl.formatMessage({ id: "routes.defines" }),
       text: intl.formatMessage({ id: "global.defines" }),
@@ -37,9 +40,28 @@ const Menu: React.FC<void> = () => {
       xs: 12,
       sm: 6,
       md: 4,
+      lg: 4,
       xl: 3,
       link: intl.formatMessage({ id: "routes.countries" }),
       text: intl.formatMessage({ id: "global.countries" }),
+    },
+    {
+      xs: 12,
+      sm: 6,
+      md: 4,
+      lg: 4,
+      xl: 3,
+      link: intl.formatMessage({ id: "routes.missions" }),
+      text: intl.formatMessage({ id: "global.missions" }),
+    },
+    {
+      xs: 12,
+      sm: 6,
+      md: 4,
+      lg: 4,
+      xl: 3,
+      link: intl.formatMessage({ id: "routes.missionsTrees" }),
+      text: intl.formatMessage({ id: "global.missionsTrees" }),
     },
   ];
 
@@ -51,7 +73,10 @@ const Menu: React.FC<void> = () => {
     <>
       <Title />
       <Grid container spacing={2}>
-        {items && items.map((item, index) => <GridItem key={index} link={item.link} text={item.text} xs={item.xs} sm={item.sm} md={item.md} xl={item.xl} />)}
+        {items &&
+          items.map((item, index) => (
+            <GridItem key={index} link={item.link} text={item.text} xs={item.xs} sm={item.sm} md={item.md} lg={item.lg} xl={item.xl} />
+          ))}
       </Grid>
     </>
   );

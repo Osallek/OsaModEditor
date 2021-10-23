@@ -100,6 +100,9 @@ export type Game = {
   modifiers: Record<string, Modifier>;
   technologies: Record<Power, Array<Technology>>;
   ideaGroups: Record<string, IdeaGroup>;
+  missionsTrees: Record<string, MissionsTree>;
+  missions: Record<string, Mission>;
+  maxMissionsSlots: number;
 };
 
 export type TradeNode = Localizations & {
@@ -310,6 +313,26 @@ export type IdeaGroup = Localizations & {
   start: Modifiers;
   bonus: Modifiers;
   ideas: Record<string, Modifiers>;
+};
+
+export type MissionsTree = {
+  name: string;
+  slot?: number;
+  generic?: boolean;
+  ai?: boolean;
+  hasCountryShield?: boolean;
+  missions: Array<string>;
+};
+
+export type Mission = Localizations & {
+  name: string;
+  missionsTree: string;
+  icon?: string;
+  iconFile?: string;
+  position?: number;
+  generic?: boolean;
+  completedBy?: string;
+  requiredMissions: Array<string>;
 };
 
 export enum ServerSuccesses {
