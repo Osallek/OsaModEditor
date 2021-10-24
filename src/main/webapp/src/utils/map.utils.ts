@@ -1,21 +1,21 @@
 import { Path, PathOptions } from "leaflet";
 import { Dispatch } from "react";
-import actions from "../store/actions";
-import { GameActionType, GameState } from "../store/game/game.types";
+import actions from "store/actions";
+import { GameActionType, GameState } from "store/game/game.types";
 import {
-    Area,
-    ColonialRegion,
-    Country,
-    Culture,
-    Localizations,
-    Province,
-    ProvinceList,
-    Religion,
-    TerrainCategory,
-    TradeCompany,
-    TradeGood,
-    TradeNode,
-} from "../types";
+  Area,
+  ColonialRegion,
+  Country,
+  Culture,
+  Localizations,
+  Province,
+  ProvinceList,
+  Religion,
+  TerrainCategory,
+  TradeCompany,
+  TradeGood,
+  TradeNode,
+} from "types";
 import { getCountryHistory } from "./country.utils";
 import { getEmperor } from "./emperor.utils";
 import { defaultLocalization, inHreLocalization, notInHreLocalization } from "./localisations.utils";

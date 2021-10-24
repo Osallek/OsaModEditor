@@ -2,17 +2,17 @@ import { Card, CardContent, CardHeader, FormControl, FormControlLabel, Grid, Swi
 import { LoadButton } from "components/controls";
 import { BackTitle } from "components/global";
 import { MissionsList } from "components/mission";
+import { useEventSnackbar } from "hooks/snackbar.hooks";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
+import actions from "store/actions";
 import { RootState } from "store/types";
 import { MissionsTreeEdit, ServerErrors, ServerSuccesses } from "types";
 import { localisationsComparator } from "utils/localisations.utils";
 import { snackbarError } from "utils/snackbar.utils";
-import { useEventSnackbar } from "hooks/snackbar.hooks";
-import actions from "store/actions";
 
 interface MissionsTreeFormParams {
   name: string;
@@ -32,7 +32,7 @@ const MissionsTreeForm: React.FC<void> = () => {
   const missionsTree = missionsTrees[name];
 
   if (!name || !missionsTree) {
-    snackbarError(ServerErrors.COUNTRY_NOT_FOUND, enqueueSnackbar, intl);
+    snackbarError(ServerErrors.MISSIONS_TREE_NOT_FOUND, enqueueSnackbar, intl);
   }
 
   const [slot, setSlot] = useState<number | undefined>(missionsTree.slot);
@@ -63,7 +63,7 @@ const MissionsTreeForm: React.FC<void> = () => {
         <BackTitle handleClick={(event) => history.push(intl.formatMessage({ id: "routes.missionsTrees" }))} />
       </Grid>
       <Grid item xs />
-      <Grid item xs={10} md={8} lg={8} xl={6} style={{ height: "100%" }}>
+      <Grid item xs={12} md={10} xl={8} style={{ height: "100%" }}>
         <Card>
           <CardHeader
             title={missionsTree.name}

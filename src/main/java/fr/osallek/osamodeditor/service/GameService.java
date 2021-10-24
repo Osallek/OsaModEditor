@@ -40,7 +40,7 @@ public class GameService {
 
     private static final AtomicInteger GAME_PROGRESS = new AtomicInteger(0);
 
-    private static final int MAX_PROGRESS = 96;
+    private static final int MAX_PROGRESS = 97;
 
     private Game game = null;
 
@@ -71,11 +71,10 @@ public class GameService {
         FileUtils.forceMkdir(this.tmpModPath.toFile());
         OsaModEditorConfig.addPathToDelete(this.tmpModPath);
 
-        this.game.convertImages(this.tmpModPath, Path.of(Eu4Utils.GFX_FOLDER_PATH, "flags"),
-                                Path.of(Eu4Utils.GFX_FOLDER_PATH, Eu4Utils.INTERFACE_FOLDER_PATH, "missions"));
-        GAME_PROGRESS.getAndIncrement();
-
         GameDTO gameDTO = new GameDTO(this.game, this.tmpModPath.getFileName().toString(), GAME_PROGRESS::getAndIncrement);
+
+        this.game.convertImages(this.tmpModPath, Eu4Utils.FLAGS_GFX, Eu4Utils.MISSIONS_GFX);
+        GAME_PROGRESS.getAndIncrement();
 
         GAME_PROGRESS.set(MAX_PROGRESS);
 

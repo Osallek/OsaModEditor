@@ -2,6 +2,7 @@ import * as country from "store/game/country.actions";
 import * as game from "store/game/game.actions";
 import * as province from "store/game/province.actions";
 import * as missionsTree from "store/game/missionstree.actions";
+import * as mission from "store/game/mission.actions";
 import * as init from "store/init/init.actions";
 
 const actions = {
@@ -10,6 +11,7 @@ const actions = {
   province,
   country,
   missionsTree,
+  mission,
 };
 
 export default actions;

@@ -59,22 +59,6 @@ public class MissionDTO extends LocalisedDTO implements MappedDTO<String> {
         this.name = name;
     }
 
-    public Integer getPosition() {
-        return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
-
-    public Boolean getGeneric() {
-        return isGeneric;
-    }
-
-    public void setGeneric(Boolean generic) {
-        isGeneric = generic;
-    }
-
     public String getIcon() {
         return icon;
     }
@@ -89,6 +73,22 @@ public class MissionDTO extends LocalisedDTO implements MappedDTO<String> {
 
     public void setIconFile(String iconFile) {
         this.iconFile = iconFile;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public Boolean getGeneric() {
+        return isGeneric;
+    }
+
+    public void setGeneric(Boolean generic) {
+        isGeneric = generic;
     }
 
     public LocalDate getCompletedBy() {

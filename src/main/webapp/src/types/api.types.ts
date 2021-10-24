@@ -102,6 +102,7 @@ export type Game = {
   ideaGroups: Record<string, IdeaGroup>;
   missionsTrees: Record<string, MissionsTree>;
   missions: Record<string, Mission>;
+  missionsGfx: Record<string, SpriteType>;
   maxMissionsSlots: number;
 };
 
@@ -342,6 +343,21 @@ export type Mission = Localizations & {
   requiredMissions: Array<string>;
 };
 
+export type MissionEdit = {
+  position?: number;
+  icon?: string;
+  generic?: boolean;
+  completedBy?: string;
+  requiredMissions: Array<string>;
+};
+
+export type SpriteType = {
+  name: string;
+  textureFile: string;
+  transparenceCheck?: boolean;
+  loadType: string;
+};
+
 export enum ServerSuccesses {
   DEFAULT_SUCCESS = "DEFAULT_SUCCESS",
 }
@@ -362,6 +378,8 @@ export enum ServerErrors {
   TRADE_GOOD_NOT_FOUND = "TRADE_GOOD_NOT_FOUND",
   TRADE_NODE_NOT_FOUND = "TRADE_NODE_NOT_FOUND",
   WINTER_NOT_FOUND = "WINTER_NOT_FOUND",
+  MISSIONS_TREE_NOT_FOUND = "MISSIONS_TREE_NOT_FOUND",
+  MISSION_NOT_FOUND = "MISSION_NOT_FOUND",
   INVALID_PARAMETER = "INVALID_PARAMETER",
   INVALID_FILE = "INVALID_FILE",
 }

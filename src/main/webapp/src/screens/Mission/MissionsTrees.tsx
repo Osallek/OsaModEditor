@@ -9,7 +9,6 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { RootState } from "store/types";
 import { MissionsTree } from "types";
-import { localize } from "../../utils/localisations.utils";
 
 const MissionsTrees: React.FC<void> = () => {
   const intl = useIntl();
@@ -52,7 +51,7 @@ const MissionsTrees: React.FC<void> = () => {
         <BackTitle handleClick={(event) => history.push(intl.formatMessage({ id: "routes.menu" }))} />
       </Grid>
       <Grid item xs />
-      <Grid item xs={10} md={8} lg={8} xl={6} style={{ height: "100%" }}>
+      <Grid item xs={12} md={10} xl={8} style={{ height: "100%" }}>
         <Card style={{ height: "100%" }}>
           <CardHeader
             title={intl.formatMessage({ id: "global.missionsTrees" })}

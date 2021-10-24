@@ -9,7 +9,7 @@ import Map from "screens/Map";
 import Menu from "screens/Menu";
 import { RootState } from "store/types";
 import { Countries, CountryForm } from "./screens/Country";
-import { Missions, MissionsTreeForm, MissionsTrees } from "./screens/Mission";
+import { MissionForm, Missions, MissionsTreeForm, MissionsTrees } from "./screens/Mission";
 
 const AppRouter: React.FC = () => {
   const intl = useIntl();
@@ -31,6 +31,7 @@ const AppRouter: React.FC = () => {
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missionsTrees" })} exact component={MissionsTrees} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missionsTree" }) + "/:name"} exact component={MissionsTreeForm} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missions" })} exact component={Missions} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.mission" }) + "/:name"} exact component={MissionForm} />}
             <Route path="/" component={Home} />
           </Switch>
         </BrowserRouter>

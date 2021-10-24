@@ -31,6 +31,7 @@ const initialState: GameState = {
   technologies: { [Power.ADM]: [], [Power.DIP]: [], [Power.MIL]: [] },
   missionsTrees: {},
   missions: {},
+  missionsGfx: {},
   maxMissionsSlots: 0,
   sortedGraphicalCultures: [],
   sortedTradeNodes: [],
@@ -51,6 +52,7 @@ const initialState: GameState = {
   sortedIdeaGroups: [],
   sortedMissionsTrees: [],
   sortedMissions: [],
+  sortedMissionsGfx: [],
   defines: {},
 };
 
@@ -80,6 +82,7 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         sortedIdeaGroups: Object.values(action.payload.ideaGroups).sort(localisationsComparator),
         sortedMissionsTrees: Object.values(action.payload.missionsTrees).sort((a, b) => localizedComparator(a.name, b.name)),
         sortedMissions: Object.values(action.payload.missions).sort(localisationsComparator),
+        sortedMissionsGfx: Object.values(action.payload.missionsGfx).sort((a, b) => localizedComparator(a.name, b.name)),
         sortedModifiers: Object.values(action.payload.modifiers).sort(localisationsComparator),
       };
     }

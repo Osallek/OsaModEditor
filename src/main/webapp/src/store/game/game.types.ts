@@ -15,6 +15,7 @@ import {
   ProvinceList,
   Region,
   Religion,
+  SpriteType,
   SuperRegion,
   Technology,
   TerrainCategory,
@@ -59,6 +60,7 @@ export interface GameState {
   ideaGroups: Record<string, IdeaGroup>;
   missionsTrees: Record<string, MissionsTree>;
   missions: Record<string, Mission>;
+  missionsGfx: Record<string, SpriteType>;
   maxMissionsSlots: number;
   sortedGraphicalCultures: Array<KeyLocalizations>;
   sortedTradeNodes: Array<TradeNode>;
@@ -79,6 +81,7 @@ export interface GameState {
   sortedIdeaGroups: Array<IdeaGroup>;
   sortedMissionsTrees: Array<MissionsTree>;
   sortedMissions: Array<Mission>;
+  sortedMissionsGfx: Array<SpriteType>;
   defines: Record<string, Record<string, string>>;
 }
 

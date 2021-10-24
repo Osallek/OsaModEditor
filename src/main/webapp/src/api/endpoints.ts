@@ -33,6 +33,9 @@ const endpoints = {
   missionsTree: {
     edit: (name: string) => `/missions-tree/${name}/edit`,
   },
+  mission: {
+    edit: (name: string) => `/mission/${name}/edit`,
+  },
 };
 
 export default endpoints;

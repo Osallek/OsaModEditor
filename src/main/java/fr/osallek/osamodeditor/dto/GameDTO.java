@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -84,6 +85,8 @@ public class GameDTO {
     private Map<String, MissionsTreeDTO> missionsTrees;
 
     private Map<String, MissionDTO> missions;
+
+    private Map<String, SpriteTypeDTO> missionsGfx;
 
     private int maxMissionsSlots;
 
@@ -309,6 +312,13 @@ public class GameDTO {
                             .stream()
                             .map(mission -> new MissionDTO(mission, game.getAllLocalisations()))
                             .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
+
+        this.missionsGfx = game.getSpriteTypes()
+                               .stream()
+                               .filter(spriteType -> spriteType.getTextureFilePath().startsWith(Eu4Utils.MISSIONS_GFX))
+                               .map(SpriteTypeDTO::new)
+                               .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
 
         this.maxMissionsSlots = game.getMaxMissionsSlots();
@@ -551,6 +561,14 @@ public class GameDTO {
 
     public void setMissions(Map<String, MissionDTO> missions) {
         this.missions = missions;
+    }
+
+    public Map<String, SpriteTypeDTO> getMissionsGfx() {
+        return missionsGfx;
+    }
+
+    public void setMissionsGfx(Map<String, SpriteTypeDTO> missionsGfx) {
+        this.missionsGfx = missionsGfx;
     }
 
     public int getMaxMissionsSlots() {

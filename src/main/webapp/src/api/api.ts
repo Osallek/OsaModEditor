@@ -1,7 +1,7 @@
 import endpoints from "api/endpoints";
 import axios, { AxiosPromise } from "axios";
 import * as ENV from "env/env";
-import { FileName, Game, GameForm, GameInit, MapActionForm, MissionsTreeEdit, SimpleMapActionForm } from "../types";
+import { FileName, Game, GameForm, GameInit, MapActionForm, MissionEdit, MissionsTreeEdit, SimpleMapActionForm } from "../types";
 
 const ws = axios.create({
   baseURL: ENV.API_BASE_URL,
@@ -105,6 +105,11 @@ const api = {
   missionsTree: {
     edit: (name: string, form: MissionsTreeEdit): AxiosPromise<Game> => {
       return ws.post(endpoints.missionsTree.edit(name), form);
+    },
+  },
+  mission: {
+    edit: (name: string, form: MissionEdit): AxiosPromise<Game> => {
+      return ws.post(endpoints.mission.edit(name), form);
     },
   },
 };
