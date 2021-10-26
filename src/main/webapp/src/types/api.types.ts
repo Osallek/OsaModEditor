@@ -23,7 +23,8 @@ export type FileName = {
 
 export type GameInit = {
   installFolder?: string;
-  mods?: Array<IdName<string, string>>;
+  mods: Array<IdName<string, string>>;
+  version: string;
 };
 
 export type GameForm = {

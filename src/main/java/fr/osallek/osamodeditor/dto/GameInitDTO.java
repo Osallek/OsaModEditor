@@ -11,6 +11,8 @@ public class GameInitDTO {
 
     private List<IdName<String, String>> mods;
 
+    private String version;
+
     public GameInitDTO() {
     }
 
@@ -18,10 +20,11 @@ public class GameInitDTO {
         this.installFolder = installFolder;
     }
 
-    public GameInitDTO(String installFolder, List<IdName<String, String>> mods) {
+    public GameInitDTO(String installFolder, List<IdName<String, String>> mods, String version) {
         this.installFolder = installFolder;
         this.mods = mods;
         mods.sort(Comparator.comparing(IdName::getName, Eu4Utils.COLLATOR::compare));
+        this.version = version;
     }
 
     public String getInstallFolder() {
@@ -38,5 +41,13 @@ public class GameInitDTO {
 
     public void setMods(List<IdName<String, String>> mods) {
         this.mods = mods;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

@@ -9,8 +9,9 @@ interface GetInitAction {
 
 export interface InitState {
   installFolder?: string;
-  mods?: Array<IdName<string, string>>;
+  mods: Array<IdName<string, string>>;
   progress?: number;
+  version?: string;
 }
 
 export type InitActionType = GetInitAction;

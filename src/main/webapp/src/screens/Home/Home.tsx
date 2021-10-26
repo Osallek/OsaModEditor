@@ -1,4 +1,4 @@
-import { Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import api from "api";
 import { FormControl, LoadButton } from "components/controls";
@@ -17,7 +17,11 @@ const Home: React.FC<void> = () => {
   const intl = useIntl();
   const history = useHistory();
 
-  const { installFolder = null, mods = null } = useSelector((state: RootState) => {
+  const {
+    installFolder = null,
+    mods = null,
+    version,
+  } = useSelector((state: RootState) => {
     return state.init || {};
   });
 
@@ -81,54 +85,61 @@ const Home: React.FC<void> = () => {
   };
 
   return (
-    <Grid container direction="column" style={{ height: "100%" }}>
-      <Title />
-      <Grid container justifyContent="center" direction="column" spacing={2} style={{ flexGrow: 1 }}>
-        <Grid item xs />
-        <Grid container item justifyContent="center">
-          <Grid item xs={12} md={8}>
-            <TextField
-              variant="outlined"
-              label={intl.formatMessage({ id: "home.installFolder" })}
-              value={install}
-              onChange={(event) => setInstall(event.target.value)}
-              fullWidth
+    <>
+      <Grid container direction="column" style={{ height: "100%" }}>
+        <Title />
+        <Grid container justifyContent="center" direction="column" spacing={2} style={{ flexGrow: 1 }}>
+          <Grid item xs />
+          <Grid container item justifyContent="center">
+            <Grid item xs={12} md={8}>
+              <TextField
+                variant="outlined"
+                label={intl.formatMessage({ id: "home.installFolder" })}
+                value={install}
+                onChange={(event) => setInstall(event.target.value)}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+          <Grid container item justifyContent="center">
+            <Grid item xs={12} sm={10} md={6} lg={4}>
+              <FormControl variant="filled" fullWidth>
+                <InputLabel>{intl.formatMessage({ id: "home.mod" })}</InputLabel>
+                <Select value={mod} onChange={(event: SelectChangeEvent) => setMod(event.target.value as string)} required>
+                  {mods &&
+                    mods.map((m) => (
+                      <MenuItem value={m.id} key={m.id}>
+                        {m.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Grid container item justifyContent="center">
+            <LoadButton
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={handleSubmit}
+              disabled={!mod || !installFolder || loading}
+              messageKey="global.validate"
             />
           </Grid>
-        </Grid>
-        <Grid container item justifyContent="center">
-          <Grid item xs={12} sm={10} md={6} lg={4}>
-            <FormControl variant="filled" fullWidth>
-              <InputLabel>{intl.formatMessage({ id: "home.mod" })}</InputLabel>
-              <Select value={mod} onChange={(event: SelectChangeEvent) => setMod(event.target.value as string)} required>
-                {mods &&
-                  mods.map((m) => (
-                    <MenuItem value={m.id} key={m.id}>
-                      {m.name}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+          <Grid container item justifyContent="center">
+            <Grid item xs={12} md={8}>
+              <LabeledLinearProgress progress={progress} message={"home.progress"} display={loading} />
+            </Grid>
           </Grid>
+          <Grid item xs />
         </Grid>
-        <Grid container item justifyContent="center">
-          <LoadButton
-            variant="contained"
-            size="large"
-            color="primary"
-            onClick={handleSubmit}
-            disabled={!mod || !installFolder || loading}
-            messageKey="global.validate"
-          />
-        </Grid>
-        <Grid container item justifyContent="center">
-          <Grid item xs={12} md={8}>
-            <LabeledLinearProgress progress={progress} message={"home.progress"} display={loading} />
-          </Grid>
-        </Grid>
-        <Grid item xs />
       </Grid>
-    </Grid>
+      {version && (
+        <Typography align="center" variant="subtitle2">
+          {intl.formatMessage({ id: "home.version" })}: {version}
+        </Typography>
+      )}
+    </>
   );
 };
 

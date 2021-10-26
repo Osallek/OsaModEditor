@@ -8,6 +8,7 @@ import fr.osallek.eu4parser.model.game.Game;
 import fr.osallek.eu4parser.model.game.Nodded;
 import fr.osallek.osamodeditor.common.Constants;
 import fr.osallek.osamodeditor.config.OsaModEditorConfig;
+import fr.osallek.osamodeditor.config.properties.ApplicationProperties;
 import fr.osallek.osamodeditor.dto.GameDTO;
 import fr.osallek.osamodeditor.dto.GameInitDTO;
 import fr.osallek.osamodeditor.dto.IdName;
@@ -42,9 +43,15 @@ public class GameService {
 
     private static final int MAX_PROGRESS = 97;
 
+    private final ApplicationProperties properties;
+
     private Game game = null;
 
     private Path tmpModPath = null;
+
+    public GameService(ApplicationProperties properties) {
+        this.properties = properties;
+    }
 
     public Game getGame() {
         return game;
@@ -60,7 +67,8 @@ public class GameService {
 
     public GameInitDTO getInit() {
         return new GameInitDTO(Eu4Utils.detectInstallationFolder().map(File::getAbsolutePath).orElse(null),
-                               Eu4Utils.detectOwnMods().stream().map(mod -> IdName.of(mod.getFile().getName(), mod.getName())).collect(Collectors.toList()));
+                               Eu4Utils.detectOwnMods().stream().map(mod -> IdName.of(mod.getFile().getName(), mod.getName())).collect(Collectors.toList()),
+                               this.properties.getVersion());
     }
 
     public GameDTO parseGame(String installFolder, String mod) throws IOException {
@@ -105,7 +113,7 @@ public class GameService {
         List<Nodded> toWrite = all.stream().filter(nodded -> fileModified.contains(nodded.getFileNode())).collect(Collectors.toList());
 
         Map<FileNode, SortedSet<Nodded>> nodes = toWrite.stream()
-                                                       .collect(Collectors.groupingBy(Nodded::getFileNode, Collectors.toCollection(TreeSet::new)));
+                                                        .collect(Collectors.groupingBy(Nodded::getFileNode, Collectors.toCollection(TreeSet::new)));
 
         nodes.keySet().forEach(fileNode -> {
             if (!getMod().equals(fileNode.getMod())) {

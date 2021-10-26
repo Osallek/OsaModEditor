@@ -1,7 +1,7 @@
 import { GET_INIT, InitActionType, InitState } from "./init.types";
 
 const initialState: InitState = {
-  installFolder: "",
+  mods: [],
 };
 
 export const initReducer = (state: InitState = initialState, action: InitActionType): InitState => {
@@ -9,8 +9,7 @@ export const initReducer = (state: InitState = initialState, action: InitActionT
     case GET_INIT: {
       return {
         ...state,
-        installFolder: action.payload.installFolder,
-        mods: action.payload.mods,
+        ...action.payload,
       };
     }
 
