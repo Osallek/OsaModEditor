@@ -5,6 +5,7 @@ import fr.osallek.eu4parser.model.game.Area;
 import fr.osallek.eu4parser.model.game.Region;
 import fr.osallek.eu4parser.model.game.SuperRegion;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class SuperRegionDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ColorDTO color;
 
-    public SuperRegionDTO(SuperRegion superRegion, Map<Eu4Language, Map<String, String>> localisations) {
+    public SuperRegionDTO(SuperRegion superRegion, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(superRegion.getName(), localisations);
         this.name = superRegion.getName();
 

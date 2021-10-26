@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.Mission;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ public class MissionDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String missionsTree;
 
-    public MissionDTO(Mission mission, Map<Eu4Language, Map<String, String>> localisations) {
+    public MissionDTO(Mission mission, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(mission.getName() + "_title", localisations);
         this.name = mission.getName();
         this.icon = mission.getIcon();

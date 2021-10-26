@@ -4,6 +4,7 @@ import fr.osallek.eu4parser.model.game.Modifier;
 import fr.osallek.eu4parser.model.game.ModifierScope;
 import fr.osallek.eu4parser.model.game.ModifierType;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 import fr.osallek.osamodeditor.common.Constants;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ public class ModifierDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ModifierScope scope;
 
-    public ModifierDTO(Modifier modifier, Map<Eu4Language, Map<String, String>> localisations) {
+    public ModifierDTO(Modifier modifier, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(localisations, modifier.getName(), Constants.modifierToLocalisationKeys(modifier.getName()));
         this.id = modifier.getName();
         this.type = modifier.getType();

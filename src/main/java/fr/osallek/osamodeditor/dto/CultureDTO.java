@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.Culture;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class CultureDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ColorDTO color;
 
-    public CultureDTO(Culture culture, Map<Eu4Language, Map<String, String>> localisations) {
+    public CultureDTO(Culture culture, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(culture.getName(), localisations);
         this.name = culture.getName();
         this.group = culture.getCultureGroup().getName();

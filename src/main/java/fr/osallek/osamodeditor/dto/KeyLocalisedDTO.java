@@ -2,6 +2,7 @@ package fr.osallek.osamodeditor.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.Map;
 
@@ -9,12 +10,12 @@ public class KeyLocalisedDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String name;
 
-    public KeyLocalisedDTO(String name, Map<Eu4Language, Map<String, String>> localisations) {
+    public KeyLocalisedDTO(String name, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(name, localisations);
         this.name = name;
     }
 
-    public KeyLocalisedDTO(String key, String name, Map<Eu4Language, Map<String, String>> localisations) {
+    public KeyLocalisedDTO(String key, String name, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(key, localisations);
         this.name = name;
     }

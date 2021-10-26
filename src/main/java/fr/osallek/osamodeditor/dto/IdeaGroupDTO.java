@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.Power;
 import fr.osallek.eu4parser.model.game.IdeaGroup;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class IdeaGroupDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private Map<String, ModifiersDTO> ideas;
 
-    public IdeaGroupDTO(IdeaGroup ideaGroup, Map<Eu4Language, Map<String, String>> localisations) {
+    public IdeaGroupDTO(IdeaGroup ideaGroup, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(ideaGroup.getName(), localisations);
         this.name = ideaGroup.getName();
         this.category = ideaGroup.getCategory();

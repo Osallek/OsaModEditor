@@ -41,7 +41,7 @@ public class GameController {
     }
 
     @PostMapping(value = "/defines", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GameDTO> changeDefines(@RequestBody Map<String, Map<String, String>> defines) {
+    public ResponseEntity<GameDTO> changeDefines(@RequestBody Map<String, Map<String, String>> defines) throws IOException {
         return ResponseEntity.ok(this.gameService.changeDefines(defines));
     }
 }

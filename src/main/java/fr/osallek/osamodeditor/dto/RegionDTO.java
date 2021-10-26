@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.Area;
 import fr.osallek.eu4parser.model.game.Region;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class RegionDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ColorDTO color;
 
-    public RegionDTO(Region region, Map<Eu4Language, Map<String, String>> localisations) {
+    public RegionDTO(Region region, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(region.getName(), localisations);
         this.name = region.getName();
 

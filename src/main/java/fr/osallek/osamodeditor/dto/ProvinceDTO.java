@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.common.Eu4Utils;
 import fr.osallek.eu4parser.model.game.Province;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 import org.apache.commons.collections4.MapUtils;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class ProvinceDTO extends LocalisedDTO implements MappedDTO<Integer> {
 
     private boolean historyFromMod;
 
-    public ProvinceDTO(Province province, Map<Eu4Language, Map<String, String>> localisations) {
+    public ProvinceDTO(Province province, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super("PROV" + province.getId(), localisations);
         this.id = province.getId();
         addToEndLocalisations(" (" + this.id + ")");

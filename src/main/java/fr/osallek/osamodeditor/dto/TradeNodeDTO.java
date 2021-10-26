@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.TradeNode;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class TradeNodeDTO extends LocalisedDTO implements MappedDTO<String> {
 
     //    private List<TradeNodeOutgoing> outgoings;
 
-    public TradeNodeDTO(TradeNode tradeNode, Map<Eu4Language, Map<String, String>> localisations) {
+    public TradeNodeDTO(TradeNode tradeNode, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(tradeNode.getName(), localisations);
         this.name = tradeNode.getName();
         this.location = tradeNode.getLocation();

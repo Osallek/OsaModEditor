@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.ProvinceList;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class ProvinceListDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private boolean fake;
 
-    public ProvinceListDTO(ProvinceList list, Map<Eu4Language, Map<String, String>> localisations, Function<ProvinceList, ColorDTO> colorFunction) {
+    public ProvinceListDTO(ProvinceList list, Map<String, Map<Eu4Language, Localisation>> localisations, Function<ProvinceList, ColorDTO> colorFunction) {
         super(list.getLocalizationKey(), localisations);
         this.name = list.getName();
         this.color = colorFunction.apply(list);

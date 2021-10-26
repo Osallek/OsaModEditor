@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.Area;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class AreaDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ColorDTO color;
 
-    public AreaDTO(Area area, Map<Eu4Language, Map<String, String>> localisations) {
+    public AreaDTO(Area area, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(area.getName(), localisations);
         this.name = area.getName();
         this.provinces = area.getProvinces();

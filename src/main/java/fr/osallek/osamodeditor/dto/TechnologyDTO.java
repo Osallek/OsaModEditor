@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.Power;
 import fr.osallek.eu4parser.model.game.Technology;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class TechnologyDTO extends LocalisedDTO implements Comparable<Technology
 
     private ModifiersDTO modifiers;
 
-    public TechnologyDTO(Technology technology, Map<Eu4Language, Map<String, String>> localisations) {
+    public TechnologyDTO(Technology technology, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(technology.getType().toString().toLowerCase() + "_tech_cs_" + technology.getNumber() + "_name", localisations);
         this.number = technology.getNumber();
         this.type = technology.getType();

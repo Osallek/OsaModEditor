@@ -6,6 +6,7 @@ import fr.osallek.eu4parser.model.game.Country;
 import fr.osallek.eu4parser.model.game.IdeaGroup;
 import fr.osallek.eu4parser.model.game.Unit;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 import fr.osallek.osamodeditor.common.Constants;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -46,7 +47,7 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private List<CountryHistoryDTO> history;
 
-    public CountryDTO(Country country, Map<Eu4Language, Map<String, String>> localisations) {
+    public CountryDTO(Country country, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(country.getTag(), localisations);
         this.tag = country.getTag();
         addToEndLocalisations(" (" + this.tag + ")");

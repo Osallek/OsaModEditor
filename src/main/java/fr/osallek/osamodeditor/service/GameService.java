@@ -81,7 +81,7 @@ public class GameService {
         return gameDTO;
     }
 
-    public GameDTO changeDefines(Map<String, Map<String, String>> defines) {
+    public GameDTO changeDefines(Map<String, Map<String, String>> defines) throws IOException {
         defines.forEach((category, values) -> values.forEach((key, value) -> this.game.changeDefine(getMod(), category, key, value)));
         this.game.saveDefines(getMod());
 

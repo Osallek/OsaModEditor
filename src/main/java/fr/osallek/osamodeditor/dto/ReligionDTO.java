@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.Religion;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class ReligionDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private ColorDTO color;
 
-    public ReligionDTO(Religion religion, Map<Eu4Language, Map<String, String>> localisations) {
+    public ReligionDTO(Religion religion, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(religion.getName(), localisations);
         this.name = religion.getName();
         this.group = religion.getReligionGroup().getName();

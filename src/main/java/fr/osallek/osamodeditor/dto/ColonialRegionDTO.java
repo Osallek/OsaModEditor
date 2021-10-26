@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.ColonialRegion;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ColonialRegionDTO extends LocalisedDTO implements MappedDTO<String>
 
     private List<Integer> provinces;
 
-    public ColonialRegionDTO(ColonialRegion colonialRegion, Map<Eu4Language, Map<String, String>> localisations) {
+    public ColonialRegionDTO(ColonialRegion colonialRegion, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(colonialRegion.getName(), localisations);
         this.name = colonialRegion.getName();
         this.color = colonialRegion.getColor() == null ? new ColorDTO(this.name, true) : new ColorDTO(colonialRegion.getColor());

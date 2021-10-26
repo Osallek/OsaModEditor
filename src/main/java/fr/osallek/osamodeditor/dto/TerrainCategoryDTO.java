@@ -3,6 +3,7 @@ package fr.osallek.osamodeditor.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.osallek.eu4parser.model.game.TerrainCategory;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
+import fr.osallek.eu4parser.model.game.localisation.Localisation;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class TerrainCategoryDTO extends LocalisedDTO implements MappedDTO<String
 
     private List<Integer> provinces;
 
-    public TerrainCategoryDTO(TerrainCategory terrainCategory, Map<Eu4Language, Map<String, String>> localisations) {
+    public TerrainCategoryDTO(TerrainCategory terrainCategory, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(terrainCategory.getName(), localisations);
         this.name = terrainCategory.getName();
         this.color = terrainCategory.getColor() == null ? new ColorDTO(this.name, true) : new ColorDTO(terrainCategory.getColor());
