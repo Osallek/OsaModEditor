@@ -62,6 +62,7 @@ export interface GameState {
   missions: Record<string, Mission>;
   missionsGfx: Record<string, SpriteType>;
   maxMissionsSlots: number;
+  localisations: Record<string, KeyLocalizations>;
   sortedGraphicalCultures: Array<KeyLocalizations>;
   sortedTradeNodes: Array<TradeNode>;
   sortedCountries: Array<Country>;
@@ -82,6 +83,7 @@ export interface GameState {
   sortedMissionsTrees: Array<MissionsTree>;
   sortedMissions: Array<Mission>;
   sortedMissionsGfx: Array<SpriteType>;
+  sortedLocalisations: Array<KeyLocalizations>;
   defines: Record<string, Record<string, string>>;
 }
 

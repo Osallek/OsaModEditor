@@ -16,6 +16,12 @@ const global = {
   "global.start": "Start",
   "global.search": "Search",
   "global.ideaGroup": "Idea group",
+  "global.localisations": "Localisations",
+  "global.english": "English",
+  "global.french": "French",
+  "global.german": "German",
+  "global.spanish": "Spanish",
+  "global.filter": "Filter",
 };
 
 export default global;

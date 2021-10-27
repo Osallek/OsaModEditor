@@ -1,5 +1,5 @@
 import { locale } from "index";
-import { Localizations } from "types";
+import { KeyLocalizations, Localizations } from "types";
 
 export function localisationsComparator(a: Localizations, b: Localizations): number {
   if (locale.startsWith("fr")) {
@@ -11,6 +11,10 @@ export function localisationsComparator(a: Localizations, b: Localizations): num
   } else {
     return a.english.localeCompare(b.english, locale);
   }
+}
+
+export function keyLocalisationsComparator(a: KeyLocalizations, b: KeyLocalizations): number {
+  return a.name.localeCompare(b.name, locale);
 }
 
 export function localizedComparator(a: string, b: string): number {

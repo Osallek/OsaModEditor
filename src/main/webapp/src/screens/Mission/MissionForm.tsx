@@ -1,6 +1,6 @@
 import { Clear } from "@mui/icons-material";
 import { MobileDatePicker } from "@mui/lab";
-import { Avatar, Card, CardContent, CardHeader, FormControl, FormControlLabel, Grid, IconButton, InputAdornment, Switch, TextField } from "@mui/material";
+import { Card, CardContent, CardHeader, FormControl, FormControlLabel, Grid, IconButton, InputAdornment, Switch, TextField } from "@mui/material";
 import { LoadButton } from "components/controls";
 import { BackTitle } from "components/global";
 import { VirtualizedMissionAutocomplete } from "components/mission";
@@ -17,7 +17,6 @@ import { snackbarError } from "utils/snackbar.utils";
 import { useEventSnackbar } from "../../hooks/snackbar.hooks";
 import actions from "../../store/actions";
 import { dateToLocalDate } from "../../utils/date.utils";
-import { getImageUrl } from "../../utils/global.utils";
 
 interface MissionFormParams {
   name: string;

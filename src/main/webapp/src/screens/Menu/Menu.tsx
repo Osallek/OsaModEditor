@@ -63,6 +63,15 @@ const Menu: React.FC<void> = () => {
       link: intl.formatMessage({ id: "routes.missionsTrees" }),
       text: intl.formatMessage({ id: "global.missionsTrees" }),
     },
+    {
+      xs: 12,
+      sm: 6,
+      md: 4,
+      lg: 4,
+      xl: 3,
+      link: intl.formatMessage({ id: "routes.localisations" }),
+      text: intl.formatMessage({ id: "global.localisations" }),
+    },
   ];
 
   useEffect(() => {

@@ -105,6 +105,7 @@ export type Game = {
   missions: Record<string, Mission>;
   missionsGfx: Record<string, SpriteType>;
   maxMissionsSlots: number;
+  localisations: Record<string, KeyLocalizations>;
 };
 
 export type TradeNode = Localizations & {
@@ -383,4 +384,11 @@ export enum ServerErrors {
   MISSION_NOT_FOUND = "MISSION_NOT_FOUND",
   INVALID_PARAMETER = "INVALID_PARAMETER",
   INVALID_FILE = "INVALID_FILE",
+}
+
+export enum Eu4Language {
+  ENGLISH = "english",
+  FRENCH = "french",
+  GERMAN = "german",
+  SPANISH = "spanish",
 }

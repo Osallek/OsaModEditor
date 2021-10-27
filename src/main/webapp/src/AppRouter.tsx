@@ -3,12 +3,13 @@ import React from "react";
 import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Defines from "screens/Defines";
-import Home from "screens/Home";
-import Map from "screens/Map";
-import Menu from "screens/Menu";
+import { Defines } from "screens/Defines";
+import { Home } from "screens/Home";
+import { Map } from "screens/Map";
+import { Menu } from "screens/Menu";
 import { RootState } from "store/types";
 import { Countries, CountryForm } from "./screens/Country";
+import { Localisations } from "./screens/Localisations";
 import { MissionForm, Missions, MissionsTreeForm, MissionsTrees } from "./screens/Mission";
 
 const AppRouter: React.FC = () => {
@@ -32,7 +33,8 @@ const AppRouter: React.FC = () => {
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missionsTree" }) + "/:name"} exact component={MissionsTreeForm} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missions" })} exact component={Missions} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.mission" }) + "/:name"} exact component={MissionForm} />}
-            <Route path="/" component={Home} />
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.localisations" })} exact component={Localisations} />}
+            <Route path="/" component={state.game.folderName ? Menu : Home} />
           </Switch>
         </BrowserRouter>
       </Container>

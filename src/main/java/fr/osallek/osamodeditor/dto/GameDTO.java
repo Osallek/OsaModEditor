@@ -92,6 +92,8 @@ public class GameDTO {
 
     private int maxMissionsSlots;
 
+    private Map<String, KeyLocalisedDTO> localisations;
+
     public GameDTO(Game game, String tmpFolderName) {
         this(game, tmpFolderName, () -> {});
     }
@@ -352,6 +354,14 @@ public class GameDTO {
 
         this.maxMissionsSlots = game.getMaxMissionsSlots();
 
+
+        this.localisations = game.getLocalisations()
+                                 .keySet()
+                                 .stream()
+                                 .map(key -> new KeyLocalisedDTO(key, game.getLocalisations()))
+                                 .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
+
         try {
             countDownLatch.await();
             missionsCountDownLatch.await();
@@ -609,5 +619,13 @@ public class GameDTO {
 
     public void setMaxMissionsSlots(int maxMissionsSlots) {
         this.maxMissionsSlots = maxMissionsSlots;
+    }
+
+    public Map<String, KeyLocalisedDTO> getLocalisations() {
+        return localisations;
+    }
+
+    public void setLocalisations(Map<String, KeyLocalisedDTO> localisations) {
+        this.localisations = localisations;
     }
 }

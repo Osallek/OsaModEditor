@@ -8,6 +8,8 @@ const routes = {
   "routes.missionsTree": "/arbre-de-missions",
   "routes.missions": "/missions",
   "routes.mission": "/mission",
+  "routes.localisations": "/traductions",
+  "routes.localisation": "/traduction",
 };
 
 export default routes;
