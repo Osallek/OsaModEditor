@@ -63,6 +63,10 @@ export type KeyLocalizations = Localizations & {
   name: string;
 };
 
+export type ModdedKeyLocalizations = KeyLocalizations & {
+  modded: boolean;
+};
+
 export type ProvinceList = Localizations & {
   name: string;
   color: Color;
@@ -105,7 +109,7 @@ export type Game = {
   missions: Record<string, Mission>;
   missionsGfx: Record<string, SpriteType>;
   maxMissionsSlots: number;
-  localisations: Record<string, KeyLocalizations>;
+  localisations: Record<string, ModdedKeyLocalizations>;
 };
 
 export type TradeNode = Localizations & {
@@ -382,6 +386,7 @@ export enum ServerErrors {
   WINTER_NOT_FOUND = "WINTER_NOT_FOUND",
   MISSIONS_TREE_NOT_FOUND = "MISSIONS_TREE_NOT_FOUND",
   MISSION_NOT_FOUND = "MISSION_NOT_FOUND",
+  LOCALISATION_NOT_FOUND = "LOCALISATION_NOT_FOUND",
   INVALID_PARAMETER = "INVALID_PARAMETER",
   INVALID_FILE = "INVALID_FILE",
 }

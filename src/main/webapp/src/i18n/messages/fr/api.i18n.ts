@@ -20,6 +20,7 @@ const api = {
   "api.error.GRAPHICAL_CULTURE_NOT_FOUND": "Culture graphique inconnue !",
   "api.error.MISSION_NOT_FOUND": "Mission inconnue !",
   "api.error.MISSIONS_TREE_NOT_FOUND": "Arbre de missions inconnu !",
+  "api.error.LOCALISATION_NOT_FOUND": "Traduction inconnue !",
   "api.success.DEFAULT_SUCCESS": "Les changements ont été appliqués !",
 };
 

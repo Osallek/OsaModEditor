@@ -22,6 +22,7 @@ const global = {
   "global.german": "Allemand",
   "global.spanish": "Espagnol",
   "global.filter": "Filtrer",
+  "global.onlyModded": "Afficher uniquement les modés",
 };
 
 export default global;

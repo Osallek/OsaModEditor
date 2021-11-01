@@ -11,7 +11,11 @@ public class KeyLocalisedDTO extends LocalisedDTO implements MappedDTO<String> {
     private String name;
 
     public KeyLocalisedDTO(String name, Map<String, Map<Eu4Language, Localisation>> localisations) {
-        super(name, localisations);
+        this(name, localisations, true);
+    }
+
+    public KeyLocalisedDTO(String name, Map<String, Map<Eu4Language, Localisation>> localisations, boolean keyAsDefault) {
+        super(name, localisations, keyAsDefault);
         this.name = name;
     }
 

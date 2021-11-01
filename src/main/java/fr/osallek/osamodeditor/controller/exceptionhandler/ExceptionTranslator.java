@@ -8,6 +8,7 @@ import fr.osallek.osamodeditor.common.exception.GraphicalCultureNotFoundExceptio
 import fr.osallek.osamodeditor.common.exception.IdeaGroupNotFoundException;
 import fr.osallek.osamodeditor.common.exception.InvalidColorException;
 import fr.osallek.osamodeditor.common.exception.InvalidFileException;
+import fr.osallek.osamodeditor.common.exception.LocalisationNotFoundException;
 import fr.osallek.osamodeditor.common.exception.MissionNotFoundException;
 import fr.osallek.osamodeditor.common.exception.MissionsTreeNotFoundException;
 import fr.osallek.osamodeditor.common.exception.MonsoonNotFoundException;
@@ -157,5 +158,10 @@ public class ExceptionTranslator {
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handleMissionsTreeNotFoundException(MissionsTreeNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MISSIONS_TREE_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handleLocalisationNotFoundException(LocalisationNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.LOCALISATION_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 }

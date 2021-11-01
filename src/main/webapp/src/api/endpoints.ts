@@ -36,6 +36,9 @@ const endpoints = {
   mission: {
     edit: (name: string) => `/mission/${name}/edit`,
   },
+  localisation: {
+    missing: "/localisation/missing",
+  },
 };
 
 export default endpoints;

@@ -6,11 +6,6 @@ import fr.osallek.eu4parser.model.Power;
 import fr.osallek.eu4parser.model.game.Define;
 import fr.osallek.eu4parser.model.game.Game;
 import fr.osallek.eu4parser.model.game.ModifiersUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.geojson.FeatureCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -25,6 +20,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
+import org.geojson.FeatureCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameDTO {
 
@@ -92,7 +91,7 @@ public class GameDTO {
 
     private int maxMissionsSlots;
 
-    private Map<String, KeyLocalisedDTO> localisations;
+    private Map<String, ModdedKeyLocalisedDTO> localisations;
 
     public GameDTO(Game game, String tmpFolderName) {
         this(game, tmpFolderName, () -> {});
@@ -358,7 +357,7 @@ public class GameDTO {
         this.localisations = game.getLocalisations()
                                  .keySet()
                                  .stream()
-                                 .map(key -> new KeyLocalisedDTO(key, game.getLocalisations()))
+                                 .map(key -> new ModdedKeyLocalisedDTO(key, game.getLocalisations(), false, !game.getNativeLocalisations().contains(key)))
                                  .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
 
@@ -621,11 +620,11 @@ public class GameDTO {
         this.maxMissionsSlots = maxMissionsSlots;
     }
 
-    public Map<String, KeyLocalisedDTO> getLocalisations() {
+    public Map<String, ModdedKeyLocalisedDTO> getLocalisations() {
         return localisations;
     }
 
-    public void setLocalisations(Map<String, KeyLocalisedDTO> localisations) {
+    public void setLocalisations(Map<String, ModdedKeyLocalisedDTO> localisations) {
         this.localisations = localisations;
     }
 }

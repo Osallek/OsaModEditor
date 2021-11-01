@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { useIntl } from "react-intl";
 import { ListChildComponentProps, VariableSizeList } from "react-window";
-import { KeyLocalizations } from "types";
+import { ModdedKeyLocalizations } from "types";
 
 const StyledPopper = styled(Popper)({
   [`& .${autocompleteClasses.listbox}`]: {
@@ -18,8 +18,8 @@ const StyledPopper = styled(Popper)({
 });
 
 interface Props {
-  values: Array<KeyLocalizations>;
-  onChange: (keyLocalizations: KeyLocalizations | null) => void;
+  values: Array<ModdedKeyLocalizations>;
+  onChange: (moddedKeyLocalizations: ModdedKeyLocalizations | null) => void;
 }
 
 export function VirtualizedLocalizationsAutocomplete({ values, onChange }: Props) {

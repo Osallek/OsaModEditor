@@ -44,7 +44,7 @@ public class JacksonConfig {
         simpleModule.addDeserializer(Pair.class, PairDeserializer.INSTANCE);
 
         return builder.createXmlMapper(false)
-                      .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+                      .serializationInclusion(JsonInclude.Include.NON_NULL)
                       .modules(simpleModule)
                       .build()
                       .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true)

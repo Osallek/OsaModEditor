@@ -9,7 +9,7 @@ import { Map } from "screens/Map";
 import { Menu } from "screens/Menu";
 import { RootState } from "store/types";
 import { Countries, CountryForm } from "./screens/Country";
-import { Localisations } from "./screens/Localisations";
+import { LocalisationForm, Localisations } from "./screens/Localisations";
 import { MissionForm, Missions, MissionsTreeForm, MissionsTrees } from "./screens/Mission";
 
 const AppRouter: React.FC = () => {
@@ -20,21 +20,22 @@ const AppRouter: React.FC = () => {
   });
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", backgroundColor: "#f3f3f3" }}>
-      <Container maxWidth={false} style={{ padding: 24 }}>
+    <div style={ { minHeight: "100vh", display: "flex", backgroundColor: "#f3f3f3" } }>
+      <Container maxWidth={ false } style={ { padding: 24 } }>
         <BrowserRouter basename="/editor">
           <Switch>
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.menu" })} exact component={Menu} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.map" })} exact component={Map} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.defines" })} exact component={Defines} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.countries" })} exact component={Countries} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.country" }) + "/:tag"} exact component={CountryForm} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missionsTrees" })} exact component={MissionsTrees} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missionsTree" }) + "/:name"} exact component={MissionsTreeForm} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.missions" })} exact component={Missions} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.mission" }) + "/:name"} exact component={MissionForm} />}
-            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.localisations" })} exact component={Localisations} />}
-            <Route path="/" component={state.game.folderName ? Menu : Home} />
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.menu" }) } exact component={ Menu }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.map" }) } exact component={ Map }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.defines" }) } exact component={ Defines }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.countries" }) } exact component={ Countries }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.country" }) + "/:tag" } exact component={ CountryForm }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.missionsTrees" }) } exact component={ MissionsTrees }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.missionsTree" }) + "/:name" } exact component={ MissionsTreeForm }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.missions" }) } exact component={ Missions }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.mission" }) + "/:name" } exact component={ MissionForm }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.localisations" }) } exact component={ Localisations }/> }
+            { state.game.folderName && <Route path={ intl.formatMessage({ id: "routes.localisation" }) + "/:name" } exact component={ LocalisationForm }/> }
+            <Route path="/" component={ state.game.folderName ? Menu : Home }/>
           </Switch>
         </BrowserRouter>
       </Container>

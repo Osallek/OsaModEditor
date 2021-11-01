@@ -20,10 +20,18 @@ public class LocalisedDTO {
     private String spanish;
 
     public LocalisedDTO(String key, Map<String, Map<Eu4Language, Localisation>> localisations) {
-        build(key, localisations);
+        this(key, localisations, true);
+    }
+
+    public LocalisedDTO(String key, Map<String, Map<Eu4Language, Localisation>> localisations, boolean keyAsDefault) {
+        build(key, localisations, keyAsDefault);
     }
 
     public LocalisedDTO(Map<String, Map<Eu4Language, Localisation>> localisations, String defaultKey, List<String> keys) {
+        this(localisations, defaultKey, keys, true);
+    }
+
+    public LocalisedDTO(Map<String, Map<Eu4Language, Localisation>> localisations, String defaultKey, List<String> keys, boolean keyAsDefault) {
         String key = defaultKey;
 
         for (String k : keys) {
@@ -35,22 +43,22 @@ public class LocalisedDTO {
             }
         }
 
-        build(key, localisations);
+        build(key, localisations, keyAsDefault);
     }
 
-    private void build(String key, Map<String, Map<Eu4Language, Localisation>> localisations) {
+    private void build(String key, Map<String, Map<Eu4Language, Localisation>> localisations, boolean keyAsDefault) {
         Map<Eu4Language, Localisation> map = localisations.get(key);
 
         if (MapUtils.isEmpty(map)) {
-            this.english = key;
-            this.french = key;
-            this.german = key;
-            this.spanish = key;
+            this.english = keyAsDefault ? key : null;
+            this.french = keyAsDefault ? key : null;
+            this.german = keyAsDefault ? key : null;
+            this.spanish = keyAsDefault ? key : null;
         } else {
-            this.english = map.containsKey(Eu4Language.ENGLISH) ? StringUtils.capitalize(map.get(Eu4Language.ENGLISH).getValue()) : key;
-            this.french = map.containsKey(Eu4Language.FRENCH) ? StringUtils.capitalize(map.get(Eu4Language.FRENCH).getValue()) : key;
-            this.german = map.containsKey(Eu4Language.GERMAN) ? StringUtils.capitalize(map.get(Eu4Language.GERMAN).getValue()) : key;
-            this.spanish = map.containsKey(Eu4Language.SPANISH) ? StringUtils.capitalize(map.get(Eu4Language.SPANISH).getValue()) : key;
+            this.english = map.containsKey(Eu4Language.ENGLISH) ? StringUtils.capitalize(map.get(Eu4Language.ENGLISH).getValue()) : keyAsDefault ? key : null;
+            this.french = map.containsKey(Eu4Language.FRENCH) ? StringUtils.capitalize(map.get(Eu4Language.FRENCH).getValue()) : keyAsDefault ? key : null;
+            this.german = map.containsKey(Eu4Language.GERMAN) ? StringUtils.capitalize(map.get(Eu4Language.GERMAN).getValue()) : keyAsDefault ? key : null;
+            this.spanish = map.containsKey(Eu4Language.SPANISH) ? StringUtils.capitalize(map.get(Eu4Language.SPANISH).getValue()) : keyAsDefault ? key : null;
         }
     }
 
@@ -76,5 +84,21 @@ public class LocalisedDTO {
 
     public String getSpanish() {
         return spanish;
+    }
+
+    public void setEnglish(String english) {
+        this.english = english;
+    }
+
+    public void setFrench(String french) {
+        this.french = french;
+    }
+
+    public void setGerman(String german) {
+        this.german = german;
+    }
+
+    public void setSpanish(String spanish) {
+        this.spanish = spanish;
     }
 }

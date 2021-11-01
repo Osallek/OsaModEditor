@@ -112,6 +112,11 @@ const api = {
       return ws.post(endpoints.mission.edit(name), form);
     },
   },
+  localisation: {
+    missing: (): AxiosPromise<Game> => {
+      return ws.post(endpoints.localisation.missing);
+    },
+  },
 };
 
 export default api;
