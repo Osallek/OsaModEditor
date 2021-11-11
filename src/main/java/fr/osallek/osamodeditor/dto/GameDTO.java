@@ -6,9 +6,12 @@ import fr.osallek.eu4parser.model.Power;
 import fr.osallek.eu4parser.model.game.Define;
 import fr.osallek.eu4parser.model.game.Game;
 import fr.osallek.eu4parser.model.game.ModifiersUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.geojson.FeatureCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -20,10 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
-import org.geojson.FeatureCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GameDTO {
 
@@ -98,7 +97,6 @@ public class GameDTO {
     }
 
     public GameDTO(Game game, String tmpFolderName, Runnable runnable) {
-        Instant start2 = Instant.now();
         this.folderName = tmpFolderName;
         this.startDate = game.getStartDate();
         this.endDate = game.getEndDate();
@@ -368,8 +366,6 @@ public class GameDTO {
             LOGGER.error("An error occurred while waiting for game files reading : {}", e.getMessage(), e);
             Thread.currentThread().interrupt();
         }
-
-        LOGGER.info("Total: {}", Duration.between(start2, Instant.now()).toMillis());
     }
 
     public String getFolderName() {

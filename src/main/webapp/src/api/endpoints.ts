@@ -38,6 +38,7 @@ const endpoints = {
   },
   localisation: {
     missing: "/localisation/missing",
+    edit: (key: string) => `/localisation/${key}/edit`,
   },
 };
 

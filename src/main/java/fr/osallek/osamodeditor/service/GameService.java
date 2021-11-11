@@ -110,7 +110,8 @@ public class GameService {
         }
 
         Set<FileNode> fileModified = modified.stream().map(Nodded::getFileNode).collect(Collectors.toSet());
-        List<Nodded> toWrite = all.stream().filter(nodded -> fileModified.contains(nodded.getFileNode())).collect(Collectors.toList());
+        Set<Nodded> toWrite = all.stream().filter(nodded -> fileModified.contains(nodded.getFileNode())).collect(Collectors.toSet());
+        toWrite.addAll(modified);
 
         Map<FileNode, SortedSet<Nodded>> nodes = toWrite.stream()
                                                         .collect(Collectors.groupingBy(Nodded::getFileNode, Collectors.toCollection(TreeSet::new)));

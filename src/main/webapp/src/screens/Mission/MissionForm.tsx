@@ -14,9 +14,9 @@ import { RootState } from "store/types";
 import { Mission, MissionEdit, ServerErrors, ServerSuccesses, SpriteType } from "types";
 import { localize } from "utils/localisations.utils";
 import { snackbarError } from "utils/snackbar.utils";
-import { useEventSnackbar } from "../../hooks/snackbar.hooks";
-import actions from "../../store/actions";
-import { dateToLocalDate } from "../../utils/date.utils";
+import { useEventSnackbar } from "hooks/snackbar.hooks";
+import actions from "store/actions";
+import { dateToLocalDate } from "utils/date.utils";
 
 interface MissionFormParams {
   name: string;

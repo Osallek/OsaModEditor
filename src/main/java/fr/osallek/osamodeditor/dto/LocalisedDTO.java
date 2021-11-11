@@ -19,6 +19,9 @@ public class LocalisedDTO {
 
     private String spanish;
 
+    public LocalisedDTO() {
+    }
+
     public LocalisedDTO(String key, Map<String, Map<Eu4Language, Localisation>> localisations) {
         this(key, localisations, true);
     }
