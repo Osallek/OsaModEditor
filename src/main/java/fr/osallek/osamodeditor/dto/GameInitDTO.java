@@ -1,15 +1,12 @@
 package fr.osallek.osamodeditor.dto;
 
-import fr.osallek.eu4parser.common.Eu4Utils;
-
-import java.util.Comparator;
-import java.util.List;
+import java.util.SortedSet;
 
 public class GameInitDTO {
 
     private String installFolder;
 
-    private List<IdName<String, String>> mods;
+    private SortedSet<ModDTO> mods;
 
     private String version;
 
@@ -20,10 +17,9 @@ public class GameInitDTO {
         this.installFolder = installFolder;
     }
 
-    public GameInitDTO(String installFolder, List<IdName<String, String>> mods, String version) {
+    public GameInitDTO(String installFolder, SortedSet<ModDTO> mods, String version) {
         this.installFolder = installFolder;
         this.mods = mods;
-        mods.sort(Comparator.comparing(IdName::getName, Eu4Utils.COLLATOR::compare));
         this.version = version;
     }
 
@@ -35,11 +31,11 @@ public class GameInitDTO {
         this.installFolder = installFolder;
     }
 
-    public List<IdName<String, String>> getMods() {
+    public SortedSet<ModDTO> getMods() {
         return mods;
     }
 
-    public void setMods(List<IdName<String, String>> mods) {
+    public void setMods(SortedSet<ModDTO> mods) {
         this.mods = mods;
     }
 

@@ -1,4 +1,4 @@
-import { GameInit, IdName } from "types/api.types";
+import { GameInit, Mod } from "types/api.types";
 
 export const GET_INIT: "init/getInit" = "init/getInit";
 
@@ -9,7 +9,7 @@ interface GetInitAction {
 
 export interface InitState {
   installFolder?: string;
-  mods: Array<IdName<string, string>>;
+  mods: Array<Mod>;
   progress?: number;
   version?: string;
 }

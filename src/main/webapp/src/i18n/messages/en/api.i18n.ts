@@ -1,6 +1,8 @@
 const api = {
   "api.error.DEFAULT_ERROR": "An error occurred!",
   "api.error.MISSING_PARAMETER": "An error occurred!",
+  "api.error.MOD_NOT_FOUND": "Mod not found!",
+  "api.error.DESCRIPTOR_FILE_NOT_FOUND": "Descriptor file not found!",
   "api.error.AREA_NOT_FOUND": "Area not found!",
   "api.error.TRADE_COMPANY_NOT_FOUND": "Trade company not found!",
   "api.error.CLIMATE_NOT_FOUND": "Climate not found!",

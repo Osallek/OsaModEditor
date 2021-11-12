@@ -12,6 +12,9 @@ const ws = axios.create({
 const api = {
   init: {
     get: (): AxiosPromise<GameInit> => ws.get(endpoints.game.init),
+    copy: (mod: string): AxiosPromise<GameInit> => {
+      return ws.post(endpoints.game.copy, { mod });
+    },
   },
   game: {
     init: (form: GameForm): AxiosPromise<Game> => {

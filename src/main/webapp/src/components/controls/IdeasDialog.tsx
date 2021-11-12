@@ -14,7 +14,7 @@ interface Props {
   onValidate: (ideas: Array<string>) => void;
 }
 
-const LoadButton = ({ title, buttonKey, free, initialValue = [], onValidate }: Props) => {
+const IdeasDialog = ({ title, buttonKey, free, initialValue = [], onValidate }: Props) => {
   const intl = useIntl();
 
   const { sortedIdeaGroups, technologies } = useSelector((state: RootState) => {
@@ -119,4 +119,4 @@ const LoadButton = ({ title, buttonKey, free, initialValue = [], onValidate }: P
   );
 };
 
-export default LoadButton;
+export default IdeasDialog;

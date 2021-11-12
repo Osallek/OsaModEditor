@@ -1,6 +1,7 @@
 const endpoints = {
   game: {
     init: "/game/init",
+    copy: "/game/copy",
     progress: "/game/progress",
     changeDefines: "/game/defines",
   },

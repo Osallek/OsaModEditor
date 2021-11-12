@@ -17,13 +17,19 @@ export enum Power {
   MIL = "MIL",
 }
 
+export enum ModType {
+  LOCAL = "LOCAL",
+  STEAM = "STEAM",
+  PDX = "PDX",
+}
+
 export type FileName = {
   file: string;
 };
 
 export type GameInit = {
   installFolder?: string;
-  mods: Array<IdName<string, string>>;
+  mods: Array<Mod>;
   version: string;
 };
 
@@ -44,6 +50,12 @@ export type MapActionForm = SimpleMapActionForm & {
 export type IdName<I, N> = {
   id: I;
   name?: N;
+};
+
+export type Mod = {
+  name: string;
+  fileName: string;
+  type: ModType;
 };
 
 export type Color = {
@@ -371,6 +383,8 @@ export enum ServerSuccesses {
 export enum ServerErrors {
   DEFAULT_ERROR = "DEFAULT_ERROR",
   MISSING_PARAMETER = "MISSING_PARAMETER",
+  MOD_NOT_FOUND = "MOD_NOT_FOUND",
+  DESCRIPTOR_FILE_NOT_FOUND = "DESCRIPTOR_FILE_NOT_FOUND",
   AREA_NOT_FOUND = "AREA_NOT_FOUND",
   TRADE_COMPANY_NOT_FOUND = "TRADE_COMPANY_NOT_FOUND",
   CLIMATE_NOT_FOUND = "CLIMATE_NOT_FOUND",

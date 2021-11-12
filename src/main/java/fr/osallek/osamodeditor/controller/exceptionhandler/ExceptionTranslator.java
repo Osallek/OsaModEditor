@@ -1,9 +1,11 @@
 package fr.osallek.osamodeditor.controller.exceptionhandler;
 
+import fr.osallek.eu4parser.common.ModNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ClimateNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ColonialRegionNotFoundException;
 import fr.osallek.osamodeditor.common.exception.CountryNotFoundException;
 import fr.osallek.osamodeditor.common.exception.CultureNotFoundException;
+import fr.osallek.osamodeditor.common.exception.DescriptorFileFoundException;
 import fr.osallek.osamodeditor.common.exception.GraphicalCultureNotFoundException;
 import fr.osallek.osamodeditor.common.exception.IdeaGroupNotFoundException;
 import fr.osallek.osamodeditor.common.exception.InvalidColorException;
@@ -68,6 +70,16 @@ public class ExceptionTranslator {
         LOGGER.error(e.getMessage(), e);
 
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.DEFAULT_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handleModNotFoundException(ModNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MOD_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handleDescriptorFileFoundException(DescriptorFileFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.DESCRIPTOR_FILE_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler

@@ -1,9 +1,9 @@
-import { Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { FileCopy, Help } from "@mui/icons-material";
+import { Grid, InputLabel, ListSubheader, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import api from "api";
-import { FormControl, LoadButton } from "components/controls";
-import { Title } from "components/global";
-import LabeledLinearProgress from "components/global/LabeledLinearProgress";
+import { FormControl, LoadButton, LoadIcon } from "components/controls";
+import { LabeledLinearProgress, Title } from "components/global";
 import { useEventSnackbar } from "hooks/snackbar.hooks";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import actions from "store/actions";
 import { RootState } from "store/types";
+import { ModType, ServerSuccesses } from "types";
 
 const Home: React.FC<void> = () => {
   const dispatch = useDispatch();
@@ -27,8 +28,10 @@ const Home: React.FC<void> = () => {
 
   const [install, setInstall] = useState<string>("");
   const [mod, setMod] = useState<string>("");
+  const [modsOpen, setModsOpen] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
-  const [loading, submitInitGame] = useEventSnackbar(async (installFolder: string, mod: string) => {
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [submittingGame, submitInitGame] = useEventSnackbar(async (installFolder: string, mod: string) => {
     try {
       await dispatch(actions.game.postInit(installFolder, mod));
     } finally {
@@ -39,6 +42,12 @@ const Home: React.FC<void> = () => {
 
     history.push(intl.formatMessage({ id: "routes.menu" }));
   });
+  const [submittingCopy, submitCopy] = useEventSnackbar(async (mod: string) => {
+    setModsOpen(false);
+    await dispatch(actions.init.copy(mod));
+    setModsOpen(true);
+  }, `api.success.${ServerSuccesses.DEFAULT_SUCCESS}`);
+
   let progressTimer: NodeJS.Timeout | null = null;
 
   useEffect(() => {
@@ -62,6 +71,10 @@ const Home: React.FC<void> = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    setLoading(submittingGame || submittingCopy);
+  }, [submittingGame, submittingCopy]);
 
   const handleSubmit = async () => {
     if (installFolder && mod) {
@@ -105,13 +118,84 @@ const Home: React.FC<void> = () => {
             <Grid item xs={12} sm={10} md={6} lg={4}>
               <FormControl variant="filled" fullWidth>
                 <InputLabel>{intl.formatMessage({ id: "home.mod" })}</InputLabel>
-                <Select value={mod} onChange={(event: SelectChangeEvent) => setMod(event.target.value as string)} required>
+                <Select
+                  value={mod}
+                  onChange={(event: SelectChangeEvent) => setMod(event.target.value as string)}
+                  required
+                  MenuProps={{ PaperProps: { style: { maxHeight: 300 } } }}
+                  open={modsOpen}
+                  onOpen={() => setModsOpen(true)}
+                  onClose={() => setModsOpen(false)}
+                >
+                  <ListSubheader>{intl.formatMessage({ id: "home.mod.local" })}</ListSubheader>
                   {mods &&
-                    mods.map((m) => (
-                      <MenuItem value={m.id} key={m.id}>
-                        {m.name}
-                      </MenuItem>
-                    ))}
+                    mods
+                      .filter((m) => ModType.LOCAL === m.type)
+                      .map((m) => (
+                        <MenuItem value={m.fileName} key={m.fileName}>
+                          {m.name}
+                        </MenuItem>
+                      ))}
+                  {mods && mods.filter((m) => ModType.STEAM === m.type).length > 0 && (
+                    <ListSubheader>
+                      <Grid container alignItems="center">
+                        Steam
+                        <Tooltip title={intl.formatMessage({ id: "home.mod.disabled" }, { type: "Steam" })}>
+                          <Help fontSize="small" style={{ marginLeft: "4px" }} color="action" />
+                        </Tooltip>
+                      </Grid>
+                    </ListSubheader>
+                  )}
+                  {mods &&
+                    mods.filter((m) => ModType.STEAM === m.type).length > 0 &&
+                    mods
+                      .filter((m) => ModType.STEAM === m.type)
+                      .map((m) => (
+                        <Grid key={"grid-" + m.fileName} container style={{ justifyContent: "space-between", padding: "6px 16px 6px 0px" }}>
+                          <MenuItem value={m.fileName} key={m.fileName} disabled>
+                            {m.name}
+                          </MenuItem>
+                          <LoadIcon
+                            key={"button" + m.fileName}
+                            variant="contained"
+                            color="primary"
+                            onClick={(event) => submitCopy(m.fileName)}
+                            icon={<FileCopy fontSize="small" />}
+                            tooltipKey="home.mod.copy"
+                            loading={loading}
+                          />
+                        </Grid>
+                      ))}
+                  {mods && mods.filter((m) => ModType.PDX === m.type).length > 0 && (
+                    <ListSubheader>
+                      <Grid container alignItems="center">
+                        Paradox
+                        <Tooltip title={intl.formatMessage({ id: "home.mod.disabled" }, { type: "Paradox" })}>
+                          <Help fontSize="small" style={{ marginLeft: "4px" }} color="action" />
+                        </Tooltip>
+                      </Grid>
+                    </ListSubheader>
+                  )}
+                  {mods &&
+                    mods.filter((m) => ModType.STEAM === m.type).length > 0 &&
+                    mods
+                      .filter((m) => ModType.PDX === m.type)
+                      .map((m) => (
+                        <Grid key={"grid-" + m.fileName} container style={{ justifyContent: "space-between", padding: "6px 16px 6px 0px" }}>
+                          <MenuItem value={m.fileName} key={m.fileName} disabled>
+                            {m.name}
+                          </MenuItem>
+                          <LoadIcon
+                            key={"button" + m.fileName}
+                            variant="contained"
+                            color="primary"
+                            onClick={(event) => submitCopy(m.fileName)}
+                            icon={<FileCopy fontSize="small" />}
+                            tooltipKey="home.mod.copy"
+                            loading={loading}
+                          />
+                        </Grid>
+                      ))}
                 </Select>
               </FormControl>
             </Grid>

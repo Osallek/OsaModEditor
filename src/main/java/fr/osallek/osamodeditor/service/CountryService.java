@@ -107,7 +107,7 @@ public class CountryService {
         }
 
         if (flagFile != null) {
-            Path destFile = this.gameService.getMod().getPath().toPath().resolve(Path.of(game.getCountry(tag).getFlagPath("tga")));
+            Path destFile = this.gameService.getMod().getPath().resolve(Path.of(game.getCountry(tag).getFlagPath("tga")));
             FileUtils.forceMkdirParent(destFile.toFile());
             flagFile.transferTo(destFile);
 

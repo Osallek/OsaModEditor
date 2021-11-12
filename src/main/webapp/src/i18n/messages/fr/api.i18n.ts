@@ -1,6 +1,8 @@
 const api = {
   "api.error.DEFAULT_ERROR": "Une erreur est survenue !",
   "api.error.MISSING_PARAMETER": "Une erreur est survenue !",
+  "api.error.MOD_NOT_FOUND": "Mod inconnu !",
+  "api.error.DESCRIPTOR_FILE_NOT_FOUND": "Fichier de description introuvable !",
   "api.error.AREA_NOT_FOUND": "État inconnu !",
   "api.error.TRADE_COMPANY_NOT_FOUND": "Compagnies commerciale inconnue !",
   "api.error.CLIMATE_NOT_FOUND": "Climat inconnu !",
