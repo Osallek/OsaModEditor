@@ -23,6 +23,7 @@ const api = {
   "api.error.MISSION_NOT_FOUND": "Mission not found!",
   "api.error.MISSIONS_TREE_NOT_FOUND": "Missions tree not found!",
   "api.error.LOCALISATION_NOT_FOUND": "Localisation not found!",
+  "api.error.ADVISOR_NOT_FOUND": "Advisor not found!",
   "api.success.DEFAULT_SUCCESS": "The changes have been implemented!",
 };
 

@@ -1,3 +1,4 @@
+import advisor from "./advisor.i18n";
 import api from "./api.i18n";
 import country from "./country.i18n";
 import global from "./global.i18n";
@@ -18,6 +19,7 @@ const en: Record<string, string> = {
   ...missionsTree,
   ...mission,
   ...localisation,
+  ...advisor,
 };
 
 export default en;

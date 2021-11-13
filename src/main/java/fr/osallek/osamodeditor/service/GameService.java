@@ -53,7 +53,7 @@ public class GameService {
 
     private static final AtomicInteger GAME_PROGRESS = new AtomicInteger(0);
 
-    private static final int MAX_PROGRESS = 97;
+    private static final int MAX_PROGRESS = 98;
 
     private final ApplicationProperties properties;
 
@@ -151,7 +151,7 @@ public class GameService {
 
         GameDTO gameDTO = new GameDTO(this.game, this.tmpModPath.getFileName().toString(), GAME_PROGRESS::getAndIncrement);
 
-        this.game.convertImages(this.tmpModPath, Eu4Utils.FLAGS_GFX, Eu4Utils.MISSIONS_GFX);
+        this.game.convertImages(this.tmpModPath, Eu4Utils.FLAGS_GFX, Eu4Utils.MISSIONS_GFX, Eu4Utils.ADVISORS_GFX);
         GAME_PROGRESS.getAndIncrement();
 
         GAME_PROGRESS.set(MAX_PROGRESS);

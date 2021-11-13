@@ -41,6 +41,9 @@ const endpoints = {
     missing: "/localisation/missing",
     edit: (key: string) => `/localisation/${key}/edit`,
   },
+  advisor: {
+    edit: (name: string) => `/advisor/${name}/edit`,
+  },
 };
 
 export default endpoints;

@@ -5,6 +5,7 @@ import * as missionsTree from "store/game/missionstree.actions";
 import * as mission from "store/game/mission.actions";
 import * as localisation from "store/game/localisation.actions";
 import * as init from "store/init/init.actions";
+import * as advisor from "store/game/advisor.actions";
 
 const actions = {
   init,
@@ -14,6 +15,7 @@ const actions = {
   missionsTree,
   mission,
   localisation,
+  advisor,
 };
 
 export default actions;

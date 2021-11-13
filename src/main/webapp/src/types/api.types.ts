@@ -122,6 +122,7 @@ export type Game = {
   missionsGfx: Record<string, SpriteType>;
   maxMissionsSlots: number;
   localisations: Record<string, ModdedKeyLocalizations>;
+  advisors: Record<string, Advisor>;
 };
 
 export type TradeNode = Localizations & {
@@ -376,6 +377,20 @@ export type SpriteType = {
   loadType: string;
 };
 
+export type Advisor = Localizations & {
+  name: string;
+  power: Power;
+  allowOnlyMale?: boolean;
+  allowOnlyFemale?: boolean;
+  sprite: string;
+};
+
+export type AdvisorEdit = {
+  power: Power;
+  allowOnlyMale?: boolean;
+  allowOnlyFemale?: boolean;
+};
+
 export enum ServerSuccesses {
   DEFAULT_SUCCESS = "DEFAULT_SUCCESS",
 }
@@ -401,6 +416,7 @@ export enum ServerErrors {
   MISSIONS_TREE_NOT_FOUND = "MISSIONS_TREE_NOT_FOUND",
   MISSION_NOT_FOUND = "MISSION_NOT_FOUND",
   LOCALISATION_NOT_FOUND = "LOCALISATION_NOT_FOUND",
+  ADVISOR_NOT_FOUND = "ADVISOR_NOT_FOUND",
   INVALID_PARAMETER = "INVALID_PARAMETER",
   INVALID_FILE = "INVALID_FILE",
 }

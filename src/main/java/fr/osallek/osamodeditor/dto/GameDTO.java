@@ -92,6 +92,8 @@ public class GameDTO {
 
     private Map<String, ModdedKeyLocalisedDTO> localisations;
 
+    private Map<String, AdvisorDTO> advisors;
+
     public GameDTO(Game game, String tmpFolderName) {
         this(game, tmpFolderName, () -> {});
     }
@@ -359,6 +361,12 @@ public class GameDTO {
                                  .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
 
+        this.advisors = game.getAdvisors()
+                            .stream()
+                            .map(advisor -> new AdvisorDTO(advisor, game.getLocalisations()))
+                            .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
+
         try {
             countDownLatch.await();
             missionsCountDownLatch.await();
@@ -622,5 +630,13 @@ public class GameDTO {
 
     public void setLocalisations(Map<String, ModdedKeyLocalisedDTO> localisations) {
         this.localisations = localisations;
+    }
+
+    public Map<String, AdvisorDTO> getAdvisors() {
+        return advisors;
+    }
+
+    public void setAdvisors(Map<String, AdvisorDTO> advisors) {
+        this.advisors = advisors;
     }
 }

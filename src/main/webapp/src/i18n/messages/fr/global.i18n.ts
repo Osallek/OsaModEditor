@@ -17,12 +17,16 @@ const global = {
   "global.search": "Rechercher",
   "global.ideaGroup": "Groupe d'idées",
   "global.localisations": "Traductions",
+  "global.advisors": "Conseillers",
   "global.english": "Anglais",
   "global.french": "Français",
   "global.german": "Allemand",
   "global.spanish": "Espagnol",
   "global.filter": "Filtrer",
   "global.onlyModded": "Afficher uniquement les modés",
+  "global.ADM": "Administratif",
+  "global.DIP": "Diplomatique",
+  "global.MIL": "Miliaire",
 };
 
 export default global;

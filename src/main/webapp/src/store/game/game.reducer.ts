@@ -34,6 +34,7 @@ const initialState: GameState = {
   missionsGfx: {},
   maxMissionsSlots: 0,
   localisations: {},
+  advisors: {},
   sortedGraphicalCultures: [],
   sortedTradeNodes: [],
   sortedCountries: [],
@@ -55,6 +56,7 @@ const initialState: GameState = {
   sortedMissions: [],
   sortedMissionsGfx: [],
   sortedLocalisations: [],
+  sortedAdvisors: [],
   defines: {},
 };
 
@@ -87,6 +89,7 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         sortedMissions: Object.values(action.payload.missions).sort(localisationsComparator),
         sortedMissionsGfx: Object.values(action.payload.missionsGfx).sort((a, b) => localizedComparator(a.name, b.name)),
         sortedLocalisations: Object.values(action.payload.localisations).sort(keyLocalisationsComparator),
+        sortedAdvisors: Object.values(action.payload.advisors).sort(localisationsComparator),
       };
     }
 

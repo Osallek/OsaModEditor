@@ -10,6 +10,8 @@ const routes = {
   "routes.mission": "/mission",
   "routes.localisations": "/traductions",
   "routes.localisation": "/traduction",
+  "routes.advisors": "/conseillers",
+  "routes.advisor": "/conseiller",
 };
 
 export default routes;

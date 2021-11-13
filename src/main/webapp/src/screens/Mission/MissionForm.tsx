@@ -67,7 +67,7 @@ const MissionForm: React.FC<void> = () => {
 
   useEffect(() => {
     if (mission) {
-      document.title = intl.formatMessage({ id: "global.name" }) + " - " + mission.name;
+      document.title = intl.formatMessage({ id: "global.name" }) + " - " + localize(mission);
     }
   }, [intl, mission]);
 

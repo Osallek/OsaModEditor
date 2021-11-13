@@ -1,5 +1,6 @@
 import { GeoJsonObject } from "geojson";
 import {
+  Advisor,
   Area,
   ColonialRegion,
   Country,
@@ -8,7 +9,8 @@ import {
   IdeaGroup,
   KeyLocalizations,
   Mission,
-  MissionsTree, ModdedKeyLocalizations,
+  MissionsTree,
+  ModdedKeyLocalizations,
   Modifier,
   Power,
   Province,
@@ -63,6 +65,7 @@ export interface GameState {
   missionsGfx: Record<string, SpriteType>;
   maxMissionsSlots: number;
   localisations: Record<string, ModdedKeyLocalizations>;
+  advisors: Record<string, Advisor>;
   sortedGraphicalCultures: Array<KeyLocalizations>;
   sortedTradeNodes: Array<TradeNode>;
   sortedCountries: Array<Country>;
@@ -84,6 +87,7 @@ export interface GameState {
   sortedMissions: Array<Mission>;
   sortedMissionsGfx: Array<SpriteType>;
   sortedLocalisations: Array<ModdedKeyLocalizations>;
+  sortedAdvisors: Array<Advisor>;
   defines: Record<string, Record<string, string>>;
 }
 
