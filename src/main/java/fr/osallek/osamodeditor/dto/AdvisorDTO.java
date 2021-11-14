@@ -20,6 +20,10 @@ public class AdvisorDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private String sprite;
 
+    private ModifiersDTO modifiers;
+
+    private ModifiersDTO scaledModifiers;
+
     public AdvisorDTO(Advisor advisor, Map<String, Map<Eu4Language, Localisation>> localisations) {
         super(advisor.getName(), localisations);
         this.name = advisor.getName();
@@ -27,6 +31,8 @@ public class AdvisorDTO extends LocalisedDTO implements MappedDTO<String> {
         this.allowOnlyMale = advisor.allowOnlyMale();
         this.allowOnlyFemale = advisor.allowOnlyFemale();
         this.sprite = advisor.getDefaultSprite().getTextureFilePath("png").toString();
+        this.modifiers = new ModifiersDTO(advisor.getModifiers());
+        this.scaledModifiers = new ModifiersDTO(advisor.getSkillScaledModifier());
     }
 
     @Override
@@ -73,6 +79,22 @@ public class AdvisorDTO extends LocalisedDTO implements MappedDTO<String> {
 
     public void setSprite(String sprite) {
         this.sprite = sprite;
+    }
+
+    public ModifiersDTO getModifiers() {
+        return modifiers;
+    }
+
+    public void setModifiers(ModifiersDTO modifiers) {
+        this.modifiers = modifiers;
+    }
+
+    public ModifiersDTO getScaledModifiers() {
+        return scaledModifiers;
+    }
+
+    public void setScaledModifiers(ModifiersDTO scaledModifiers) {
+        this.scaledModifiers = scaledModifiers;
     }
 
     @Override

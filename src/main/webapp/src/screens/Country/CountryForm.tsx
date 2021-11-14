@@ -2,7 +2,7 @@ import { Upload } from "@mui/icons-material";
 import { Box, Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import api from "api";
-import { ChipInput, ColorField, IdeasDialog, LoadButton, MonarchNameTable } from "components/controls";
+import { ChipInput, ColorField, LoadButton } from "components/controls";
 import { BackTitle } from "components/global";
 import { useEventSnackbar } from "hooks/snackbar.hooks";
 import { useSnackbar } from "notistack";
@@ -16,6 +16,7 @@ import { getImageUrl } from "utils/global.utils";
 import { localize } from "utils/localisations.utils";
 import { snackbarError } from "utils/snackbar.utils";
 import actions from "store/actions";
+import { IdeasDialog, MonarchNameTable } from "components/country";
 
 interface CountryFormParams {
   tag: string;

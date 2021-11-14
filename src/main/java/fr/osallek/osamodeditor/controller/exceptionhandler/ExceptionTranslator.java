@@ -14,6 +14,7 @@ import fr.osallek.osamodeditor.common.exception.InvalidFileException;
 import fr.osallek.osamodeditor.common.exception.LocalisationNotFoundException;
 import fr.osallek.osamodeditor.common.exception.MissionNotFoundException;
 import fr.osallek.osamodeditor.common.exception.MissionsTreeNotFoundException;
+import fr.osallek.osamodeditor.common.exception.ModifierNotFoundException;
 import fr.osallek.osamodeditor.common.exception.MonsoonNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ProvinceNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ReligionNotFoundException;
@@ -181,5 +182,10 @@ public class ExceptionTranslator {
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handleAdvisorNotFoundException(AdvisorNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.ADVISOR_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handleModifierNotFoundException(ModifierNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.MODIFIER_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 }

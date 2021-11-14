@@ -4,6 +4,7 @@ export enum ModifierType {
   ADDITIVE = "ADDITIVE",
   MULTIPLICATIVE = "MULTIPLICATIVE",
   CONSTANT = "CONSTANT",
+  BOOLEAN = "BOOLEAN",
 }
 
 export enum ModifierScope {
@@ -383,12 +384,16 @@ export type Advisor = Localizations & {
   allowOnlyMale?: boolean;
   allowOnlyFemale?: boolean;
   sprite: string;
+  modifiers: Modifiers | null;
+  scaledModifiers: Modifiers | null;
 };
 
 export type AdvisorEdit = {
   power: Power;
   allowOnlyMale?: boolean;
   allowOnlyFemale?: boolean;
+  modifiers: Record<string, number>;
+  scaledModifiers: Record<string, number>;
 };
 
 export enum ServerSuccesses {

@@ -13,6 +13,7 @@ import { RootState } from "store/types";
 import { AdvisorEdit, Power, ServerErrors, ServerSuccesses } from "types";
 import { localize } from "utils/localisations.utils";
 import { snackbarError } from "utils/snackbar.utils";
+import { ModifiersTable } from "components/modifiers";
 
 interface AdvisorFormParams {
   name: string;
@@ -38,6 +39,10 @@ const AdvisorForm: React.FC<void> = () => {
   const [power, setPower] = useState<Power>(advisor.power);
   const [allowOnlyMale, setAllowOnlyMale] = useState<boolean | undefined>(advisor.allowOnlyMale);
   const [allowOnlyFemale, setAllowOnlyFemale] = useState<boolean | undefined>(advisor.allowOnlyFemale);
+  const [modifiers, setModifiers] = useState<Record<string, number>>(advisor.modifiers && advisor.modifiers.modifiers ? advisor.modifiers.modifiers : {});
+  const [scaledModifiers, setScaledModifiers] = useState<Record<string, number>>(
+    advisor.scaledModifiers && advisor.scaledModifiers.modifiers ? advisor.scaledModifiers.modifiers : {}
+  );
   const [modified, setModified] = useState<boolean>(false);
 
   const [loading, submitEdit] = useEventSnackbar(async (form: AdvisorEdit) => {
@@ -56,6 +61,8 @@ const AdvisorForm: React.FC<void> = () => {
         power,
         allowOnlyMale,
         allowOnlyFemale,
+        modifiers,
+        scaledModifiers,
       });
     }
   };
@@ -133,6 +140,26 @@ const AdvisorForm: React.FC<void> = () => {
                     }}
                   />
                 }
+              />
+            </FormControl>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
+              <ModifiersTable
+                title="advisor.modifiers"
+                initialValues={modifiers}
+                onValidate={(modifiers) => {
+                  setModifiers(modifiers);
+                  setModified(true);
+                }}
+              />
+            </FormControl>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
+              <ModifiersTable
+                title="advisor.scaledModifiers"
+                initialValues={scaledModifiers}
+                onValidate={(modifiers) => {
+                  setScaledModifiers(modifiers);
+                  setModified(true);
+                }}
               />
             </FormControl>
           </CardContent>

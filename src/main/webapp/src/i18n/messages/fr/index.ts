@@ -7,6 +7,7 @@ import localisation from "./localisation.i18n";
 import map from "./map.i18n";
 import mission from "./mission.i18n";
 import missionsTree from "./missionsTree.i18n";
+import modifiers from "./modifiers.i18n";
 import routes from "./routes.i18n";
 
 const fr: Record<string, string> = {
@@ -20,6 +21,7 @@ const fr: Record<string, string> = {
   ...mission,
   ...localisation,
   ...advisor,
+  ...modifiers,
 };
 
 export default fr;

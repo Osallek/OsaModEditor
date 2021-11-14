@@ -47,7 +47,7 @@ const IdeasDialog = ({ title, buttonKey, free, initialValue = [], onValidate }: 
   let selects = [];
   for (let i = 0; i < nbGroups; i++) {
     selects.push(
-      <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
+      <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }} key={"form-" + i}>
         <InputLabel>{intl.formatMessage({ id: "global.ideaGroup" }) + " " + (i + 1)}</InputLabel>
         <Select
           label={intl.formatMessage({ id: "global.ideaGroup" }) + " " + (i + 1)}
