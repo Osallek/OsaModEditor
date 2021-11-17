@@ -212,7 +212,7 @@ const Home: React.FC<void> = () => {
           </Grid>
           <Grid container item justifyContent="center">
             <Grid item xs={12} md={8}>
-              <LabeledLinearProgress progress={progress} message={"home.progress"} display={loading} />
+              <LabeledLinearProgress progress={progress} message={"home.progress"} display={submittingGame} />
             </Grid>
           </Grid>
           <Grid item xs />

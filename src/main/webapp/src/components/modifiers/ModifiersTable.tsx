@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "store/types";
 import { ModifierScope, Pair } from "types";
 import { copyRecord } from "utils/global.utils";
-import { localize } from "utils/localisations.utils";
 
 interface Props {
   title: string;
@@ -93,7 +92,7 @@ const ModifiersTable = ({ initialValues = {}, onValidate, title }: Props) => {
                 .filter((m) => (params.formattedValue as string) === m.id || !selectedModifiers.hasOwnProperty(m.id))
                 .map((m) => (
                   <MenuItem value={m.id} key={m.id}>
-                    {localize(m)}
+                    {m.id}
                   </MenuItem>
                 ))}
             </Select>
