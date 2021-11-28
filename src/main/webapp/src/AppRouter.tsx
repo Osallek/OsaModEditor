@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -12,6 +12,7 @@ import { AdvisorForm, Advisors } from "./screens/Advisors";
 import { Countries, CountryForm } from "./screens/Country";
 import { LocalisationForm, Localisations } from "./screens/Localisations";
 import { MissionForm, Missions, MissionsTreeForm, MissionsTrees } from "./screens/Mission";
+import Websocket from "utils/websocket.utils";
 
 const AppRouter: React.FC = () => {
   const intl = useIntl();
@@ -19,6 +20,10 @@ const AppRouter: React.FC = () => {
   const state = useSelector((state: RootState) => {
     return state || {};
   });
+
+  useEffect(() => {
+    Websocket.connect();
+  }, []);
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", backgroundColor: "#f3f3f3" }}>
