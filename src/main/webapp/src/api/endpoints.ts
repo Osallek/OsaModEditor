@@ -44,6 +44,9 @@ const endpoints = {
   advisor: {
     edit: (name: string) => `/advisor/${name}/edit`,
   },
+  bookmark: {
+    edit: (name: string) => `/bookmark/${name}/edit`,
+  },
 };
 
 export default endpoints;

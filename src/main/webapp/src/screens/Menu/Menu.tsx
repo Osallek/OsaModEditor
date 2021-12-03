@@ -81,6 +81,15 @@ const Menu: React.FC<void> = () => {
       link: intl.formatMessage({ id: "routes.advisors" }),
       text: intl.formatMessage({ id: "global.advisors" }),
     },
+    {
+      xs: 12,
+      sm: 6,
+      md: 4,
+      lg: 4,
+      xl: 3,
+      link: intl.formatMessage({ id: "routes.bookmarks" }),
+      text: intl.formatMessage({ id: "global.bookmarks" }),
+    },
   ];
 
   useEffect(() => {

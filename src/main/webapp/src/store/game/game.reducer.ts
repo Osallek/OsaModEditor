@@ -35,6 +35,8 @@ const initialState: GameState = {
   maxMissionsSlots: 0,
   localisations: {},
   advisors: {},
+  bookmarks: {},
+  sortedProvinces: [],
   sortedGraphicalCultures: [],
   sortedTradeNodes: [],
   sortedCountries: [],
@@ -57,6 +59,7 @@ const initialState: GameState = {
   sortedMissionsGfx: [],
   sortedLocalisations: [],
   sortedAdvisors: [],
+  sortedBookmarks: [],
   defines: {},
 };
 
@@ -68,6 +71,7 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         ...action.payload,
         startDate: new Date(action.payload.startDate),
         endDate: new Date(action.payload.endDate),
+        sortedProvinces: Object.values(action.payload.provinces).sort(localisationsComparator),
         sortedGraphicalCultures: Object.values(action.payload.graphicalCultures).sort(localisationsComparator),
         sortedTradeNodes: Object.values(action.payload.tradeNodes).sort(localisationsComparator),
         sortedCountries: Object.values(action.payload.countries).sort(localisationsComparator),
@@ -90,6 +94,11 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
         sortedMissionsGfx: Object.values(action.payload.missionsGfx).sort((a, b) => localizedComparator(a.name, b.name)),
         sortedLocalisations: Object.values(action.payload.localisations).sort(keyLocalisationsComparator),
         sortedAdvisors: Object.values(action.payload.advisors).sort(localisationsComparator),
+        sortedBookmarks: Object.values(action.payload.bookmarks).sort((a, b) => {
+          let i = a.date.localeCompare(b.date);
+
+          return i !== 0 ? i : localisationsComparator(a, b);
+        }),
       };
     }
 

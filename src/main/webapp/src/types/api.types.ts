@@ -124,6 +124,7 @@ export type Game = {
   maxMissionsSlots: number;
   localisations: Record<string, ModdedKeyLocalizations>;
   advisors: Record<string, Advisor>;
+  bookmarks: Record<string, Bookmark>;
 };
 
 export type TradeNode = Localizations & {
@@ -396,6 +397,24 @@ export type AdvisorEdit = {
   scaledModifiers: Record<string, number>;
 };
 
+export type Bookmark = Localizations & {
+  name: string;
+  desc: string;
+  date: string;
+  center: number | null;
+  default: boolean | null;
+  countries: Array<string>;
+  easyCountries: Array<string>;
+};
+
+export type BookmarkEdit = {
+  date: string;
+  center?: number;
+  default?: boolean;
+  countries: Array<string>;
+  easyCountries: Array<string>;
+};
+
 export enum ServerSuccesses {
   DEFAULT_SUCCESS = "DEFAULT_SUCCESS",
 }
@@ -422,6 +441,7 @@ export enum ServerErrors {
   MISSION_NOT_FOUND = "MISSION_NOT_FOUND",
   LOCALISATION_NOT_FOUND = "LOCALISATION_NOT_FOUND",
   ADVISOR_NOT_FOUND = "ADVISOR_NOT_FOUND",
+  BOOKMARK_NOT_FOUND = "BOOKMARK_NOT_FOUND",
   INVALID_PARAMETER = "INVALID_PARAMETER",
   INVALID_FILE = "INVALID_FILE",
 }

@@ -94,6 +94,8 @@ public class GameDTO {
 
     private Map<String, AdvisorDTO> advisors;
 
+    private Map<String, BookmarkDTO> bookmarks;
+
     public GameDTO(Game game, String tmpFolderName) {
         this(game, tmpFolderName, () -> {});
     }
@@ -367,6 +369,12 @@ public class GameDTO {
                             .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
         runnable.run();
 
+        this.bookmarks = game.getBookmarks()
+                             .stream()
+                             .map(bookmark -> new BookmarkDTO(bookmark, game.getLocalisations()))
+                             .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+        runnable.run();
+
         try {
             countDownLatch.await();
             missionsCountDownLatch.await();
@@ -638,5 +646,13 @@ public class GameDTO {
 
     public void setAdvisors(Map<String, AdvisorDTO> advisors) {
         this.advisors = advisors;
+    }
+
+    public Map<String, BookmarkDTO> getBookmarks() {
+        return bookmarks;
+    }
+
+    public void setBookmarks(Map<String, BookmarkDTO> bookmarks) {
+        this.bookmarks = bookmarks;
     }
 }

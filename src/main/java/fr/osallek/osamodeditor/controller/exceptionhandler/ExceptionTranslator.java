@@ -2,6 +2,7 @@ package fr.osallek.osamodeditor.controller.exceptionhandler;
 
 import fr.osallek.eu4parser.common.ModNotFoundException;
 import fr.osallek.osamodeditor.common.exception.AdvisorNotFoundException;
+import fr.osallek.osamodeditor.common.exception.BookmarkNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ClimateNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ColonialRegionNotFoundException;
 import fr.osallek.osamodeditor.common.exception.CountryNotFoundException;
@@ -182,6 +183,11 @@ public class ExceptionTranslator {
     @ExceptionHandler
     public ResponseEntity<ErrorObject<Void>> handleAdvisorNotFoundException(AdvisorNotFoundException e) {
         return new ResponseEntity<>(new ErrorObject<>(ErrorCode.ADVISOR_NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject<Void>> handleBookmarkNotFoundException(BookmarkNotFoundException e) {
+        return new ResponseEntity<>(new ErrorObject<>(ErrorCode.BOOKMARK_NOT_FOUND), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler

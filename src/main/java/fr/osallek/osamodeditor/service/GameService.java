@@ -53,7 +53,7 @@ public class GameService {
 
     private static final AtomicInteger GAME_PROGRESS = new AtomicInteger(0);
 
-    private static final int MAX_PROGRESS = 98;
+    private static final int MAX_PROGRESS = 100;
 
     private final ApplicationProperties properties;
 

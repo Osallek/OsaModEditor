@@ -2,7 +2,6 @@ package fr.osallek.osamodeditor.service;
 
 import fr.osallek.eu4parser.model.game.Advisor;
 import fr.osallek.eu4parser.model.game.Game;
-import fr.osallek.eu4parser.model.game.Modifiers;
 import fr.osallek.eu4parser.model.game.ModifiersUtils;
 import fr.osallek.osamodeditor.common.exception.AdvisorNotFoundException;
 import fr.osallek.osamodeditor.common.exception.ModifierNotFoundException;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Set;
 
 @Service

@@ -18,6 +18,7 @@ const global = {
   "global.ideaGroup": "Groupe d'idées",
   "global.localisations": "Traductions",
   "global.advisors": "Conseillers",
+  "global.bookmarks": "Dates importantes",
   "global.english": "Anglais",
   "global.french": "Français",
   "global.german": "Allemand",

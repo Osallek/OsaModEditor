@@ -6,6 +6,7 @@ import * as mission from "store/game/mission.actions";
 import * as localisation from "store/game/localisation.actions";
 import * as init from "store/init/init.actions";
 import * as advisor from "store/game/advisor.actions";
+import * as bookmark from "store/game/bookmark.actions";
 
 const actions = {
   init,
@@ -16,6 +17,7 @@ const actions = {
   mission,
   localisation,
   advisor,
+  bookmark,
 };
 
 export default actions;

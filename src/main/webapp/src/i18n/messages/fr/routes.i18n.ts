@@ -12,6 +12,8 @@ const routes = {
   "routes.localisation": "/traduction",
   "routes.advisors": "/conseillers",
   "routes.advisor": "/conseiller",
+  "routes.bookmarks": "/dates-importantes",
+  "routes.bookmark": "/date-importante",
 };
 
 export default routes;

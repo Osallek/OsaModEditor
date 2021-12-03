@@ -12,6 +12,8 @@ const routes = {
   "routes.localisation": "/localisation",
   "routes.advisors": "/advisors",
   "routes.advisor": "/advisor",
+  "routes.bookmarks": "/bookmars",
+  "routes.bookmark": "/bookmark",
 };
 
 export default routes;

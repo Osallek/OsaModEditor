@@ -9,6 +9,7 @@ import mission from "./mission.i18n";
 import modifiers from "./modifiers.i18n";
 import routes from "./routes.i18n";
 import missionsTree from "./missionsTree.i18n";
+import bookmark from "./bookmark.i18n";
 
 const en: Record<string, string> = {
   ...global,
@@ -22,6 +23,7 @@ const en: Record<string, string> = {
   ...localisation,
   ...advisor,
   ...modifiers,
+  ...bookmark,
 };
 
 export default en;

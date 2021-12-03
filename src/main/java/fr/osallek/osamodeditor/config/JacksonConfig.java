@@ -31,7 +31,7 @@ public class JacksonConfig {
 
     @Bean
     @Primary
-    public ObjectMapper JacksonConfig() {
+    public ObjectMapper customJacksonConfig() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
@@ -46,9 +46,8 @@ public class JacksonConfig {
         return builder.createXmlMapper(false)
                       .serializationInclusion(JsonInclude.Include.NON_NULL)
                       .modules(simpleModule)
-                      .build()
-                      .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
-                      .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                      .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+                      .featuresToEnable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES,
+                                        DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+                      .build();
     }
 }
