@@ -47,7 +47,7 @@ const MissionsTreeForm: React.FC<void> = () => {
 
   useEffect(() => {
     if (missionsTree) {
-      document.title = intl.formatMessage({ id: "global.name" }) + " - " + missionsTree.name;
+      document.title = intl.formatMessage({ id: "global.appName" }) + " - " + missionsTree.name;
     }
   }, [intl, missionsTree]);
 

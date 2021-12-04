@@ -40,7 +40,7 @@ const Localisations: React.FC<void> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.localisations" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.localisations" });
   }, [intl]);
 
   const { sortedLocalisations } = useSelector((state: RootState) => {

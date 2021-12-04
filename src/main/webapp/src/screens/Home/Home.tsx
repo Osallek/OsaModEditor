@@ -61,7 +61,7 @@ const Home: React.FC<void> = () => {
   }, [installFolder]);
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" });
+    document.title = intl.formatMessage({ id: "global.appName" });
   }, [intl]);
 
   useEffect(() => {

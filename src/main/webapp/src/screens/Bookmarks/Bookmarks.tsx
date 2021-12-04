@@ -16,7 +16,7 @@ const Bookmarks: React.FC<void> = () => {
   const history = useHistory();
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.bookmarks" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.bookmarks" });
   }, [intl]);
 
   const { sortedBookmarks } = useSelector((state: RootState) => {

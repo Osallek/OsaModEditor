@@ -1,4 +1,19 @@
-import { Card, CardContent, CardHeader, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from "@mui/material";
+import { Edit } from "@mui/icons-material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Switch,
+} from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import { LoadButton } from "components/controls";
 import { BackTitle } from "components/global";
@@ -26,7 +41,7 @@ const AdvisorForm: React.FC<void> = () => {
   const { name } = useParams<AdvisorFormParams>();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { advisors } = useSelector((state: RootState) => {
+  const { advisors, localisations } = useSelector((state: RootState) => {
     return state.game || {};
   });
 
@@ -51,7 +66,7 @@ const AdvisorForm: React.FC<void> = () => {
 
   useEffect(() => {
     if (advisor) {
-      document.title = intl.formatMessage({ id: "global.name" }) + " - " + localize(advisor);
+      document.title = intl.formatMessage({ id: "global.appName" }) + " - " + localize(advisor);
     }
   }, [intl, advisor]);
 
@@ -92,6 +107,25 @@ const AdvisorForm: React.FC<void> = () => {
             }
           />
           <CardContent>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }} variant="outlined">
+              <InputLabel htmlFor="advisor-name" style={{ top: 9 }}>
+                {intl.formatMessage({ id: "global.name" })}
+              </InputLabel>
+              <OutlinedInput
+                id="advisor-name"
+                label={intl.formatMessage({ id: "global.name" })}
+                style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+                value={localize(localisations[advisor.name])}
+                disabled
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={(event) => history.push(intl.formatMessage({ id: "routes.localisation" }) + "/" + advisor.name)} edge="end">
+                      {<Edit />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
             <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
               <InputLabel id="power-label">{intl.formatMessage({ id: "advisor.power" })}</InputLabel>
               <Select

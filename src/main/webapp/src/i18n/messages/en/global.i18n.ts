@@ -1,5 +1,7 @@
 const global = {
-  "global.name": "Osa Mod Editor",
+  "global.name": "Name",
+  "global.desc": "Description",
+  "global.appName": "Osa Mod Editor",
   "global.validate": "Validate",
   "global.map": "Map",
   "global.defines": "Defines",

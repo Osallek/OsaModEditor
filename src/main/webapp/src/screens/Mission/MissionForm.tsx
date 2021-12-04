@@ -1,6 +1,19 @@
-import { Clear } from "@mui/icons-material";
+import { Clear, Edit } from "@mui/icons-material";
 import { MobileDatePicker } from "@mui/lab";
-import { Card, CardContent, CardHeader, FormControl, FormControlLabel, Grid, IconButton, InputAdornment, Switch, TextField } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Switch,
+  TextField,
+} from "@mui/material";
 import { LoadButton } from "components/controls";
 import { BackTitle } from "components/global";
 import { VirtualizedMissionAutocomplete } from "components/mission";
@@ -29,7 +42,7 @@ const MissionForm: React.FC<void> = () => {
   const { name } = useParams<MissionFormParams>();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { missions, missionsGfx, sortedMissionsGfx, sortedMissions, folderName, startDate, endDate } = useSelector((state: RootState) => {
+  const { missions, missionsGfx, sortedMissionsGfx, sortedMissions, folderName, startDate, endDate, localisations } = useSelector((state: RootState) => {
     return state.game || {};
   });
 
@@ -67,7 +80,7 @@ const MissionForm: React.FC<void> = () => {
 
   useEffect(() => {
     if (mission) {
-      document.title = intl.formatMessage({ id: "global.name" }) + " - " + localize(mission);
+      document.title = intl.formatMessage({ id: "global.appName" }) + " - " + localize(mission);
     }
   }, [intl, mission]);
 
@@ -108,6 +121,25 @@ const MissionForm: React.FC<void> = () => {
             }
           />
           <CardContent>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }} variant="outlined">
+              <InputLabel htmlFor="mission-name" style={{ top: 9 }}>
+                {intl.formatMessage({ id: "global.name" })}
+              </InputLabel>
+              <OutlinedInput
+                id="mission-name"
+                label={intl.formatMessage({ id: "global.name" })}
+                style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+                value={localize(localisations[mission.name + "_title"])}
+                disabled
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={(event) => history.push(intl.formatMessage({ id: "routes.localisation" }) + "/" + mission.name)} edge="end">
+                      {<Edit />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
             <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%" }}>
               <VirtualizedSpriteTypesAutocomplete
                 value={icon}

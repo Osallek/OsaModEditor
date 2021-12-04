@@ -1,5 +1,20 @@
-import { Upload } from "@mui/icons-material";
-import { Box, Button, Card, CardContent, CardHeader, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Edit, Upload } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  TextField,
+} from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import api from "api";
 import { ChipInput, ColorField, LoadButton } from "components/controls";
@@ -29,7 +44,7 @@ const CountryForm: React.FC<void> = () => {
   const { tag } = useParams<CountryFormParams>();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { folderName, countries, graphicalCultures, sortedGraphicalCultures, historicalCouncils } = useSelector((state: RootState) => {
+  const { folderName, countries, graphicalCultures, sortedGraphicalCultures, historicalCouncils, localisations } = useSelector((state: RootState) => {
     return state.game || {};
   });
 
@@ -68,7 +83,7 @@ const CountryForm: React.FC<void> = () => {
 
   useEffect(() => {
     if (country) {
-      document.title = intl.formatMessage({ id: "global.name" }) + " - " + localize(country);
+      document.title = intl.formatMessage({ id: "global.appName" }) + " - " + localize(country);
     }
   }, [intl, country]);
 
@@ -145,6 +160,25 @@ const CountryForm: React.FC<void> = () => {
             }
           />
           <CardContent>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }} variant="outlined">
+              <InputLabel htmlFor="country-name" style={{ top: 9 }}>
+                {intl.formatMessage({ id: "global.name" })}
+              </InputLabel>
+              <OutlinedInput
+                id="country-name"
+                label={intl.formatMessage({ id: "global.name" })}
+                style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+                value={localize(localisations[country.tag])}
+                disabled
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={(event) => history.push(intl.formatMessage({ id: "routes.localisation" }) + "/" + country.tag)} edge="end">
+                      {<Edit />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
             {flagFile && (
               <Grid
                 container

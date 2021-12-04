@@ -26,7 +26,7 @@ const Defines: React.FC<void> = () => {
   }, `api.success.${ServerSuccesses.DEFAULT_SUCCESS}`);
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.defines" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.defines" });
   }, [intl]);
 
   const handleClickItem = (index: number) => {

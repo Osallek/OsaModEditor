@@ -15,7 +15,7 @@ const MissionsTrees: React.FC<void> = () => {
   const history = useHistory();
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.missionsTrees" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.missionsTrees" });
   }, [intl]);
 
   const { sortedMissionsTrees } = useSelector((state: RootState) => {

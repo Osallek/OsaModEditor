@@ -12,7 +12,7 @@ const Missions: React.FC<void> = () => {
   const history = useHistory();
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.missions" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.missions" });
   }, [intl]);
 
   const { sortedMissions, folderName } = useSelector((state: RootState) => {

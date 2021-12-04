@@ -17,7 +17,7 @@ const Advisors: React.FC<void> = () => {
   const history = useHistory();
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.advisors" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.advisors" });
   }, [intl]);
 
   const { sortedAdvisors, folderName } = useSelector((state: RootState) => {

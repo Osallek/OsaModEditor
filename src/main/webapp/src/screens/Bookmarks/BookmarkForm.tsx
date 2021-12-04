@@ -1,9 +1,22 @@
+import { Edit } from "@mui/icons-material";
 import { MobileDatePicker } from "@mui/lab";
-import { Card, CardContent, CardHeader, FormControl, FormControlLabel, Grid, Switch, TextField } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Switch,
+  TextField,
+} from "@mui/material";
 import { LoadButton } from "components/controls";
 import { VirtualizedCountriesAutocomplete } from "components/country";
 import { BackTitle } from "components/global";
-import { VirtualizedMissionAutocomplete } from "components/mission";
 import { VirtualizedProvinceAutocomplete } from "components/province";
 import { useEventSnackbar } from "hooks/snackbar.hooks";
 import { useSnackbar } from "notistack";
@@ -29,9 +42,11 @@ const BookmarkForm: React.FC<void> = () => {
   const { name } = useParams<BookmarkFormParams>();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { bookmarks, startDate, endDate, sortedCountries, countries, provinces, sortedProvinces, folderName } = useSelector((state: RootState) => {
-    return state.game || {};
-  });
+  const { bookmarks, startDate, endDate, sortedCountries, countries, provinces, sortedProvinces, folderName, localisations } = useSelector(
+    (state: RootState) => {
+      return state.game || {};
+    }
+  );
 
   const bookmark = bookmarks[name];
 
@@ -52,7 +67,7 @@ const BookmarkForm: React.FC<void> = () => {
 
   useEffect(() => {
     if (bookmark) {
-      document.title = intl.formatMessage({ id: "global.name" }) + " - " + localize(bookmark);
+      document.title = intl.formatMessage({ id: "global.appName" }) + " - " + localize(bookmark);
     }
   }, [intl, bookmark]);
 
@@ -93,6 +108,44 @@ const BookmarkForm: React.FC<void> = () => {
             }
           />
           <CardContent>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }} variant="outlined">
+              <InputLabel htmlFor="bookmark-name" style={{ top: 9 }}>
+                {intl.formatMessage({ id: "global.name" })}
+              </InputLabel>
+              <OutlinedInput
+                id="bookmark-name"
+                label={intl.formatMessage({ id: "global.name" })}
+                style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+                value={localize(localisations[bookmark.name])}
+                disabled
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={(event) => history.push(intl.formatMessage({ id: "routes.localisation" }) + "/" + bookmark.name)} edge="end">
+                      {<Edit />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }} variant="outlined">
+              <InputLabel htmlFor="bookmark-desc" style={{ top: 9 }}>
+                {intl.formatMessage({ id: "global.desc" })}
+              </InputLabel>
+              <OutlinedInput
+                id="bookmark-desc"
+                label={intl.formatMessage({ id: "global.desc" })}
+                style={{ marginBottom: 8, marginTop: 8, width: "100%" }}
+                value={localize(localisations[bookmark.desc])}
+                disabled
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={(event) => history.push(intl.formatMessage({ id: "routes.localisation" }) + "/" + bookmark.desc)} edge="end">
+                      {<Edit />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
             <FormControl style={{ marginBottom: 8, marginTop: 8, width: "100%", alignItems: "start" }}>
               <FormControlLabel
                 label={intl.formatMessage({ id: "bookmark.default" })}

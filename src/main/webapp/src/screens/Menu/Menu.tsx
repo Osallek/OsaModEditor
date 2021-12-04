@@ -93,7 +93,7 @@ const Menu: React.FC<void> = () => {
   ];
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.menu" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.menu" });
   }, [intl]);
 
   return (

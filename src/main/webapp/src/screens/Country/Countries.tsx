@@ -17,7 +17,7 @@ const Countries: React.FC<void> = () => {
   const history = useHistory();
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "global.name" }) + " - " + intl.formatMessage({ id: "global.countries" });
+    document.title = intl.formatMessage({ id: "global.appName" }) + " - " + intl.formatMessage({ id: "global.countries" });
   }, [intl]);
 
   const { folderName, sortedCountries } = useSelector((state: RootState) => {

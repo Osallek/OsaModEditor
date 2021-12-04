@@ -46,7 +46,7 @@ const LocalisationForm: React.FC<void> = () => {
 
   useEffect(() => {
     if (localisation) {
-      document.title = intl.formatMessage({ id: "global.name" }) + " - " + localisation.name;
+      document.title = intl.formatMessage({ id: "global.appName" }) + " - " + localisation.name;
     }
   }, [intl, localisation]);
 
