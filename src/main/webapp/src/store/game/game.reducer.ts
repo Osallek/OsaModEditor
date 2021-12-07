@@ -36,6 +36,7 @@ const initialState: GameState = {
   localisations: {},
   advisors: {},
   bookmarks: {},
+  buildings: {},
   sortedProvinces: [],
   sortedGraphicalCultures: [],
   sortedTradeNodes: [],
@@ -60,6 +61,7 @@ const initialState: GameState = {
   sortedLocalisations: [],
   sortedAdvisors: [],
   sortedBookmarks: [],
+  sortedBuildings: [],
   defines: {},
 };
 
@@ -99,6 +101,7 @@ export const gameReducer = (state: GameState = initialState, action: GameActionT
 
           return i !== 0 ? i : localisationsComparator(a, b);
         }),
+        sortedBuildings: Object.values(action.payload.buildings).sort(localisationsComparator),
       };
     }
 

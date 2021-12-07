@@ -3,6 +3,7 @@ import {
   Advisor,
   Area,
   Bookmark,
+  Building,
   ColonialRegion,
   Country,
   Culture,
@@ -68,6 +69,7 @@ export interface GameState {
   localisations: Record<string, ModdedKeyLocalizations>;
   advisors: Record<string, Advisor>;
   bookmarks: Record<string, Bookmark>;
+  buildings: Record<string, Building>;
   sortedProvinces: Array<Province>;
   sortedGraphicalCultures: Array<KeyLocalizations>;
   sortedTradeNodes: Array<TradeNode>;
@@ -92,6 +94,7 @@ export interface GameState {
   sortedLocalisations: Array<ModdedKeyLocalizations>;
   sortedAdvisors: Array<Advisor>;
   sortedBookmarks: Array<Bookmark>;
+  sortedBuildings: Array<Building>;
   defines: Record<string, Record<string, string>>;
 }
 

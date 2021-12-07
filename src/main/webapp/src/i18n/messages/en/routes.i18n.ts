@@ -14,6 +14,8 @@ const routes = {
   "routes.advisor": "/advisor",
   "routes.bookmarks": "/bookmars",
   "routes.bookmark": "/bookmark",
+  "routes.buildings": "/buildings",
+  "routes.building": "/building",
 };
 
 export default routes;

@@ -125,6 +125,7 @@ export type Game = {
   localisations: Record<string, ModdedKeyLocalizations>;
   advisors: Record<string, Advisor>;
   bookmarks: Record<string, Bookmark>;
+  buildings: Record<string, Building>;
 };
 
 export type TradeNode = Localizations & {
@@ -413,6 +414,24 @@ export type BookmarkEdit = {
   default?: boolean;
   countries: Array<string>;
   easyCountries: Array<string>;
+};
+
+export type Building = Localizations & {
+  name: string;
+  sprite: string;
+  cost: number | null;
+  time: boolean | null;
+  makeObsolete: string | null;
+  onePerCountry: boolean | null;
+  allowInGoldProvince: boolean | null;
+  indestructible: boolean | null;
+  onMap: boolean | null;
+  influencingFort: boolean | null;
+  manufactoryFor: Array<string>;
+  bonusManufactoryFor: Array<string>;
+  governmentSpecific: boolean | null;
+  showSeparate: boolean | null;
+  modifiers: Modifiers;
 };
 
 export enum ServerSuccesses {

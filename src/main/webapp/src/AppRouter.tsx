@@ -4,6 +4,7 @@ import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Bookmarks, BookmarkForm } from "screens/Bookmarks";
+import { Buildings } from "screens/Buildings";
 import { Defines } from "screens/Defines";
 import { Home } from "screens/Home";
 import { Map } from "screens/Map";
@@ -46,6 +47,7 @@ const AppRouter: React.FC = () => {
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.advisor" }) + "/:name"} exact component={AdvisorForm} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.bookmarks" })} exact component={Bookmarks} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.bookmark" }) + "/:name"} exact component={BookmarkForm} />}
+            {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.buildings" })} exact component={Buildings} />}
             <Route path="/" component={state.game.folderName ? Menu : Home} />
           </Switch>
         </BrowserRouter>

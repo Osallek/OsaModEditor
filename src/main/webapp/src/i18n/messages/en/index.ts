@@ -10,6 +10,7 @@ import modifiers from "./modifiers.i18n";
 import routes from "./routes.i18n";
 import missionsTree from "./missionsTree.i18n";
 import bookmark from "./bookmark.i18n";
+import building from "./building.i18n";
 
 const en: Record<string, string> = {
   ...global,
@@ -24,6 +25,7 @@ const en: Record<string, string> = {
   ...advisor,
   ...modifiers,
   ...bookmark,
+  ...building,
 };
 
 export default en;

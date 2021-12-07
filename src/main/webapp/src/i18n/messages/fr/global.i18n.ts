@@ -21,6 +21,7 @@ const global = {
   "global.localisations": "Traductions",
   "global.advisors": "Conseillers",
   "global.bookmarks": "Dates importantes",
+  "global.buildings": "Bâtiments",
   "global.english": "Anglais",
   "global.french": "Français",
   "global.german": "Allemand",
