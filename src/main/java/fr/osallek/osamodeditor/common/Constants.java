@@ -18,7 +18,7 @@ public final class Constants {
         FileUtils.forceMkdir(EDITOR_DOCUMENTS_FOLDER.toFile());
     }
 
-    public static final Path EDITOR_DOCUMENTS_FOLDER = Eu4Utils.OSALLEK_DOCUMENTS_FOLDER.toPath().resolve("OsaModEditor");
+    public static final Path EDITOR_DOCUMENTS_FOLDER = Eu4Utils.OSALLEK_DOCUMENTS_FOLDER.resolve("OsaModEditor");
 
     public static <T, R> List<R> nullIfEmpty(List<T> collection, Function<T, R> tFunction) {
         return nullIfEmpty(collection, tFunction, false);

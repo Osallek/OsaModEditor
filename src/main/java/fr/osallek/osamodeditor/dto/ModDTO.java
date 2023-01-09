@@ -14,7 +14,7 @@ public class ModDTO implements Comparable<ModDTO> {
     private ModType type;
 
     public ModDTO(Mod mod) {
-        this.fileName = mod.getFile().getName();
+        this.fileName = mod.file().getName();
         this.name = mod.getName();
         this.type = mod.getType();
     }

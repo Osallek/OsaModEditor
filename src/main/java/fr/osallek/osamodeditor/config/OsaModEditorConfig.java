@@ -1,23 +1,29 @@
 package fr.osallek.osamodeditor.config;
 
+import fr.osallek.eu4parser.model.LauncherSettings;
+import fr.osallek.osamodeditor.controller.exceptionhandler.ErrorObject;
+import jakarta.annotation.PreDestroy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportRuntimeHints;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 
-import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
+@RegisterReflectionForBinding({ErrorObject.class, LauncherSettings.class})
+@ImportRuntimeHints(CustomRuntimeHints.class)
 public class OsaModEditorConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OsaModEditorConfig.class);
@@ -33,7 +39,7 @@ public class OsaModEditorConfig {
     }
 
     public OsaModEditorConfig(ServerProperties serverProperties, Environment environment) {
-        this.url = "http://localhost:" + serverProperties.getPort() + "/editor";
+        this.url = "http://localhost:" + serverProperties.getPort();
         this.environment = environment;
     }
 

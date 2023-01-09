@@ -68,6 +68,8 @@ const initialState: GameState = {
 export const gameReducer = (state: GameState = initialState, action: GameActionType): GameState => {
   switch (action.type) {
     case CHANGE_GAME: {
+      console.log(action.payload);
+
       return {
         ...state,
         ...action.payload,

@@ -26,7 +26,7 @@ public class GameController {
     }
 
     @GetMapping(value = "/init", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GameInitDTO> initGame() {
+    public ResponseEntity<GameInitDTO> initGame() throws IOException {
         return ResponseEntity.ok(this.gameService.getInit());
     }
 

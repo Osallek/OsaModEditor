@@ -8,7 +8,6 @@ import fr.osallek.eu4parser.model.game.Unit;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 import fr.osallek.eu4parser.model.game.localisation.Localisation;
 import fr.osallek.osamodeditor.common.Constants;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,7 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
 
     private List<String> historicalIdeaGroups;
 
-    private List<Pair<String, Integer>> monarchNames;
+    private Map<String, Integer> monarchNames;
 
     private List<String> historicalUnits;
 
@@ -59,9 +58,9 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         this.historicalScore = country.getHistoricalScore();
         this.historicalIdeaGroups = Constants.nullIfEmpty(country.getHistoricalIdeaGroups(), IdeaGroup::getName, true);
         this.monarchNames = country.getMonarchNames()
+                                   .entrySet()
                                    .stream()
-                                   .map(pair -> Pair.of(ClausewitzUtils.removeQuotes(pair.getKey()), pair.getValue()))
-                                   .collect(Collectors.toList());
+                                   .collect(Collectors.toMap(entry -> ClausewitzUtils.removeQuotes(entry.getKey()), Map.Entry::getValue));
         this.historicalUnits = Constants.nullIfEmpty(country.getHistoricalUnits(), Unit::getName, true);
         this.leaderNames = Constants.nullIfEmpty(country.getLeaderNames(), ClausewitzUtils::removeQuotes);
         this.shipNames = Constants.nullIfEmpty(country.getShipNames(), ClausewitzUtils::removeQuotes);
@@ -70,7 +69,7 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         this.history = Stream.concat(Stream.of(new CountryHistoryDTO(null, country.getDefaultHistoryItem())),
                                      country.getHistoryItems().entrySet().stream().map(entry -> new CountryHistoryDTO(entry.getKey(), entry.getValue())))
                              .sorted()
-                             .collect(Collectors.toList());
+                             .toList();
     }
 
     @Override
@@ -143,11 +142,11 @@ public class CountryDTO extends LocalisedDTO implements MappedDTO<String> {
         this.historicalIdeaGroups = historicalIdeaGroups;
     }
 
-    public List<Pair<String, Integer>> getMonarchNames() {
+    public Map<String, Integer> getMonarchNames() {
         return monarchNames;
     }
 
-    public void setMonarchNames(List<Pair<String, Integer>> monarchNames) {
+    public void setMonarchNames(Map<String, Integer> monarchNames) {
         this.monarchNames = monarchNames;
     }
 

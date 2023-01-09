@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CountryEditDTO {
@@ -19,7 +20,7 @@ public class CountryEditDTO {
 
     private List<String> historicalIdeaGroups;
 
-    private List<Pair<String, Integer>> monarchNames;
+    private Map<String, Integer> monarchNames;
 
     private List<String> armyNames;
 
@@ -71,11 +72,11 @@ public class CountryEditDTO {
         }
     }
 
-    public List<Pair<String, Integer>> getMonarchNames() {
+    public Map<String, Integer> getMonarchNames() {
         return monarchNames;
     }
 
-    public void setMonarchNames(List<Pair<String, Integer>> monarchNames) {
+    public void setMonarchNames(Map<String, Integer> monarchNames) {
         this.monarchNames = monarchNames;
     }
 

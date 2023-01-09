@@ -206,7 +206,7 @@ export type Country = Localizations & {
   historicalCouncil: string;
   historicalScore: number | null;
   historicalIdeaGroups: Array<string>;
-  monarchNames: Array<Pair<string, number>>;
+  monarchNames: Record<string, number>;
   historicalUnits: Array<string>;
   leaderNames: Array<string>;
   shipNames: Array<string>;

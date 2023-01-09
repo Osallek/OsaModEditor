@@ -30,7 +30,7 @@ const AppRouter: React.FC = () => {
   return (
     <div style={{ minHeight: "100vh", display: "flex", backgroundColor: "#f3f3f3" }}>
       <Container maxWidth={false} style={{ padding: 24 }}>
-        <BrowserRouter basename="/editor">
+        <BrowserRouter>
           <Switch>
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.menu" })} exact component={Menu} />}
             {state.game.folderName && <Route path={intl.formatMessage({ id: "routes.map" })} exact component={Map} />}

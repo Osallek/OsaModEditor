@@ -66,7 +66,7 @@ public class LocalisationService {
                                     .stream()
                                     .map(key -> new Localisation(key, entry.getKey(), "0", ""))
                                     .sorted()
-                                    .collect(Collectors.toList()));
+                                    .toList());
         }
 
         return new GameDTO(game, this.gameService.getTmpModPath().getFileName().toString());
@@ -111,7 +111,7 @@ public class LocalisationService {
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));
             } else {
-                other = new FileNode(Path.of(game.getGameFolderPath()),
+                other = new FileNode(game.getLauncherSettings().getGameFolderPath(),
                                      fileNode.getRelativePath()
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));
@@ -148,7 +148,7 @@ public class LocalisationService {
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));
             } else {
-                other = new FileNode(Path.of(game.getGameFolderPath()),
+                other = new FileNode(game.getLauncherSettings().getGameFolderPath(),
                                      fileNode.getRelativePath()
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));
@@ -185,7 +185,7 @@ public class LocalisationService {
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));
             } else {
-                other = new FileNode(Path.of(game.getGameFolderPath()),
+                other = new FileNode(game.getLauncherSettings().getGameFolderPath(),
                                      fileNode.getRelativePath()
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));
@@ -222,7 +222,7 @@ public class LocalisationService {
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));
             } else {
-                other = new FileNode(Path.of(game.getGameFolderPath()),
+                other = new FileNode(game.getLauncherSettings().getGameFolderPath(),
                                      fileNode.getRelativePath()
                                              .subpath(0, fileNode.getRelativePath().getNameCount() - 1)
                                              .resolve(fileName));

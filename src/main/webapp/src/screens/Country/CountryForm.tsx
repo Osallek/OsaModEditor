@@ -60,7 +60,7 @@ const CountryForm: React.FC<void> = () => {
   const [historicalScore, setHistoricalScore] = useState<number | null>(country.historicalScore);
   const [color, setColor] = useState<string>(country.color.hex);
   const [historicalIdeaGroups, setHistoricalIdeaGroups] = useState<Array<string>>(country.historicalIdeaGroups);
-  const [monarchNames, setMonarchNames] = useState<Array<Pair<string, number>>>(country.monarchNames);
+  const [monarchNames, setMonarchNames] = useState<Record<string, number>>(country.monarchNames);
   const [armyNames, setArmyNames] = useState<Array<string>>(country.armyNames ?? []);
   const [fleetNames, setFleetNames] = useState<Array<string>>(country.fleetNames ?? []);
   const [shipNames, setShipNames] = useState<Array<string>>(country.shipNames ?? []);

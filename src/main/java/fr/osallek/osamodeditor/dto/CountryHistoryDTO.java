@@ -6,7 +6,7 @@ import fr.osallek.eu4parser.model.game.CountryHistoryItem;
 import fr.osallek.eu4parser.model.game.Culture;
 import fr.osallek.eu4parser.model.game.EstatePrivilege;
 import fr.osallek.eu4parser.model.game.RulerPersonality;
-import fr.osallek.eu4parser.model.game.todo.GovernmentReform;
+import fr.osallek.eu4parser.model.game.GovernmentReform;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.time.LocalDate;

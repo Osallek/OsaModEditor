@@ -5,38 +5,31 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.1</version>
+		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>fr.osallek</groupId>
 	<artifactId>osa-mod-editor</artifactId>
-	<version>0.0.6</version>
+	<version>0.1.0</version>
 	<name>Osa Mod Editor</name>
 	<description>Osa Mod Editor</description>
 
 	<properties>
-		<java.version>11</java.version>
-		<eu4-parser.version>1.1.3</eu4-parser.version>
+		<java.version>17</java.version>
+		<eu4-parser.version>1.1.7</eu4-parser.version>
 
-		<frontend-maven-plugin.version>1.12.0</frontend-maven-plugin.version>
-		<maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+		<frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
+		<maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
 
-		<node.version>v14.17.4</node.version>
-		<yarn.version>v1.22.5</yarn.version>
+		<node.version>v16.17.0</node.version>
+		<yarn.version>v1.22.19</yarn.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,15 +60,10 @@
 			<artifactId>eu4-parser</artifactId>
 			<version>${eu4-parser.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.twelvemonkeys.imageio</groupId>
-			<artifactId>imageio-tga</artifactId>
-			<version>3.7.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>OsaModEditor-${project.version}</finalName>
+		<finalName>OsaModEditor</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -117,7 +105,6 @@
 						<configuration>
 							<arguments>build</arguments>
 							<environmentVariables>
-								<PUBLIC_URL>editor</PUBLIC_URL>
 							</environmentVariables>
 						</configuration>
 					</execution>
@@ -157,12 +144,52 @@
 			<properties>
 				<spring.profiles.active>dev</spring.profiles.active>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-devtools</artifactId>
+					<scope>runtime</scope>
+					<optional>true</optional>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>build</id>
 			<properties>
 				<spring.profiles.active>build</spring.profiles.active>
 			</properties>
+		</profile>
+		<profile>
+			<id>native</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.graalvm.buildtools</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<id>build-native</id>
+								<goals>
+									<goal>compile-no-fork</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<imageName>OsaModEditor</imageName>
+							<skipNativeTests>true</skipNativeTests>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 

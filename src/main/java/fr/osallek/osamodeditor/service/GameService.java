@@ -2,9 +2,11 @@ package fr.osallek.osamodeditor.service;
 
 import fr.osallek.clausewitzparser.model.ClausewitzObject;
 import fr.osallek.clausewitzparser.parser.ClausewitzParser;
+import fr.osallek.eu4parser.Eu4Parser;
 import fr.osallek.eu4parser.common.Eu4Utils;
 import fr.osallek.eu4parser.common.ModNotFoundException;
 import fr.osallek.eu4parser.common.ZipUtils;
+import fr.osallek.eu4parser.model.LauncherSettings;
 import fr.osallek.eu4parser.model.Mod;
 import fr.osallek.eu4parser.model.ModType;
 import fr.osallek.eu4parser.model.game.FileNode;
@@ -53,16 +55,21 @@ public class GameService {
 
     private static final AtomicInteger GAME_PROGRESS = new AtomicInteger(0);
 
-    private static final int MAX_PROGRESS = 101;
+    private static final int MAX_PROGRESS = 104;
 
     private final ApplicationProperties properties;
 
+    private final Path gamePath;
+
+    private final LauncherSettings launcherSettings;
     private Game game = null;
 
     private Path tmpModPath = null;
 
-    public GameService(ApplicationProperties properties) {
+    public GameService(ApplicationProperties properties) throws IOException {
         this.properties = properties;
+        this.gamePath = Eu4Parser.detectInstallationFolder().orElse(null);
+        this.launcherSettings = Eu4Parser.loadSettings(this.gamePath);
     }
 
     public Game getGame() {
@@ -78,19 +85,19 @@ public class GameService {
     }
 
     public GameInitDTO getInit() {
-        return new GameInitDTO(Eu4Utils.detectInstallationFolder().map(File::getAbsolutePath).orElse(null),
-                               Eu4Utils.detectMods().stream().map(ModDTO::new).collect(Collectors.toCollection(TreeSet::new)),
+        return new GameInitDTO(this.gamePath.toFile().getAbsolutePath(),
+                               Eu4Parser.detectMods(this.launcherSettings).stream().map(ModDTO::new).collect(Collectors.toCollection(TreeSet::new)),
                                this.properties.getVersion());
     }
 
     public GameInitDTO copyMod(String modFileName) throws IOException {
-        List<Mod> mods = Eu4Utils.detectMods();
+        List<Mod> mods = Eu4Parser.detectMods(Eu4Parser.loadSettings(this.gamePath));
 
         if (StringUtils.isBlank(modFileName) || CollectionUtils.isEmpty(mods)) {
             throw new ModNotFoundException(modFileName);
         }
 
-        Optional<Mod> optionalMod = mods.stream().filter(m -> modFileName.equals(m.getFile().getName())).findFirst();
+        Optional<Mod> optionalMod = mods.stream().filter(m -> modFileName.equals(m.file().getName())).findFirst();
 
         if (optionalMod.isEmpty() || ModType.LOCAL.equals(optionalMod.get().getType())) {
             throw new ModNotFoundException(modFileName);
@@ -102,8 +109,8 @@ public class GameService {
                                     .replaceAll("[^\\p{ASCII}]", "")
                                     .replaceAll("[^a-zA-Z0-9.-]", "_")
                                     .toLowerCase(Locale.ENGLISH);
-        Path newFolder = Eu4Utils.MODS_FOLDER.toPath().resolve(fileName);
-        Path newModFile = Eu4Utils.MODS_FOLDER.toPath().resolve(fileName + ".mod");
+        Path newFolder = this.launcherSettings.getModFolder().resolve(fileName);
+        Path newModFile = this.launcherSettings.getModFolder().resolve(fileName + ".mod");
 
         FileUtils.forceMkdir(newFolder.toFile());
         FileUtils.cleanDirectory(newFolder.toFile());
@@ -132,20 +139,20 @@ public class GameService {
 
         FileUtils.copyFile(descriptorFile.get(), newModFile.toFile());
 
-        Mod newMod = new Mod(newModFile.toFile(), ClausewitzParser.parse(newModFile.toFile(), 0));
+        Mod newMod = new Mod(newModFile.toFile(), ClausewitzParser.parse(newModFile.toFile(), 0), this.launcherSettings);
         newMod.setPath("mod/" + fileName);
         newMod.save();
 
-        return new GameInitDTO(Eu4Utils.detectInstallationFolder().map(File::getAbsolutePath).orElse(null),
-                               Eu4Utils.detectMods().stream().map(ModDTO::new).collect(Collectors.toCollection(TreeSet::new)),
+        return new GameInitDTO(this.gamePath.toFile().getAbsolutePath(),
+                               Eu4Parser.detectMods(this.launcherSettings).stream().map(ModDTO::new).collect(Collectors.toCollection(TreeSet::new)),
                                this.properties.getVersion());
     }
 
     public GameDTO parseGame(String installFolder, String mod) throws IOException {
         GAME_PROGRESS.set(0);
-        this.game = new Game(installFolder, List.of(mod), GAME_PROGRESS::getAndIncrement);
+        this.game = new Game(Path.of(installFolder), List.of(mod), GAME_PROGRESS::getAndIncrement);
 
-        this.tmpModPath = Constants.EDITOR_DOCUMENTS_FOLDER.resolve(FilenameUtils.removeExtension(getMod().getFile().getName())).toAbsolutePath();
+        this.tmpModPath = Constants.EDITOR_DOCUMENTS_FOLDER.resolve(FilenameUtils.removeExtension(getMod().file().getName())).toAbsolutePath();
         FileUtils.forceMkdir(this.tmpModPath.toFile());
         OsaModEditorConfig.addPathToDelete(this.tmpModPath);
 

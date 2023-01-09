@@ -4,40 +4,29 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import { Pair } from "types";
+import { copyRecord } from "utils/global.utils";
 
 interface Props {
-  initialNames: Array<Pair<string, number>>;
-  onValidate: (names: Array<Pair<string, number>>) => void;
+  initialNames: Record<string, number>;
+  onValidate: (names: Record<string, number>) => void;
 }
 
-const MonarchNameTable = ({ initialNames = [], onValidate }: Props) => {
+const MonarchNameTable = ({ initialNames = {}, onValidate }: Props) => {
   const intl = useIntl();
 
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedNames, setSelectedNames] = useState<Array<Pair<string, number>>>(
-    initialNames.map((value) => {
-      return {
-        ...value,
-      };
-    }) ?? []
-  );
+  const [selectedNames, setSelectedNames] = useState<Record<string, number>>(copyRecord(initialNames));
   const [newName, setNewName] = useState<Pair<string, number>>({
-    key: "",
-    value: 0,
-  });
+                                                                 key: "",
+                                                                 value: 0
+                                                               });
 
   const reset = () => {
-    setSelectedNames(
-      initialNames.map((value) => {
-        return {
-          ...value,
-        };
-      }) ?? []
-    );
+    setSelectedNames(copyRecord(initialNames));
     setNewName({
-      key: "",
-      value: 0,
-    });
+                 key: "",
+                 value: 0
+               });
   };
 
   const columns: GridColDef[] = [
@@ -50,7 +39,7 @@ const MonarchNameTable = ({ initialNames = [], onValidate }: Props) => {
       sortable: false,
       disableReorder: true,
       filterable: false,
-      disableExport: true,
+      disableExport: true
     },
     {
       field: "weight",
@@ -61,7 +50,7 @@ const MonarchNameTable = ({ initialNames = [], onValidate }: Props) => {
       disableReorder: true,
       filterable: false,
       disableExport: true,
-      type: "number",
+      type: "number"
     },
     {
       field: "action",
@@ -78,14 +67,16 @@ const MonarchNameTable = ({ initialNames = [], onValidate }: Props) => {
           <IconButton
             onClick={() => {
               if (newName.key) {
-                const copy = [...selectedNames];
-                copy.push(newName);
+                const copy = copyRecord(selectedNames);
+                const val = copy[params.id];
+                delete copy[params.id];
+                copy[newName.key as string] = val;
 
                 setSelectedNames(copy);
                 setNewName({
-                  key: "",
-                  value: 0,
-                });
+                             key: "",
+                             value: 0
+                           });
               }
             }}
           >
@@ -96,29 +87,34 @@ const MonarchNameTable = ({ initialNames = [], onValidate }: Props) => {
             onClick={() => {
               //Trick to prevent No row with id#X found (https://github.com/mui-org/material-ui-x/issues/2714)
               setTimeout(() => {
-                setSelectedNames(selectedNames.filter((value, i) => i !== (params.id as number)));
+                const copy = copyRecord(selectedNames);
+                Object.entries(copy).forEach(([name, weight], i) => {
+                  if (i !== (params.id as number)) {
+                    delete copy[name];
+                  }
+                });
               });
             }}
           >
             <Delete />
           </IconButton>
         );
-      },
-    },
+      }
+    }
   ];
 
-  const rows = selectedNames.map((value, index) => {
+  const rows = Object.entries(selectedNames).map(([name, weight], index) => {
     return {
       id: index,
-      name: value.key,
-      weight: value.value,
+      name,
+      weight
     };
   });
   rows.push({
-    id: -1,
-    name: newName.key,
-    weight: newName.value,
-  });
+              id: -1,
+              name: newName.key,
+              weight: newName.value
+            });
 
   return (
     <>
@@ -138,8 +134,8 @@ const MonarchNameTable = ({ initialNames = [], onValidate }: Props) => {
         onClose={(event) => setOpen(false)}
         PaperProps={{
           style: {
-            backgroundColor: "white",
-          },
+            backgroundColor: "white"
+          }
         }}
       >
         <DialogTitle>{intl.formatMessage({ id: "country.monarchNames" })}</DialogTitle>
@@ -161,22 +157,25 @@ const MonarchNameTable = ({ initialNames = [], onValidate }: Props) => {
               if (params.id === -1) {
                 if (params.field === "name") {
                   setNewName({
-                    key: params.value as string,
-                    value: newName.value,
-                  });
+                               key: params.value as string,
+                               value: newName.value
+                             });
                 } else if (params.field === "weight") {
                   setNewName({
-                    key: newName.key,
-                    value: params.value as number,
-                  });
+                               key: newName.key,
+                               value: params.value as number
+                             });
                 }
               } else {
-                const copy = [...selectedNames];
+                const copy = copyRecord(selectedNames);
+                const names = Object.keys(copy);
+                const name = names[params.id as number];
 
                 if (params.field === "name") {
-                  copy[params.id as number].key = params.value as string;
+                  copy[params.value as string] = copy[name];
+                  delete copy[name];
                 } else if (params.field === "weight") {
-                  copy[params.id as number].value = params.value as number;
+                  copy[name] = params.value as number;
                 }
 
                 setSelectedNames(copy);

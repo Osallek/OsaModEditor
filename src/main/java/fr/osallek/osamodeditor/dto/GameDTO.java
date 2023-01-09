@@ -11,7 +11,6 @@ import org.geojson.FeatureCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -118,7 +117,7 @@ public class GameDTO {
         Eu4Utils.POOL_EXECUTOR.submit(() -> {
             try {
                 this.geoJson = Eu4MapUtils.generateGeoJson(game);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
             } finally {
                 countDownLatch.countDown();
@@ -132,6 +131,8 @@ public class GameDTO {
                                      .stream()
                                      .map(country -> new CountryDTO(country, game.getLocalisations()))
                                      .collect(Collectors.toMap(MappedDTO::getKey, Function.identity()));
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
             } finally {
                 countDownLatch.countDown();
                 runnable.run();
@@ -144,6 +145,8 @@ public class GameDTO {
             try {
                 MissionDTO missionDTO = new MissionDTO(mission, game.getLocalisations());
                 this.missions.put(missionDTO.getKey(), missionDTO);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
             } finally {
                 missionsCountDownLatch.countDown();
             }
@@ -157,6 +160,8 @@ public class GameDTO {
             try {
                 ProvinceDTO provinceDTO = new ProvinceDTO(province, game.getLocalisations());
                 this.provinces.put(provinceDTO.getKey(), provinceDTO);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
             } finally {
                 provinceCountDownLatch.countDown();
             }

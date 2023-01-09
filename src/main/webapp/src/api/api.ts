@@ -13,7 +13,7 @@ import {
   MissionEdit,
   MissionsTreeEdit,
   SimpleMapActionForm,
-} from "../types";
+} from "types";
 
 const ws = axios.create({
   baseURL: ENV.API_BASE_URL,
